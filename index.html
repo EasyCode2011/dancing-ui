@@ -13,20 +13,11 @@
       font-family: Arial, sans-serif;
     }
 
-    /* BACKGROUND */
     body {
       height: 100vh;
       width: 100vw;
       overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(
-        -45deg,
-        #ff6a6a,
-        #ffd46a,
-        #6affc4
-      );
+      background: linear-gradient(-45deg, #ff6a6a, #ffd46a, #6affc4);
       background-size: 400% 400%;
       animation: gradientShift 12s ease infinite;
     }
@@ -37,97 +28,141 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* HOMEPAGE CONTENT */
-    .container {
-      text-align: center;
+    /* SIDE PANEL */
+    #sidePanel {
+      position: fixed;
+      left: -260px;
+      top: 0;
+      width: 260px;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
       color: white;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      padding: 30px;
-      transition: opacity 0.3s ease;
+      padding: 20px;
+      transition: left 0.3s ease;
+    }
+
+    #sidePanel.active {
+      left: 0;
+    }
+
+    #sidePanel h2 {
+      margin-bottom: 15px;
+    }
+
+    #sidePanel ul {
+      list-style: none;
+    }
+
+    #sidePanel li {
+      margin: 12px 0;
+      cursor: pointer;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+
+    #sidePanel li:hover {
+      opacity: 1;
+    }
+
+    /* MAIN CONTENT */
+    #content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      text-align: center;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+      width: 80%;
+      max-width: 700px;
+    }
+
+    .hidden {
+      opacity: 0;
     }
 
     h1 {
-      font-size: 4rem;
+      font-size: 3.5rem;
       margin-bottom: 20px;
-      letter-spacing: 1px;
     }
 
     p {
       font-size: 1.2rem;
       opacity: 0.9;
-      margin-bottom: 40px;
-    }
-
-    .press-key {
-      font-size: 1.1rem;
-      padding: 12px 26px;
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 12px;
-      display: inline-block;
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    /* SIDE MENU */
-    #sideMenu {
-      position: fixed;
-      top: 0;
-      left: -260px;
-      width: 260px;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      padding: 30px;
-      transition: left 0.3s ease;
-    }
-
-    #sideMenu.active {
-      left: 0;
-    }
-
-    #sideMenu h2 {
       margin-bottom: 20px;
-    }
-
-    #sideMenu ul {
-      list-style: none;
-    }
-
-    #sideMenu li {
-      margin: 12px 0;
-      font-size: 1.2rem;
-      cursor: pointer;
     }
   </style>
 </head>
+
 <body>
 
   <!-- MENU -->
-  <div id="sideMenu">
+  <div id="sidePanel">
     <h2>UI Playground</h2>
     <ul>
-      <li>Buttons</li>
-      <li>Sliders</li>
-      <li>Scroll Effects</li>
-      <li>Animations</li>
+      <li onclick="loadPage('home')">Home</li>
+      <li onclick="loadPage('buttons')">Buttons</li>
+      <li onclick="loadPage('sliders')">Sliders</li>
+      <li onclick="loadPage('animations')">Animations</li>
     </ul>
   </div>
 
-  <!-- HOMEPAGE -->
-  <div class="container" id="homeContent">
+  <!-- CONTENT -->
+  <div id="content">
     <h1>Dancing UI</h1>
     <p>A minimal playground for animated UI components.</p>
-    <div class="press-key">Press <strong>G</strong> to open the menu</div>
+    <p>Press <strong>G</strong> to open the menu.</p>
   </div>
 
   <script>
-    const menu = document.getElementById("sideMenu");
+    const panel = document.getElementById("sidePanel");
+    const content = document.getElementById("content");
 
+    // Toggle MENU with G key
     document.addEventListener("keydown", (event) => {
       if (event.key.toLowerCase() === "g") {
-        menu.classList.toggle("active");
+        panel.classList.toggle("active");
       }
     });
+
+    // FADE TRANSITION + PAGE SWITCH
+    function loadPage(page) {
+      content.classList.add("hidden");
+
+      setTimeout(() => {
+        if (page === "home") {
+          content.innerHTML = `
+            <h1>Dancing UI</h1>
+            <p>A minimal playground for animated UI components.</p>
+            <p>Press <strong>G</strong> to open the menu.</p>
+          `;
+        }
+
+        if (page === "buttons") {
+          content.innerHTML = `
+            <h1>Buttons</h1>
+            <p>Here will be different button styles.</p>
+          `;
+        }
+
+        if (page === "sliders") {
+          content.innerHTML = `
+            <h1>Sliders</h1>
+            <p>UI sliders and controls will appear here.</p>
+          `;
+        }
+
+        if (page === "animations") {
+          content.innerHTML = `
+            <h1>Animations</h1>
+            <p>Cool animations will be displayed here.</p>
+          `;
+        }
+
+        content.classList.remove("hidden");
+      }, 400);
+    }
   </script>
 
 </body>
