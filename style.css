@@ -112,3 +112,29 @@
     transition: opacity 0.5s ease;
 }
 
+.btn.pulse:hover { transform: scale(1.1); }
+
+.btn.shake:hover { 
+  animation: shake 0.3s linear;
+}
+@keyframes shake {
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+}
+
+.btn.rotate:hover { transform: rotate(10deg); }
+.btn.expand:hover { transform: scale(1.2); }
+.btn.shrink:hover { transform: scale(0.8); }
+
+.btn.rainbow:hover {
+  background: linear-gradient(90deg, red, yellow, lime, cyan, blue, magenta);
+}
+
+.btn.flip:hover { transform: rotateY(180deg); }
+.btn.slide:hover { transform: translateX(10px); }
+.btn.blur:hover { filter: blur(2px); }
+.btn.pop:hover { 
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+  transform: translateY(-5px);
+}
