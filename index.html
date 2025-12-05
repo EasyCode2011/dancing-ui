@@ -7,8 +7,7 @@
 
   <style>
     * {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       box-sizing: border-box;
       font-family: Arial, sans-serif;
     }
@@ -35,66 +34,95 @@
       top: 0;
       width: 260px;
       height: 100%;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0,0,0,0.85);
       color: white;
       padding: 20px;
       transition: left 0.3s ease;
     }
+    #sidePanel.active { left: 0; }
 
-    #sidePanel.active {
-      left: 0;
-    }
-
-    #sidePanel h2 {
-      margin-bottom: 15px;
-    }
-
-    #sidePanel ul {
-      list-style: none;
-    }
-
+    #sidePanel ul { list-style: none; }
     #sidePanel li {
       margin: 12px 0;
       cursor: pointer;
       opacity: 0.85;
       transition: opacity 0.2s;
     }
+    #sidePanel li:hover { opacity: 1; }
 
-    #sidePanel li:hover {
-      opacity: 1;
-    }
-
-    /* MAIN CONTENT */
+    /* CONTENT */
     #content {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       color: white;
       text-align: center;
-      width: 80%;
-      max-width: 700px;
-
-      /* FADE SYSTEM */
       opacity: 1;
       transition: opacity 0.4s ease;
+      width: 80%;
+      max-width: 700px;
     }
 
-    .hidden {
-      opacity: 0 !important;
+    .hidden { opacity: 0; }
+
+    h1 { font-size: 3.5rem; margin-bottom: 20px; }
+    p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 20px; }
+
+    /* BUTTON DEMO */
+    .button-demo {
+      margin-top: 25px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
     }
 
-    h1 {
-      font-size: 3.5rem;
-      margin-bottom: 20px;
+    .btn {
+      padding: 12px 26px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.25s ease;
     }
 
-    p {
-      font-size: 1.2rem;
-      opacity: 0.9;
-      margin-bottom: 20px;
+    .glow {
+      background: #ffffff22;
+      color: white;
+      border: 1px solid #ffffff55;
+      box-shadow: 0 0 10px #ffffff55;
+    }
+    .glow:hover {
+      box-shadow: 0 0 20px #ffffffaa;
     }
 
+    .bounce {
+      background: #222;
+      color: white;
+    }
+    .bounce:hover {
+      transform: translateY(-5px);
+    }
+
+    .outline {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+    }
+    .outline:hover {
+      background: white;
+      color: black;
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      backdrop-filter: blur(8px);
+      color: white;
+    }
+    .glass:hover {
+      background: rgba(255,255,255,0.35);
+    }
   </style>
 </head>
 
@@ -122,18 +150,17 @@
     const panel = document.getElementById("sidePanel");
     const content = document.getElementById("content");
 
-    // Toggle MENU with G key
     document.addEventListener("keydown", (event) => {
       if (event.key.toLowerCase() === "g") {
         panel.classList.toggle("active");
       }
     });
 
-    // FADE TRANSITION + PAGE SWITCH
     function loadPage(page) {
-      content.classList.add("hidden");   // fade out
+      content.classList.add("hidden");
 
       setTimeout(() => {
+
         if (page === "home") {
           content.innerHTML = `
             <h1>Dancing UI</h1>
@@ -145,26 +172,33 @@
         if (page === "buttons") {
           content.innerHTML = `
             <h1>Buttons</h1>
-            <p>Here will be different button styles.</p>
+            <p>Try out different button styles.</p>
+
+            <div class="button-demo">
+              <button class="btn glow">Glow Button</button>
+              <button class="btn bounce">Bounce Button</button>
+              <button class="btn outline">Outline Button</button>
+              <button class="btn glass">Glass Button</button>
+            </div>
           `;
         }
 
         if (page === "sliders") {
           content.innerHTML = `
             <h1>Sliders</h1>
-            <p>UI sliders and controls will appear here.</p>
+            <p>UI sliders will appear here.</p>
           `;
         }
 
         if (page === "animations") {
           content.innerHTML = `
             <h1>Animations</h1>
-            <p>Cool animations will be displayed here.</p>
+            <p>Cool animations will be shown here.</p>
           `;
         }
 
-        content.classList.remove("hidden");  // fade back in
-      }, 400); // matches transition duration
+        content.classList.remove("hidden");
+      }, 400);
     }
   </script>
 
