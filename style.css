@@ -100,3 +100,15 @@
 #sideMenu li:hover {
   opacity: 1;
 }
+/* FADE CLASS */
+.hidden {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* SHOW CLASS */
+.visible {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
