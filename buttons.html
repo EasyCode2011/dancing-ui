@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Animated Buttons</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #111;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+
+    /* ---- Grid layout ---- */
+    .button-grid {
+        width: 90%;
+        margin: 50px auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+
+    .btn {
+        padding: 20px;
+        text-align: center;
+        font-size: 20px;
+        border-radius: 12px;
+        cursor: pointer;
+        background: #222;
+        border: 2px solid #444;
+        transition: all 0.25s ease;
+    }
+
+    /* ---- Hover Animations ---- */
+
+    /* 1. Glow */
+    .btn-glow:hover {
+        box-shadow: 0 0 20px #00eaff;
+        border-color: #00eaff;
+    }
+
+    /* 2. Vibrate */
+    @keyframes vibrate {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-3px); }
+        50% { transform: translateX(3px); }
+        75% { transform: translateX(-3px); }
+        100% { transform: translateX(0); }
+    }
+    .btn-vibrate:hover {
+        animation: vibrate 0.15s infinite;
+    }
+
+    /* 3. Grow */
+    .btn-grow:hover {
+        transform: scale(1.15);
+        background: #333;
+    }
+
+    /* 4. Spin */
+    .btn-spin:hover {
+        transform: rotate(360deg);
+    }
+
+    /* 5. Wobble */
+    @keyframes wobble {
+        0% { transform: rotate(0deg); }
+        25% { transform: rotate(4deg); }
+        50% { transform: rotate(-4deg); }
+        75% { transform: rotate(4deg); }
+        100% { transform: rotate(0deg); }
+    }
+    .btn-wobble:hover {
+        animation: wobble 0.5s ease;
+    }
+
+    /* 6. Pulse */
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    .btn-pulse:hover {
+        animation: pulse 0.6s infinite;
+    }
+
+    /* 7. Color Shift */
+    .btn-color:hover {
+        background: #ff00aa;
+        border-color: #ff00aa;
+        color: white;
+    }
+
+    /* 8. Slide Up */
+    .btn-slide:hover {
+        transform: translateY(-10px);
+        background: #333;
+    }
+
+    /* 9. Tilt */
+    .btn-tilt:hover {
+        transform: rotate(6deg);
+        background: #444;
+    }
+
+    /* 10. Bounce */
+    @keyframes bounce {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0); }
+    }
+    .btn-bounce:hover {
+        animation: bounce 0.4s ease;
+    }
+
+    /* 11. Shadow Pop */
+    .btn-pop:hover {
+        box-shadow: 0px 15px 20px rgba(0,0,0,0.4);
+        transform: translateY(-5px);
+    }
+
+    /* 12. Flash */
+    @keyframes flash {
+        0% { background: #222; }
+        50% { background: #ffffff; color: black; }
+        100% { background: #222; }
+    }
+    .btn-fla
