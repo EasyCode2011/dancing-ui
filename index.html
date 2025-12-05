@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dancing UI</title>
+
   <style>
     * {
       margin: 0;
@@ -12,6 +13,7 @@
       font-family: Arial, sans-serif;
     }
 
+    /* BACKGROUND */
     body {
       height: 100vh;
       width: 100vw;
@@ -35,17 +37,19 @@
       100% { background-position: 0% 50%; }
     }
 
+    /* HOMEPAGE CONTENT */
     .container {
       text-align: center;
       color: white;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
       padding: 30px;
+      transition: opacity 0.3s ease;
     }
 
     h1 {
       font-size: 4rem;
-      letter-spacing: 2px;
       margin-bottom: 20px;
+      letter-spacing: 1px;
     }
 
     p {
@@ -63,102 +67,65 @@
       backdrop-filter: blur(4px);
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Dancing UI</h1>
-    <p>A minimal playground for animated UI components.</p>
-    <div class="press-key">Press <strong>G</strong> to open the menu</div>
-      <!-- MENU -->
-<div id="sideMenu">
-  <h2>UI Playground</h2>
-  <ul>
-    <li>Buttons</li>
-    <li>Sliders</li>
-    <li>Scroll Effects</li>
-    <li>Animations</li>
-  </ul>
-</div>
-  </div>
 
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Neutral Gradient Homepage</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(120deg, red, yellow, green, cyan, blue, purple);
-      background-size: 600% 600%;
-      animation: gradientShift 20s ease infinite;
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* Side Panel */
-    #sidePanel {
+    /* SIDE MENU */
+    #sideMenu {
       position: fixed;
       top: 0;
-      left: -250px; /* hidden */
-      width: 250px;
+      left: -260px;
+      width: 260px;
       height: 100%;
-      background: rgba(0,0,0,0.85);
+      background: rgba(0, 0, 0, 0.8);
       color: white;
-      padding: 20px;
+      padding: 30px;
       transition: left 0.3s ease;
     }
 
-    #sidePanel.active {
+    #sideMenu.active {
       left: 0;
     }
 
-    #sidePanel h2 {
-      margin-top: 0;
+    #sideMenu h2 {
+      margin-bottom: 20px;
     }
 
-    #content {
-      padding: 40px;
-      color: white;
-      text-shadow: 0 0 5px black;
+    #sideMenu ul {
+      list-style: none;
+    }
+
+    #sideMenu li {
+      margin: 12px 0;
+      font-size: 1.2rem;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <!-- Side Menu -->
-  <div id="sidePanel">
-    <h2>Menu</h2>
+  <!-- MENU -->
+  <div id="sideMenu">
+    <h2>UI Playground</h2>
     <ul>
-      <li>Home</li>
-      <li>About</li>
-      <li>Projects</li>
-      <li>Contact</li>
+      <li>Buttons</li>
+      <li>Sliders</li>
+      <li>Scroll Effects</li>
+      <li>Animations</li>
     </ul>
   </div>
 
-  <!-- Main Content -->
-  <div id="content">
-    <h1>Welcome to the Homepage</h1>
-    <p>Press the <strong>G</strong> key to toggle the side menu.</p>
+  <!-- HOMEPAGE -->
+  <div class="container" id="homeContent">
+    <h1>Dancing UI</h1>
+    <p>A minimal playground for animated UI components.</p>
+    <div class="press-key">Press <strong>G</strong> to open the menu</div>
   </div>
 
   <script>
-    const panel = document.getElementById("sidePanel");
+    const menu = document.getElementById("sideMenu");
 
     document.addEventListener("keydown", (event) => {
       if (event.key.toLowerCase() === "g") {
-        panel.classList.toggle("active");
+        menu.classList.toggle("active");
       }
     });
   </script>
