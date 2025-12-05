@@ -1,0 +1,23 @@
+body {
+  background: linear-gradient(135deg, #89f7fe, #66a6ff);
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+  padding-top: 80px;
+}
+
+h1 {
+  font-size: 48px;
+  animation: float 2s infinite ease-in-out;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
+
+p {
+  font-size: 20px;
+  opacity: 0.9;
+}
