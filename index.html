@@ -72,14 +72,16 @@
       transform: translate(-50%, -50%);
       color: white;
       text-align: center;
-      opacity: 1;
-      transition: opacity 0.4s ease;
       width: 80%;
       max-width: 700px;
+
+      /* FADE SYSTEM */
+      opacity: 1;
+      transition: opacity 0.4s ease;
     }
 
     .hidden {
-      opacity: 0;
+      opacity: 0 !important;
     }
 
     h1 {
@@ -92,6 +94,7 @@
       opacity: 0.9;
       margin-bottom: 20px;
     }
+
   </style>
 </head>
 
@@ -128,7 +131,7 @@
 
     // FADE TRANSITION + PAGE SWITCH
     function loadPage(page) {
-      content.classList.add("hidden");
+      content.classList.add("hidden");   // fade out
 
       setTimeout(() => {
         if (page === "home") {
@@ -160,49 +163,10 @@
           `;
         }
 
-        content.classList.remove("hidden");
-      }, 400);
+        content.classList.remove("hidden");  // fade back in
+      }, 400); // matches transition duration
     }
   </script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-
-    const sideMenu = document.getElementById("sideMenu");
-    let menuOpen = false;
-
-    // Toggle menu when pressing G
-    document.addEventListener("keydown", (e) => {
-        if (e.key.toLowerCase() === "g") {
-            menuOpen = !menuOpen;
-            sideMenu.style.left = menuOpen ? "0px" : "-260px";
-        }
-    });
-
-    // FADE SYSTEM
-    function fadeSwap(oldSection, newSection) {
-        oldSection.classList.add("hidden");
-        oldSection.classList.remove("visible");
-
-        setTimeout(() => {
-            oldSection.style.display = "none";
-            newSection.style.display = "block";
-
-            requestAnimationFrame(() => {
-                newSection.classList.remove("hidden");
-                newSection.classList.add("visible");
-            });
-        }, 500);
-    }
-
-    // Example (you can add your actual sections)
-    const page1 = document.getElementById("page1");
-    const page2 = document.getElementById("page2");
-
-    document.getElementById("menuPage1").onclick = () => fadeSwap(page2, page1);
-    document.getElementById("menuPage2").onclick = () => fadeSwap(page1, page2);
-
-});
-</script>
 
 </body>
 </html>
