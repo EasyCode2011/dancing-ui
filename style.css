@@ -66,3 +66,37 @@
     padding: 2px 6px;
     border-radius: 5px;
 }
+
+/* SIDE MENU */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  left: -260px; /* hidden by default */
+  width: 240px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 30px;
+  transition: left 0.35s ease;
+  color: white;
+}
+
+#sideMenu h2 {
+  margin-bottom: 20px;
+}
+
+#sideMenu ul {
+  list-style: none;
+}
+
+#sideMenu li {
+  padding: 12px 0;
+  opacity: 0.9;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+#sideMenu li:hover {
+  opacity: 1;
+}
