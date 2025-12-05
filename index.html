@@ -164,6 +164,45 @@
       }, 400);
     }
   </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const sideMenu = document.getElementById("sideMenu");
+    let menuOpen = false;
+
+    // Toggle menu when pressing G
+    document.addEventListener("keydown", (e) => {
+        if (e.key.toLowerCase() === "g") {
+            menuOpen = !menuOpen;
+            sideMenu.style.left = menuOpen ? "0px" : "-260px";
+        }
+    });
+
+    // FADE SYSTEM
+    function fadeSwap(oldSection, newSection) {
+        oldSection.classList.add("hidden");
+        oldSection.classList.remove("visible");
+
+        setTimeout(() => {
+            oldSection.style.display = "none";
+            newSection.style.display = "block";
+
+            requestAnimationFrame(() => {
+                newSection.classList.remove("hidden");
+                newSection.classList.add("visible");
+            });
+        }, 500);
+    }
+
+    // Example (you can add your actual sections)
+    const page1 = document.getElementById("page1");
+    const page2 = document.getElementById("page2");
+
+    document.getElementById("menuPage1").onclick = () => fadeSwap(page2, page1);
+    document.getElementById("menuPage2").onclick = () => fadeSwap(page1, page2);
+
+});
+</script>
 
 </body>
 </html>
