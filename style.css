@@ -138,3 +138,90 @@
   box-shadow: 0 10px 20px rgba(0,0,0,0.4);
   transform: translateY(-5px);
 }
+
+/* --- BUTTON GRID LAYOUT --- */
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  width: 100%;
+  height: calc(100vh - 80px);
+  align-items: center;
+  justify-items: center;
+  padding: 20px;
+}
+
+/* --- BUTTON BASE STYLE --- */
+.btn {
+  width: 100%;
+  max-width: 250px;
+  height: 100px;
+  font-size: 22px;
+  font-weight: 600;
+  border-radius: 14px;
+  transition: 0.25s ease;
+  cursor: pointer;
+  background: #222;
+  color: white;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+
+/* --- BUTTON EFFECTS --- */
+.btn.glow:hover { 
+  box-shadow: 0 0 20px white; 
+}
+
+.btn.pulse:hover {
+  transform: scale(1.08);
+}
+
+.btn.bounce:hover {
+  animation: bounce 0.4s ease;
+}
+@keyframes bounce {
+  50% { transform: translateY(-10px); }
+}
+
+.btn.shake:hover { 
+  animation: shake 0.3s linear;
+}
+@keyframes shake {
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-6px); }
+}
+
+.btn.rotate:hover { 
+  transform: rotate(8deg); 
+}
+
+.btn.expand:hover { 
+  transform: scale(1.2); 
+}
+
+.btn.shrink:hover { 
+  transform: scale(0.75); 
+}
+
+.btn.rainbow:hover {
+  background: linear-gradient(90deg, red, yellow, lime, cyan, blue, magenta);
+}
+
+.btn.flip:hover { 
+  transform: rotateY(180deg); 
+}
+
+.btn.slide:hover { 
+  transform: translateX(12px); 
+}
+
+.btn.blur:hover { 
+  filter: blur(3px); 
+}
+
+.btn.pop:hover { 
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.45);
+}
+
