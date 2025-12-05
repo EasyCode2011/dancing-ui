@@ -225,3 +225,65 @@
   box-shadow: 0 14px 30px rgba(0,0,0,0.45);
 }
 
+/* --- FULL-SCREEN CONTROL PANEL LAYOUT --- */
+.button-control-panel {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);  /* 4 buttons each row */
+  grid-template-rows: repeat(3, 1fr);     /* 3 rows */
+  gap: 26px;
+  width: 100%;
+  height: 100%;
+  padding: 40px;
+}
+
+/* --- BUTTON STYLE --- */
+.button-control-panel .btn {
+  width: 100%;
+  height: 100%;
+  font-size: 26px;
+  font-weight: 700;
+  border-radius: 18px;
+  border: 2px solid rgba(255,255,255,0.18);
+  background: rgba(40,40,40,0.9);
+  color: white;
+  transition: 0.25s ease;
+  cursor: pointer;
+}
+
+/* --- BUTTON EFFECTS --- */
+.btn.glow:hover { box-shadow: 0 0 25px white; }
+.btn.pulse:hover { transform: scale(1.08); }
+
+.btn.bounce:hover {
+  animation: bounce 0.4s ease;
+}
+@keyframes bounce {
+  50% { transform: translateY(-12px); }
+}
+
+.btn.shake:hover {
+  animation: shake 0.3s ease;
+}
+@keyframes shake {
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-6px); }
+}
+
+.btn.rotate:hover { transform: rotate(7deg); }
+.btn.expand:hover { transform: scale(1.2); }
+.btn.shrink:hover { transform: scale(0.75); }
+
+.btn.rainbow:hover {
+  background: linear-gradient(90deg, red, yellow, lime, cyan, blue, magenta);
+}
+
+.btn.flip:hover { transform: rotateY(180deg); }
+.btn.slide:hover { transform: translateX(16px); }
+.btn.blur:hover { filter: blur(3px); }
+
+.btn.pop:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 14px 32px rgba(0,0,0,0.45);
+}
+
