@@ -5,54 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡️ The UI Playground ⚡️</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div id="app-container">
 
         <section id="home-screen" class="screen active fade-in">
-            <h1 class="title-text">⚡️ UX/UI EXPERIMENTATION LAB ⚡️</h1>
-            <p class="subtitle-text">A digital toy box of animations, transitions, and effects.</p>
+            <h1 class="main-title">A Digital Toy Box</h1>
+            <p class="intro-text">Explore experimental UI components, smooth transitions, and dynamic effects built with pure HTML, CSS, and JavaScript.</p>
             <div class="hint-text">
-                <p>Press **G** to access the Control Menu</p>
+                <p>Press **G** to open the Control Menu</p>
                 <div class="key-indicator">G</div>
             </div>
         </section>
 
         <section id="buttons-page" class="screen fade-out">
-            <h2 class="page-title">🟦 BUTTONS PLAYGROUND (4x3 Grid)</h2>
-            <p class="page-subtitle">Hover and click to see the effects!</p>
+            <h2 class="page-title">🟦 Button Effects Lab (4x3 Grid)</h2>
             <div class="button-grid">
-                <button class="effect-button glow">Glow Pulse</button>
-                <button class="effect-button vibrate">Vibrate Shift</button>
-                <button class="effect-button expand">Expand Pop</button>
-                <button class="effect-button color-shift">Color Wave</button>
+                <button class="effect-button glow" data-text="Glow">Glow</button>
+                <button class="effect-button vibrate" data-text="Vibrate">Vibrate</button>
+                <button class="effect-button expand" data-text="Expand">Expand</button>
+                <button class="effect-button color-shift" data-text="Color Shift">Color Shift</button>
                 
-                <button class="effect-button bounce">Bouncy Click</button>
-                <button class="effect-button shadow-lift">Shadow Lift</button>
-                <button class="effect-button rotate">3D Rotate</button>
-                <button class="effect-button skew">Skew Wobble</button>
+                <button class="effect-button bounce" data-text="Bounce">Bounce</button>
+                <button class="effect-button shadow-lift" data-text="Shadow">Shadow</button>
+                <button class="effect-button rotate" data-text="Rotate">Rotate</button>
+                <button class="effect-button skew" data-text="Skew">Skew</button>
 
-                <button class="effect-button border-anim">Border Draw</button>
-                <button class="effect-button background-slide">BG Slide</button>
-                <button class="effect-button ripple">Click Ripple</button>
-                <button class="effect-button glitch">Glitch Effect</button>
+                <button class="effect-button border-anim" data-text="Border Draw">Border</button>
+                <button class="effect-button background-slide" data-text="BG Slide">Slide</button>
+                <button class="effect-button ripple" data-text="Ripple Click">Ripple</button>
+                <button class="effect-button glitch" data-text="Glitch Text">Glitch</button>
             </div>
         </section>
-
-        <section id="future-page" class="screen fade-out">
-            <h2 class="page-title">🟩 Future Experiments</h2>
-            <p class="page-subtitle">This page is reserved for complex transitions and effects (wave wipe, bounce, etc.).</p>
-        </section>
-
-    </div>
+        
+        </div>
 
     <nav id="side-menu">
         <h3 class="menu-title">CONTROL PANEL</h3>
         <a href="#" class="menu-item" data-target="home-screen">🏡 Home</a>
         <a href="#" class="menu-item" data-target="buttons-page">🟦 Buttons Playground</a>
-        <a href="#" class="menu-item" data-target="future-page">🟩 Future Effects</a>
         <a href="#" class="menu-item" id="close-menu-btn">❌ Close Menu</a>
     </nav>
     
