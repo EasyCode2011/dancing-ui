@@ -1,289 +1,353 @@
-/* FULL PAGE RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+/* ----------------------------------------------------------------
+   1. GLOBAL & BACKGROUND STYLES
+   ---------------------------------------------------------------- */
+:root {
+    --bg-dark: #121212;
+    --primary-color: #00ffff; /* Cyan/Tron color */
+    --secondary-color: #ff00ff; /* Magenta/Vaporwave color */
+    --text-light: #f0f0f0;
 }
 
-/* BACKGROUND GRADIENT */
-.background-gradient {
+body {
+    font-family: 'Orbitron', sans-serif; /* Futuristic font */
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    overflow: hidden; /* Important for the side menu and smooth transitions */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Moving Starfield Background Effect (using CSS multiple backgrounds) */
+body::before {
+    content: '';
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: 
+        radial-gradient(circle, #222 1px, transparent 1px) 0 0 / 25px 25px,
+        radial-gradient(circle, #333 1px, transparent 1px) 12px 12px / 25px 25px;
+    opacity: 0.3;
+    animation: move-bg 60s linear infinite; /* Slow, continuous movement */
+    z-index: -1;
+}
+
+@keyframes move-bg {
+    from { transform: translate(0, 0); }
+    to { transform: translate(-50%, -50%); }
+}
+
+/* ----------------------------------------------------------------
+   2. SCREEN MANAGEMENT & TRANSITIONS
+   ---------------------------------------------------------------- */
+#app-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.screen {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(120deg, #ff003c, #ffea00, #00eaff, #7b00ff);
-    background-size: 400% 400%;
-    z-index: -1;
-
-    animation: colorShift 15s ease infinite;
-}
-
-/* GRADIENT ANIMATION */
-@keyframes colorShift {
-    0% { background-position: 0% 50%; }
-    25% { background-position: 50% 50%; }
-    50% { background-position: 100% 50%; }
-    75% { background-position: 50% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* CENTER CONTENT */
-.container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    text-align: center;
-    color: white;
-    backdrop-filter: blur(3px) brightness(1.1);
+    padding: 2rem;
+    box-sizing: border-box;
+    transition: 
+        opacity 0.7s ease-in-out, 
+        transform 0.7s ease-in-out,
+        visibility 0s linear 0.7s; /* Delay visibility change until fade is done */
 }
 
-/* TEXT STYLES */
-.title {
-    font-size: 3.5rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-}
-
-.subtitle {
-    margin-top: 10px;
-    font-size: 1.2rem;
-    opacity: 0.85;
-}
-
-.press-g {
-    margin-top: 30px;
-    font-size: 1rem;
-    opacity: 0.9;
-}
-
-.highlight {
-    font-weight: bold;
-    background: rgba(255,255,255,0.3);
-    padding: 2px 6px;
-    border-radius: 5px;
-}
-
-/* SIDE MENU */
-#sideMenu {
-  position: fixed;
-  top: 0;
-  left: -260px; /* hidden by default */
-  width: 240px;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(8px);
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 30px;
-  transition: left 0.35s ease;
-  color: white;
-}
-
-#sideMenu h2 {
-  margin-bottom: 20px;
-}
-
-#sideMenu ul {
-  list-style: none;
-}
-
-#sideMenu li {
-  padding: 12px 0;
-  opacity: 0.9;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-#sideMenu li:hover {
-  opacity: 1;
-}
-/* FADE CLASS */
-.hidden {
+/* FADE TRANSITION CLASSES */
+.fade-out {
     opacity: 0;
-    transition: opacity 0.5s ease;
+    visibility: hidden;
+    transform: scale(0.95); /* Subtle scale effect during fade */
 }
 
-/* SHOW CLASS */
-.visible {
+.fade-in {
     opacity: 1;
-    transition: opacity 0.5s ease;
+    visibility: visible;
+    transform: scale(1);
+    transition-delay: 0s; /* Start fading in immediately */
 }
 
-.btn.pulse:hover { transform: scale(1.1); }
-
-.btn.shake:hover { 
-  animation: shake 0.3s linear;
+/* HOME SCREEN SPECIFIC STYLES */
+#home-screen {
+    text-align: center;
 }
-@keyframes shake {
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
+.title-text {
+    font-size: 3rem;
+    color: var(--primary-color);
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+}
+.subtitle-text {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-bottom: 3rem;
+}
+.hint-text {
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+.key-indicator {
+    background-color: var(--secondary-color);
+    color: var(--bg-dark);
+    font-weight: bold;
+    padding: 0.2rem 0.5rem;
+    margin-left: 0.5rem;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+    animation: key-pulse 1.5s infinite alternate;
+}
+@keyframes key-pulse {
+    from { opacity: 0.7; transform: scale(1); }
+    to { opacity: 1; transform: scale(1.05); }
 }
 
-.btn.rotate:hover { transform: rotate(10deg); }
-.btn.expand:hover { transform: scale(1.2); }
-.btn.shrink:hover { transform: scale(0.8); }
 
-.btn.rainbow:hover {
-  background: linear-gradient(90deg, red, yellow, lime, cyan, blue, magenta);
+/* ----------------------------------------------------------------
+   3. SIDE MENU STYLES
+   ---------------------------------------------------------------- */
+#side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    border-right: 3px solid var(--primary-color);
+    transform: translateX(-100%); /* Initially hide off-screen */
+    transition: transform 0.4s ease-out;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    z-index: 100; /* Above all other content */
 }
 
-.btn.flip:hover { transform: rotateY(180deg); }
-.btn.slide:hover { transform: translateX(10px); }
-.btn.blur:hover { filter: blur(2px); }
-.btn.pop:hover { 
-  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-  transform: translateY(-5px);
+#side-menu.open {
+    transform: translateX(0); /* Slide in */
 }
 
-/* --- BUTTON GRID LAYOUT --- */
+.menu-title {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.menu-item {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 15px 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 5px solid transparent;
+    transition: 
+        background-color 0.2s, 
+        border-left-color 0.2s, 
+        color 0.2s;
+}
+
+.menu-item:hover {
+    background-color: rgba(0, 255, 255, 0.1);
+    border-left-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+
+/* ----------------------------------------------------------------
+   4. BUTTONS PLAYGROUND GRID & BASE BUTTON STYLES
+   ---------------------------------------------------------------- */
+.page-title {
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+.page-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 2rem;
+}
+
 .button-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  width: 100%;
-  height: calc(100vh - 80px);
-  align-items: center;
-  justify-items: center;
-  padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    grid-template-rows: repeat(3, 1fr); /* 3 rows */
+    gap: 15px;
+    width: 80%; /* Fill the screen */
+    max-width: 1200px;
+    height: 60vh; /* Make buttons large, filling the height */
 }
 
-/* --- BUTTON BASE STYLE --- */
-.btn {
-  width: 100%;
-  max-width: 250px;
-  height: 100px;
-  font-size: 22px;
-  font-weight: 600;
-  border-radius: 14px;
-  transition: 0.25s ease;
-  cursor: pointer;
-  background: #222;
-  color: white;
-  border: 2px solid rgba(255,255,255,0.2);
+.effect-button {
+    background-color: #333;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    overflow: hidden; /* For effects like 'ripple' */
 }
 
+/* ----------------------------------------------------------------
+   5. UNIQUE ANIMATED BUTTON EFFECTS (4x3 = 12 effects)
+   ---------------------------------------------------------------- */
 
-/* --- BUTTON EFFECTS --- */
-.btn.glow:hover { 
-  box-shadow: 0 0 20px white; 
+/* 1. Glow Pulse */
+.effect-button.glow:hover {
+    background-color: var(--primary-color);
+    color: var(--bg-dark);
+    box-shadow: 0 0 20px var(--primary-color);
+}
+.effect-button.glow {
+    animation: glow-pulse-anim 3s infinite alternate;
+}
+@keyframes glow-pulse-anim {
+    from { box-shadow: 0 0 5px var(--primary-color); }
+    to { box-shadow: 0 0 15px var(--primary-color); }
 }
 
-.btn.pulse:hover {
-  transform: scale(1.08);
+/* 2. Vibrate Shift */
+.effect-button.vibrate:hover {
+    transform: translate(1px, 1px);
+    animation: vibrate-anim 0.1s infinite;
+}
+@keyframes vibrate-anim {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    25% { transform: translate(-1px, -1px) rotate(-0.5deg); }
+    50% { transform: translate(1px, -1px) rotate(0.5deg); }
+    75% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+    100% { transform: translate(1px, 1px) rotate(0deg); }
 }
 
-.btn.bounce:hover {
-  animation: bounce 0.4s ease;
-}
-@keyframes bounce {
-  50% { transform: translateY(-10px); }
-}
-
-.btn.shake:hover { 
-  animation: shake 0.3s linear;
-}
-@keyframes shake {
-  25% { transform: translateX(-6px); }
-  50% { transform: translateX(6px); }
-  75% { transform: translateX(-6px); }
+/* 3. Expand Pop */
+.effect-button.expand:hover {
+    transform: scale(1.05);
+    border-color: var(--secondary-color);
 }
 
-.btn.rotate:hover { 
-  transform: rotate(8deg); 
+/* 4. Color Wave */
+.effect-button.color-shift {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+    background-size: 200% 200%;
+    color: var(--bg-dark);
+}
+.effect-button.color-shift:hover {
+    animation: color-shift-anim 2s infinite linear;
+}
+@keyframes color-shift-anim {
+    to { background-position: 200% 0; }
 }
 
-.btn.expand:hover { 
-  transform: scale(1.2); 
+/* 5. Bouncy Click (Requires JavaScript to apply the class on click, but here is the CSS part) */
+.effect-button.bounce:active {
+    transform: scale(0.9);
+}
+.effect-button.bounce.clicked {
+    animation: bounce-anim 0.5s ease-out;
+}
+@keyframes bounce-anim {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px) scale(1.1); }
+    100% { transform: translateY(0); }
 }
 
-.btn.shrink:hover { 
-  transform: scale(0.75); 
+/* 6. Shadow Lift */
+.effect-button.shadow-lift:hover {
+    box-shadow: 0 15px 30px rgba(0, 255, 255, 0.4);
+    transform: translateY(-5px);
 }
 
-.btn.rainbow:hover {
-  background: linear-gradient(90deg, red, yellow, lime, cyan, blue, magenta);
+/* 7. 3D Rotate */
+.effect-button.rotate {
+    transform-style: preserve-3d;
+}
+.effect-button.rotate:hover {
+    transform: rotateY(15deg) scale(1.02);
 }
 
-.btn.flip:hover { 
-  transform: rotateY(180deg); 
+/* 8. Skew Wobble */
+.effect-button.skew:hover {
+    transform: skewX(-5deg) scale(1.01);
 }
 
-.btn.slide:hover { 
-  transform: translateX(12px); 
+/* 9. Border Draw (Uses pseudo-elements to animate the border) */
+.effect-button.border-anim {
+    position: relative;
+    border: none;
+    box-shadow: none;
+}
+.effect-button.border-anim::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 2px solid var(--primary-color);
+    transform: scale(0.9);
+    transition: transform 0.4s ease;
+}
+.effect-button.border-anim:hover::before {
+    transform: scale(1.05);
 }
 
-.btn.blur:hover { 
-  filter: blur(3px); 
+/* 10. Background Slide */
+.effect-button.background-slide {
+    background: linear-gradient(to right, #444 50%, var(--secondary-color) 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+}
+.effect-button.background-slide:hover {
+    background-position: left bottom;
+    color: var(--bg-dark);
 }
 
-.btn.pop:hover { 
-  transform: translateY(-6px);
-  box-shadow: 0 14px 30px rgba(0,0,0,0.45);
+/* 11. Click Ripple (Requires JS, setting the basic CSS here) */
+.effect-button.ripple {
+    position: relative;
+    overflow: hidden;
+}
+.effect-button.ripple:active {
+    box-shadow: 0 0 0 100px rgba(0, 255, 255, 0); /* This class helps trigger the effect */
 }
 
-/* --- FULL-SCREEN CONTROL PANEL LAYOUT --- */
-.button-control-panel {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);  /* 4 buttons each row */
-  grid-template-rows: repeat(3, 1fr);     /* 3 rows */
-  gap: 26px;
-  width: 100%;
-  height: 100%;
-  padding: 40px;
+/* 12. Glitch Effect (Complex hover effect) */
+.effect-button.glitch:hover {
+    color: transparent;
+    text-shadow: 2px 2px var(--primary-color), -2px -2px var(--secondary-color);
 }
-
-/* --- BUTTON STYLE --- */
-.button-control-panel .btn {
-  width: 100%;
-  height: 100%;
-  font-size: 26px;
-  font-weight: 700;
-  border-radius: 18px;
-  border: 2px solid rgba(255,255,255,0.18);
-  background: rgba(40,40,40,0.9);
-  color: white;
-  transition: 0.25s ease;
-  cursor: pointer;
+.effect-button.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    text-shadow: 2px 2px var(--primary-color), -2px -2px var(--secondary-color);
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
 }
-
-/* --- BUTTON EFFECTS --- */
-.btn.glow:hover { box-shadow: 0 0 25px white; }
-.btn.pulse:hover { transform: scale(1.08); }
-
-.btn.bounce:hover {
-  animation: bounce 0.4s ease;
+.effect-button.glitch:hover::after {
+    content: 'GLITCH';
+    opacity: 1;
+    animation: glitch-anim 0.3s steps(1) infinite;
 }
-@keyframes bounce {
-  50% { transform: translateY(-12px); }
+@keyframes glitch-anim {
+    0% { clip-path: inset(30% 0 30% 0); }
+    25% { clip-path: inset(10% 0 70% 0); }
+    50% { clip-path: inset(80% 0 0% 0); }
+    75% { clip-path: inset(40% 0 40% 0); }
+    100% { clip-path: inset(30% 0 30% 0); }
 }
-
-.btn.shake:hover {
-  animation: shake 0.3s ease;
-}
-@keyframes shake {
-  25% { transform: translateX(-6px); }
-  50% { transform: translateX(6px); }
-  75% { transform: translateX(-6px); }
-}
-
-.btn.rotate:hover { transform: rotate(7deg); }
-.btn.expand:hover { transform: scale(1.2); }
-.btn.shrink:hover { transform: scale(0.75); }
-
-.btn.rainbow:hover {
-  background: linear-gradient(90deg, red, yellow, lime, cyan, blue, magenta);
-}
-
-.btn.flip:hover { transform: rotateY(180deg); }
-.btn.slide:hover { transform: translateX(16px); }
-.btn.blur:hover { filter: blur(3px); }
-
-.btn.pop:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 14px 32px rgba(0,0,0,0.45);
-}
-
