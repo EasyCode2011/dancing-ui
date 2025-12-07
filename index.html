@@ -2,404 +2,174 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dancing UI Playground</title>
 <style>
-  /* ---------- Reset & base ---------- */
-  :root{
-    --bg-1: #0f1720;
-    --panel: rgba(0,0,0,0.5);
-    --accent: #7be2ff;
-    --glass: rgba(255,255,255,0.06);
-    --gap: 26px;
-    --transition-duration: 480ms;
-  }
+  /* -----------------------------------------
+     GLOBAL RESET & BACKGROUND
+  ----------------------------------------- */
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; width:100%; overflow:hidden; font-family: Arial, sans-serif; }
 
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;width:100%;background:linear-gradient(120deg,#0b1020,#081426 60%);font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:#e8f6ff;overflow:hidden}
-
-  /* animated background */
-  .bg {
-    position:fixed;inset:0;z-index:-2;
-    background:
-      radial-gradient(800px 400px at 10% 10%, rgba(123,226,255,0.06), transparent 6%),
-      radial-gradient(900px 500px at 85% 85%, rgba(255,120,180,0.04), transparent 6%),
-      linear-gradient(180deg,#071027 0%, #0b1330 100%);
-    background-blend-mode:screen;
-    filter:blur(16px);
-    animation: bgShift 18s ease infinite;
+  body {
+    background: linear-gradient(120deg, #ff6b6b, #ffd93d, #6bdbff);
+    background-size: 300% 300%;
+    animation: bgShift 15s ease infinite;
+    color: #222;
   }
   @keyframes bgShift {
-    0%{filter:blur(12px) hue-rotate(0deg)}
-    50%{filter:blur(24px) hue-rotate(30deg)}
-    100%{filter:blur(12px) hue-rotate(0deg)}
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
-  /* ---------- Side menu ---------- */
+  /* -----------------------------------------
+     SIDE MENU
+  ----------------------------------------- */
   #sidePanel {
-    position:fixed;left:-300px;top:0;height:100vh;width:300px;
-    background:linear-gradient(180deg, rgba(8,10,18,0.9), rgba(6,8,14,0.82));
-    padding:22px;border-right:1px solid rgba(255,255,255,0.04);
-    transition:left .32s cubic-bezier(.2,.9,.2,1);z-index:60;
-    backdrop-filter: blur(8px);
+    position: fixed;
+    top: 0; left: -260px;
+    width: 240px;
+    height: 100vh;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(4px);
+    padding: 20px;
+    transition: left .3s ease;
+    z-index: 100;
   }
-  #sidePanel.open{left:0}
-  #sidePanel h2{font-size:1.05rem;margin-bottom:12px;letter-spacing:0.6px}
-  #sidePanel .menu{list-style:none;margin-top:8px;padding:0}
-  #sidePanel .menu li{padding:10px 8px;border-radius:8px;cursor:pointer;opacity:.92}
-  #sidePanel .menu li:hover{background:rgba(255,255,255,0.03);transform:translateX(8px);transition:all .14s}
-  #sidePanel .controls{margin-top:18px;font-size:.9rem;opacity:.9}
-  #sidePanel label{display:block;margin-top:10px;font-size:.85rem;opacity:.8}
+  #sidePanel.open { left: 0; }
+  #sidePanel h2 { font-size: 1.2rem; margin-bottom: 16px; }
+  #sidePanel .menu { list-style: none; padding: 0; }
+  #sidePanel .menu li {
+    margin: 10px 0;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background .2s;
+  }
+  #sidePanel .menu li:hover {
+    background: rgba(0,0,0,0.1);
+  }
 
-  /* small top hint */
-  #hint {position:fixed;right:18px;top:18px;background:var(--panel);padding:8px 12px;border-radius:10px;font-size:0.95rem;z-index:70;backdrop-filter:blur(6px)}
-  #hint strong{color:var(--accent)}
+  #hint {
+    position: fixed;
+    top: 14px; right: 14px;
+    background: rgba(255,255,255,0.6);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    z-index: 110;
+  }
 
-  /* ---------- Screen system (stacked) ---------- */
+  /* -----------------------------------------
+     SCREEN SYSTEM
+  ----------------------------------------- */
   .screen {
-    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-    padding:40px;z-index:10;pointer-events:none;opacity:0;transition:opacity var(--transition-duration) ease;
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
   }
-  .screen.visible{opacity:1;pointer-events:auto}
+  .screen.active { display: flex; }
 
-  .panel-inner{width:100%;max-width:1200px;margin:0 auto;color:inherit}
+  .home-content { color: white; }
+  .home-content h1 { font-size: 3rem; margin-bottom: 12px; }
+  .home-content p { font-size: 1.2rem; opacity: 0.9; }
 
-  /* ---------- Home page ---------- */
-  #home .hero{max-width:920px;text-align:center}
-  #home h1{font-size:3rem;letter-spacing:0.6px;margin-bottom:12px}
-  #home p{opacity:.95;font-size:1.05rem}
-
-  /* ---------- Button control panel (4x3 full-screen) ---------- */
-  .button-control-panel {
-    display:grid;
+  /* -----------------------------------------
+     BUTTON GRID
+  ----------------------------------------- */
+  .button-grid {
+    display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    gap: var(--gap);
-    width:100%;
-    height: calc(100vh - 80px); /* leave padding for safety */
+    gap: 20px;
+    width: 100%;
+    height: 100vh;
     padding: 20px;
   }
-
-  .button-control-panel .btn {
-    width:100%;height:100%;border-radius:14px;border:2px solid rgba(255,255,255,0.06);
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.35));
-    color:white;font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;
-    cursor:pointer;transition:transform .18s ease, box-shadow .18s ease, background .2s;
-    user-select:none;
+  .button-grid .btn {
+    background: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .button-grid .btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   }
 
-  /* ensure equal sizing on very narrow screens */
-  @media (max-width:900px){
-    .button-control-panel{grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr)}
-  }
-  @media (max-width:520px){
-    .button-control-panel{gap:12px;padding:12px}
-    .button-control-panel .btn{font-size:16px;border-radius:10px}
-  }
-
-  /* ---------- Hover effects (12 distinct) ---------- */
-  /* 1 Glow */
-  .btn.glow:hover{box-shadow:0 0 30px rgba(123,226,255,0.18);transform:translateY(-6px)}
-
-  /* 2 Pulse */
-  .btn.pulse:hover{animation:pulse .9s infinite}
-  @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
-
-  /* 3 Bounce */
-  .btn.bounce:hover{animation:bounce .45s}
-  @keyframes bounce{50%{transform:translateY(-10px)}}
-
-  /* 4 Vibrate */
-  .btn.vibrate:hover{animation:vibrate .12s linear 0s 4}
-  @keyframes vibrate{25%{transform:translateX(-4px)}50%{transform:translateX(4px)}75%{transform:translateX(-4px)}}
-
-  /* 5 Rotate */
-  .btn.rotate:hover{transform:rotate(6deg) translateY(-6px)}
-
-  /* 6 Expand */
-  .btn.expand:hover{transform:scale(1.12);box-shadow:0 18px 40px rgba(0,0,0,0.45)}
-
-  /* 7 Shrink */
-  .btn.shrink:hover{transform:scale(.86);opacity:.98}
-
-  /* 8 Rainbow */
-  .btn.rainbow:hover{background:linear-gradient(90deg,#ff6a8a,#ffd46a,#7bffb3);color:#001}
-
-  /* 9 Flip */
-  .btn.flip{transform-style:preserve-3d;backface-visibility:hidden}
-  .btn.flip:hover{transform:rotateY(180deg)}
-
-  /* 10 Slide */
-  .btn.slide:hover{transform:translateX(12px)}
-
-  /* 11 Blur */
-  .btn.blur:hover{filter:blur(2px);transform:translateY(-6px)}
-
-  /* 12 Pop */
-  .btn.pop:hover{transform:translateY(-10px);box-shadow:0 20px 48px rgba(0,0,0,0.5)}
-
-  /* ---------- toast for demo on click ---------- */
-  #toast{
-    position:fixed;left:50%;transform:translateX(-50%);bottom:36px;background:rgba(0,0,0,0.6);padding:8px 14px;border-radius:10px;
-    color:white;font-size:0.95rem;opacity:0;pointer-events:none;transition:opacity .2s ease, transform .2s ease;z-index:90;
-  }
-  #toast.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
-
-  /* ---------- transition helper classes: slide/scale/wipe ---------- */
-  /* screen-slide-out (old) and slide-in (new) animations handled in JS by toggling classes */
-  .transition-slide-out{animation:slideOut var(--transition-duration) forwards}
-  .transition-slide-in{animation:slideIn var(--transition-duration) forwards}
-  @keyframes slideOut{from{transform:translateX(0);opacity:1}to{transform:translateX(-8%);opacity:0}}
-  @keyframes slideIn{from{transform:translateX(8%);opacity:0}to{transform:translateX(0);opacity:1}}
-
-  .transition-scale-out{animation:scaleOut var(--transition-duration) forwards}
-  .transition-scale-in{animation:scaleIn var(--transition-duration) forwards}
-  @keyframes scaleOut{from{transform:scale(1);opacity:1}to{transform:scale(.96);opacity:0}}
-  @keyframes scaleIn{from{transform:scale(1.04);opacity:0}to{transform:scale(1);opacity:1}}
-
-  .transition-wipe-out{animation:wipeOut var(--transition-duration) forwards}
-  .transition-wipe-in{animation:wipeIn var(--transition-duration) forwards}
-  @keyframes wipeOut{0%{clip-path:inset(0% 0% 0% 0%);opacity:1}100%{clip-path:inset(0% 100% 0% 0%);opacity:0}}
-  @keyframes wipeIn{0%{clip-path:inset(0% 100% 0% 0%);opacity:0}100%{clip-path:inset(0% 0% 0% 0%);opacity:1}}
-
-  /* small footer hint about changing transition */
-  .note{margin-top:10px;font-size:.82rem;opacity:.85}
 </style>
 </head>
 <body>
 
-  <div class="bg" aria-hidden="true"></div>
-
-  <!-- SIDE MENU -->
-  <nav id="sidePanel" aria-hidden="true">
-    <h2>Dancing UI Playground</h2>
-
-    <ul class="menu" role="menu" aria-label="Main menu">
+  <div id="sidePanel" aria-hidden="true">
+    <h2>Dancing UI</h2>
+    <ul class="menu">
       <li data-page="home">Home</li>
       <li data-page="buttons">Buttons</li>
-      <li data-page="sliders">Sliders</li>
-      <li data-page="animations">Animations</li>
     </ul>
+  </div>
 
-    <div class="controls">
-      <label>Transition</label>
-      <select id="transitionSelect" aria-label="Choose transition">
-        <option value="fade">Fade</option>
-        <option value="slide">Slide</option>
-        <option value="scale">Scale</option>
-        <option value="wipe">Wipe</option>
-      </select>
+  <div id="hint">Press <strong>G</strong> to open menu</div>
 
-      <div class="note">Tip: press <strong>G</strong> to toggle the menu</div>
+  <div id="home" class="screen active">
+    <div class="home-content">
+      <h1>Welcome to Dancing UI</h1>
+      <p>Play around with UI elements and animations. Click “Buttons” in the menu to start.</p>
     </div>
-  </nav>
+  </div>
 
-  <!-- small hint -->
-  <div id="hint">Press <strong>G</strong> • Toggle Menu</div>
-
-  <!-- SCREENS -->
-  <section id="home" class="screen visible" aria-labelledby="home-title">
-    <div class="panel-inner">
-      <div class="hero">
-        <h1 id="home-title">Dancing UI</h1>
-        <p>Interactive playground for UI experiments — try the <strong>Buttons</strong> panel. Pick a transition in the menu and click a button to test effects.</p>
-      </div>
+  <div id="buttons" class="screen">
+    <div class="button-grid">
+      <button class="btn">Btn 1</button>
+      <button class="btn">Btn 2</button>
+      <button class="btn">Btn 3</button>
+      <button class="btn">Btn 4</button>
+      <button class="btn">Btn 5</button>
+      <button class="btn">Btn 6</button>
+      <button class="btn">Btn 7</button>
+      <button class="btn">Btn 8</button>
+      <button class="btn">Btn 9</button>
+      <button class="btn">Btn 10</button>
+      <button class="btn">Btn 11</button>
+      <button class="btn">Btn 12</button>
     </div>
-  </section>
-
-  <section id="buttons" class="screen" aria-hidden="true">
-    <div class="panel-inner">
-      <!-- buttons grid (4 columns x 3 rows) -->
-      <div class="button-control-panel" role="grid" aria-label="Button control panel">
-        <button class="btn glow" data-btn="Glow">Glow</button>
-        <button class="btn pulse" data-btn="Pulse">Pulse</button>
-        <button class="btn bounce" data-btn="Bounce">Bounce</button>
-        <button class="btn vibrate" data-btn="Vibrate">Vibrate</button>
-
-        <button class="btn rotate" data-btn="Rotate">Rotate</button>
-        <button class="btn expand" data-btn="Expand">Expand</button>
-        <button class="btn shrink" data-btn="Shrink">Shrink</button>
-        <button class="btn rainbow" data-btn="Rainbow">Rainbow</button>
-
-        <button class="btn flip" data-btn="Flip">Flip</button>
-        <button class="btn slide" data-btn="Slide">Slide</button>
-        <button class="btn blur" data-btn="Blur">Blur</button>
-        <button class="btn pop" data-btn="Shadow Pop">Shadow Pop</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="sliders" class="screen" aria-hidden="true">
-    <div class="panel-inner">
-      <h1>Sliders (placeholder)</h1>
-      <p>Here you can add slider demos later — glass sliders, range controls, color pickers, etc.</p>
-    </div>
-  </section>
-
-  <section id="animations" class="screen" aria-hidden="true">
-    <div class="panel-inner">
-      <h1>Animations (placeholder)</h1>
-      <p>Small animation experiments will be shown here.</p>
-    </div>
-  </section>
-
-  <!-- toast -->
-  <div id="toast" role="status" aria-live="polite"></div>
+  </div>
 
 <script>
-/* ---------- Basic app state ---------- */
-const side = document.getElementById('sidePanel');
-const menuItems = Array.from(document.querySelectorAll('#sidePanel .menu li'));
-const screens = {
-  home: document.getElementById('home'),
-  buttons: document.getElementById('buttons'),
-  sliders: document.getElementById('sliders'),
-  animations: document.getElementById('animations')
-};
-const transitionSelect = document.getElementById('transitionSelect');
-let current = 'home';
-let transitionType = 'fade'; // default
-
-/* ---------- Toggle side menu with G ---------- */
-document.addEventListener('keydown', e=>{
-  if(e.key.toLowerCase() === 'g'){
-    side.classList.toggle('open');
-    side.setAttribute('aria-hidden', !side.classList.contains('open'));
-  }
-});
-
-/* ---------- Menu clicks ---------- */
-menuItems.forEach(li=>{
-  li.addEventListener('click', ()=>{
-    const page = li.dataset.page;
-    showScreen(page);
-    // close menu for clarity
-    side.classList.remove('open');
-    side.setAttribute('aria-hidden', 'true');
-  });
-});
-
-/* ---------- Transition selector ---------- */
-transitionSelect.addEventListener('change', e=>{
-  transitionType = e.target.value;
-});
-
-/* ---------- Helper: remove animation classes from an element ---------- */
-function clearTransitionClasses(el){
-  el.classList.remove('transition-slide-out','transition-slide-in','transition-scale-out','transition-scale-in','transition-wipe-out','transition-wipe-in');
-}
-
-/* ---------- Core: showScreen with different transition types ---------- */
-function showScreen(name){
-  if(name === current) return;
-  const oldEl = screens[current];
-  const newEl = screens[name];
-  if(!oldEl || !newEl) return;
-
-  // ensure newEl visible for animation prep
-  newEl.style.opacity = 0;
-  newEl.classList.add('visible');
-
-  // choose animations
-  const dur = 480; // ms, keep synced with CSS
-  if(transitionType === 'fade'){
-    // fade out old -> fade in new
-    oldEl.style.transition = `opacity ${dur}ms ease`;
-    newEl.style.transition = `opacity ${dur}ms ease`;
-    oldEl.style.opacity = 0;
-    setTimeout(()=>{
-      oldEl.classList.remove('visible');
-      oldEl.style.transition = '';
-      newEl.style.opacity = 1;
-      current = name;
-    }, dur);
-  } else if(transitionType === 'slide'){
-    // use slide classes
-    clearTransitionClasses(oldEl);
-    clearTransitionClasses(newEl);
-    oldEl.classList.add('transition-slide-out');
-    newEl.classList.add('transition-slide-in');
-    setTimeout(()=>{
-      oldEl.classList.remove('visible','transition-slide-out');
-      newEl.classList.remove('transition-slide-in');
-      newEl.classList.add('visible');
-      current = name;
-    }, dur);
-  } else if(transitionType === 'scale'){
-    clearTransitionClasses(oldEl);
-    clearTransitionClasses(newEl);
-    oldEl.classList.add('transition-scale-out');
-    newEl.classList.add('transition-scale-in');
-    setTimeout(()=>{
-      oldEl.classList.remove('visible','transition-scale-out');
-      newEl.classList.remove('transition-scale-in');
-      newEl.classList.add('visible');
-      current = name;
-    }, dur);
-  } else if(transitionType === 'wipe'){
-    clearTransitionClasses(oldEl);
-    clearTransitionClasses(newEl);
-    oldEl.classList.add('transition-wipe-out');
-    newEl.classList.add('transition-wipe-in');
-    setTimeout(()=>{
-      oldEl.classList.remove('visible','transition-wipe-out');
-      newEl.classList.remove('transition-wipe-in');
-      newEl.classList.add('visible');
-      current = name;
-    }, dur);
-  } else {
-    // fallback to simple swap
-    oldEl.classList.remove('visible');
-    newEl.classList.add('visible');
-    current = name;
-  }
-
-  // accessibility
-  Object.keys(screens).forEach(k=>{
-    screens[k].setAttribute('aria-hidden', k !== name ? 'true' : 'false');
-  });
-}
-
-/* ---------- Button demo click: show toast ---------- */
-const toast = document.getElementById('toast');
-function showToast(text){
-  toast.textContent = text;
-  toast.classList.add('show');
-  clearTimeout(toast._t);
-  toast._t = setTimeout(()=>{ toast.classList.remove('show'); }, 1400);
-}
-
-/* add click handlers to each button */
-const panels = document.querySelectorAll('.button-control-panel .btn');
-panels.forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    const name = btn.dataset.btn || btn.textContent || 'Button';
-    showToast(`${name} clicked`);
-    // small click animation
-    btn.animate([
-      {transform:'scale(1)'}, {transform:'scale(.95)'}
-    ], {duration:80,fill:'forwards',easing:'ease-out'});
-  });
-
-  // keyboard support: Enter/Space triggers when focused
-  btn.setAttribute('tabindex','0');
-  btn.addEventListener('keydown', e=>{
-    if(e.key === 'Enter' || e.key === ' '){
-      e.preventDefault();
-      btn.click();
+  // Toggle side menu with G
+  document.addEventListener('keydown', e => {
+    if (e.key.toLowerCase() === 'g') {
+      const panel = document.getElementById('sidePanel');
+      panel.classList.toggle('open');
+      panel.setAttribute('aria-hidden', !panel.classList.contains('open'));
     }
   });
-});
 
-/* ---------- Init: ensure only home visible ---------- */
-Object.keys(screens).forEach(k=>{
-  screens[k].classList.remove('visible'); screens[k].classList.add('screen');
-  screens[k].setAttribute('aria-hidden', 'true');
-});
-screens.home.classList.add('visible'); screens.home.setAttribute('aria-hidden','false');
-
-/* expose showScreen to console for debugging (optional) */
-window.showScreen = showScreen;
+  // Menu click navigation
+  document.querySelectorAll('#sidePanel .menu li').forEach(li => {
+    li.addEventListener('click', () => {
+      const page = li.dataset.page;
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(page);
+      if (target) target.classList.add('active');
+      // close menu
+      const panel = document.getElementById('sidePanel');
+      panel.classList.remove('open');
+      panel.setAttribute('aria-hidden', 'true');
+    });
+  });
 </script>
+
 </body>
 </html>
