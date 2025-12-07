@@ -1,316 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Dancing UI</title>
-  <style>
-    /* RESET */
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-
-    /* BACKGROUND */
-    body {
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
-      background: linear-gradient(-45deg, #ff6a6a, #ffd46a, #6affc4);
-      background-size: 400% 400%;
-      animation: gradientShift 12s ease infinite;
-      color: white;
-    }
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* SIDE PANEL */
-    #sidePanel {
-      position: fixed;
-      left: -260px;
-      top: 0;
-      width: 260px;
-      height: 100%;
-      background: rgba(0,0,0,0.85);
-      color: white;
-      padding: 20px;
-      transition: left 0.32s cubic-bezier(.2,.9,.2,1);
-      z-index: 60;
-    }
-    #sidePanel.active { left: 0; }
-    #sidePanel h2 { margin-bottom: 14px; font-size: 1.1rem; }
-    #sidePanel ul { list-style: none; padding: 0; }
-    #sidePanel li {
-      padding: 10px 6px;
-      border-radius: 6px;
-      cursor: pointer;
-      opacity: 0.9;
-      transition: background 0.18s, transform 0.18s;
-      user-select: none;
-    }
-    #sidePanel li:hover { background: rgba(255,255,255,0.06); transform: translateX(6px); }
-
-    /* top-right small help */
-    #hint {
-      position: fixed;
-      right: 18px;
-      top: 18px;
-      background: rgba(0,0,0,0.25);
-      padding: 8px 12px;
-      border-radius: 10px;
-      backdrop-filter: blur(4px);
-      font-size: 0.95rem;
-      z-index: 70;
-    }
-
-    /* SCREEN system - screens stack full page, fade between them */
-    .screen {
-      position: absolute;
-      inset: 0; /* top:0; left:0; right:0; bottom:0 */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.48s ease;
-      z-index: 10;
-    }
-    .screen.visible { opacity: 1; pointer-events: auto; }
-    .screen h1 { font-size: 3.2rem; margin-bottom: 12px; letter-spacing: 1px; }
-    .screen p { font-size: 1.05rem; opacity: 0.95; margin-bottom: 18px; }
-
-    /* content width */
-    .panel-inner { width: 90%; max-width: 900px; margin: 0 auto; color: white; }
-
-    /* BUTTON DEMO styles */
-    .button-demo { margin-top: 18px; display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
-    .btn {
-      padding: 12px 22px; border-radius: 10px; border: none; cursor:pointer; font-size: 1rem;
-      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
-    }
-    .btn.glow {
-      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
-      color: white; box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-    }
-    .btn.glow:hover { box-shadow: 0 12px 28px rgba(255,255,255,0.06); transform: translateY(-4px); }
-
-    .btn.bounce {
-      background: #111; color: #fff; box-shadow: 0 6px 14px rgba(0,0,0,0.5);
-    }
-    .btn.bounce:hover { transform: translateY(-6px); }
-
-    .btn.outline { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.9); }
-    .btn.outline:hover { background: white; color: #000; transform: translateY(-4px); }
-
-    .btn.glass {
-      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(6px);
-    }
-    .btn.glass:hover { background: rgba(255,255,255,0.22); transform: translateY(-3px); }
-
-    /* small responsive tweak */
-    @media (max-width:520px) {
-      .screen h1 { font-size: 2rem; }
-      #sidePanel { width: 220px; left: -220px; }
-      #sidePanel.active { left: 0; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡️ The UI Playground ⚡️</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- side menu -->
-  <nav id="sidePanel" aria-hidden="true">
-    <h2>UI Playground</h2>
-    <ul>
-      <li data-page="home">Home</li>
-      <li data-page="buttons">Buttons</li>
-      <li data-page="sliders">Sliders</li>
-      <li data-page="animations">Animations</li>
-    </ul>
-  </nav>
+    <div id="app-container">
 
-  <!-- tiny hint -->
-  <div id="hint">Press <strong>G</strong> • Toggle Menu</div>
+        <section id="home-screen" class="screen active fade-in">
+            <h1 class="title-text">⚡️ UX/UI EXPERIMENTATION LAB ⚡️</h1>
+            <p class="subtitle-text">A digital toy box of animations, transitions, and effects.</p>
+            <div class="hint-text">
+                <p>Press **G** to access the Control Menu</p>
+                <div class="key-indicator">G</div>
+            </div>
+        </section>
 
-  <!-- SCREENS -->
-  <section id="home" class="screen visible">
-    <div class="panel-inner">
-      <h1>Dancing UI</h1>
-      <p>A minimal playground for animated UI components — press G to open the menu and pick a demo.</p>
+        <section id="buttons-page" class="screen fade-out">
+            <h2 class="page-title">🟦 BUTTONS PLAYGROUND (4x3 Grid)</h2>
+            <p class="page-subtitle">Hover and click to see the effects!</p>
+            <div class="button-grid">
+                <button class="effect-button glow">Glow Pulse</button>
+                <button class="effect-button vibrate">Vibrate Shift</button>
+                <button class="effect-button expand">Expand Pop</button>
+                <button class="effect-button color-shift">Color Wave</button>
+                
+                <button class="effect-button bounce">Bouncy Click</button>
+                <button class="effect-button shadow-lift">Shadow Lift</button>
+                <button class="effect-button rotate">3D Rotate</button>
+                <button class="effect-button skew">Skew Wobble</button>
+
+                <button class="effect-button border-anim">Border Draw</button>
+                <button class="effect-button background-slide">BG Slide</button>
+                <button class="effect-button ripple">Click Ripple</button>
+                <button class="effect-button glitch">Glitch Effect</button>
+            </div>
+        </section>
+
+        <section id="future-page" class="screen fade-out">
+            <h2 class="page-title">🟩 Future Experiments</h2>
+            <p class="page-subtitle">This page is reserved for complex transitions and effects (wave wipe, bounce, etc.).</p>
+        </section>
+
     </div>
-  </section>
 
-<section id="buttons" class="screen">
-  <div class="panel-inner" style="padding-top: 0; height: 100vh; display: flex;">
-
-    <div class="button-control-panel">
-      <button class="btn glow">Glow</button>
-      <button class="btn pulse">Pulse</button>
-      <button class="btn bounce">Bounce</button>
-      <button class="btn shake">Shake</button>
-
-      <button class="btn rotate">Rotate</button>
-      <button class="btn expand">Expand</button>
-      <button class="btn shrink">Shrink</button>
-      <button class="btn rainbow">Rainbow</button>
-
-      <button class="btn flip">Flip</button>
-      <button class="btn slide">Slide</button>
-      <button class="btn blur">Blur</button>
-      <button class="btn pop">Shadow Pop</button>
-    </div>
-      
-.parent {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: 8px;
-}
+    <nav id="side-menu">
+        <h3 class="menu-title">CONTROL PANEL</h3>
+        <a href="#" class="menu-item" data-target="home-screen">🏡 Home</a>
+        <a href="#" class="menu-item" data-target="buttons-page">🟦 Buttons Playground</a>
+        <a href="#" class="menu-item" data-target="future-page">🟩 Future Effects</a>
+        <a href="#" class="menu-item" id="close-menu-btn">❌ Close Menu</a>
+    </nav>
     
-
-
-
-
-.div8 {
-    grid-column-start: 4;
-    grid-row-start: 3;
-}
-
-.div9 {
-    grid-column-start: 4;
-    grid-row-start: 2;
-}
-
-.div10 {
-    grid-column-start: 3;
-    grid-row-start: 2;
-}
-
-.div11 {
-    grid-column-start: 3;
-    grid-row-start: 3;
-}
-
-.div12 {
-    grid-column-start: 2;
-    grid-row-start: 3;
-}
-
-.div13 {
-    grid-column-start: 2;
-    grid-row-start: 2;
-}
-
-.div14 {
-    grid-column-start: 1;
-    grid-row-start: 2;
-}
-
-.div15 {
-    grid-column-start: 1;
-    grid-row-start: 3;
-}
-
-.div16 {
-    grid-row-start: 4;
-}
-
-.div17 {
-    grid-row-start: 4;
-}
-
-.div18 {
-    grid-column-start: 4;
-    grid-row-start: 4;
-}
-
-.div19 {
-    grid-column-start: 3;
-    grid-row-start: 4;
-}
-        
-  </div>
-</section>
-
-
-
-  <section id="sliders" class="screen">
-    <div class="panel-inner">
-      <h1>Sliders</h1>
-      <p>Sliders and range controls will go here (coming soon).</p>
-    </div>
-  </section>
-
-  <section id="animations" class="screen">
-    <div class="panel-inner">
-      <h1>Animations</h1>
-      <p>Small animation experiments and effects live here.</p>
-    </div>
-  </section>
-
-  <script>
-    // ---------- elements ----------
-    const side = document.getElementById('sidePanel');
-    const hint = document.getElementById('hint');
-    const menuItems = Array.from(side.querySelectorAll('li[data-page]'));
-    const screens = {
-      home: document.getElementById('home'),
-      buttons: document.getElementById('buttons'),
-      sliders: document.getElementById('sliders'),
-      animations: document.getElementById('animations')
-    };
-
-    // Toggle side menu with G key
-    document.addEventListener('keydown', (e) => {
-      if (e.key.toLowerCase() === 'g') {
-        side.classList.toggle('active');
-        // update aria (optional)
-        side.setAttribute('aria-hidden', side.classList.contains('active') ? 'false' : 'true');
-      }
-    });
-
-    // Click on menu items -> show screen & close menu
-    menuItems.forEach(li => {
-      li.addEventListener('click', () => {
-        const page = li.dataset.page;
-        showScreen(page);
-        // auto-hide menu after selection to keep experience clean
-        side.classList.remove('active');
-      });
-    });
-
-    // core showScreen: fade out current, then fade in new (works by toggling .visible)
-    function showScreen(name) {
-      // quickly find currently visible
-      const current = Object.values(screens).find(s => s.classList.contains('visible'));
-      const next = screens[name];
-      if (!next || current === next) return;
-
-      // start fade out
-      current.classList.remove('visible');
-      current.classList.add('hidden');
-
-      // after fade duration, hide current and reveal next
-      // match CSS transition 0.48s, use a little padding
-      setTimeout(() => {
-        current.classList.remove('hidden');
-        // make sure next starts hidden then visible to trigger transition
-        next.classList.add('hidden');
-        // force layout so browser registers initial state
-        void next.offsetWidth;
-        next.classList.add('visible');
-        next.classList.remove('hidden');
-      }, 480);
-    }
-
-    // initial: ensure only home visible
-    for (const k in screens) {
-      screens[k].classList.remove('visible');
-      screens[k].classList.add('hidden');
-    }
-    screens.home.classList.remove('hidden'); screens.home.classList.add('visible');
-  </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
