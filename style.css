@@ -1,49 +1,48 @@
 /* ----------------------------------------------------------------
-   1. GLOBAL & BACKGROUND STYLES
+   1. GLOBAL & GRADIENT BACKGROUND STYLES
    ---------------------------------------------------------------- */
 :root {
-    --bg-dark: #121212;
-    --primary-color: #00ffff; /* Cyan/Tron color */
-    --secondary-color: #ff00ff; /* Magenta/Vaporwave color */
-    --text-light: #f0f0f0;
+    --bg-dark: #1f1f1f; /* Dark background base for contrast */
+    --primary-text: #ffffff;
+    --accent-color: #3f51b5; /* A primary accent blue/indigo */
+
+    /* The three main gradient colors */
+    --grad-color-1: #3f51b5; /* Indigo */
+    --grad-color-2: #e91e63; /* Pink/Magenta */
+    --grad-color-3: #ffc107; /* Amber/Yellow */
 }
 
 body {
-    font-family: 'Orbitron', sans-serif; /* Futuristic font */
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--bg-dark);
-    color: var(--text-light);
-    overflow: hidden; /* Important for the side menu and smooth transitions */
+    color: var(--primary-text);
+    overflow: hidden; 
     height: 100vh;
+    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    /* Implement Slow Color-Changing Gradient */
+    background: linear-gradient(
+        135deg, 
+        var(--grad-color-1), 
+        var(--grad-color-2), 
+        var(--grad-color-3)
+    );
+    background-size: 300% 300%; /* Makes the gradient huge */
+    animation: slow-gradient-shift 20s ease infinite alternate; /* Slow shift */
 }
 
-/* Moving Starfield Background Effect (using CSS multiple backgrounds) */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 200%;
-    height: 200%;
-    background: 
-        radial-gradient(circle, #222 1px, transparent 1px) 0 0 / 25px 25px,
-        radial-gradient(circle, #333 1px, transparent 1px) 12px 12px / 25px 25px;
-    opacity: 0.3;
-    animation: move-bg 60s linear infinite; /* Slow, continuous movement */
-    z-index: -1;
-}
-
-@keyframes move-bg {
-    from { transform: translate(0, 0); }
-    to { transform: translate(-50%, -50%); }
+@keyframes slow-gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* ----------------------------------------------------------------
-   2. SCREEN MANAGEMENT & TRANSITIONS
+   2. SCREEN MANAGEMENT & HOME SCREEN
    ---------------------------------------------------------------- */
 #app-container {
     width: 100%;
@@ -53,75 +52,62 @@ body::before {
 
 .screen {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
     padding: 2rem;
     box-sizing: border-box;
-    transition: 
-        opacity 0.7s ease-in-out, 
-        transform 0.7s ease-in-out,
-        visibility 0s linear 0.7s; /* Delay visibility change until fade is done */
+    /* FADE TRANSITION SETUP */
+    transition: opacity 0.7s ease-in-out, visibility 0s linear 0.7s;
 }
 
-/* FADE TRANSITION CLASSES */
 .fade-out {
     opacity: 0;
     visibility: hidden;
-    transform: scale(0.95); /* Subtle scale effect during fade */
+    /* Hide visibility only after the transition completes */
+    transition: opacity 0.7s ease-in-out, visibility 0s linear 0.7s; 
 }
 
 .fade-in {
     opacity: 1;
     visibility: visible;
-    transform: scale(1);
-    transition-delay: 0s; /* Start fading in immediately */
+    /* Start visibility immediately for fade-in */
+    transition: opacity 0.7s ease-in-out;
 }
 
-/* HOME SCREEN SPECIFIC STYLES */
-#home-screen {
-    text-align: center;
+/* HOME SCREEN STYLES */
+.main-title {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
-.title-text {
-    font-size: 3rem;
-    color: var(--primary-color);
-    text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
-}
-.subtitle-text {
+.intro-text {
     font-size: 1.2rem;
-    color: var(--text-light);
-    margin-bottom: 3rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 600px;
+    margin-bottom: 4rem;
 }
 .hint-text {
-    color: var(--secondary-color);
+    font-size: 1rem;
+    color: var(--grad-color-3); /* Yellow hint text */
     display: flex;
     align-items: center;
-    font-size: 0.9rem;
-    text-transform: uppercase;
 }
 .key-indicator {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-text);
     color: var(--bg-dark);
     font-weight: bold;
-    padding: 0.2rem 0.5rem;
+    padding: 0.4rem 0.8rem;
     margin-left: 0.5rem;
-    border-radius: 3px;
-    box-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
-    animation: key-pulse 1.5s infinite alternate;
+    border-radius: 5px;
 }
-@keyframes key-pulse {
-    from { opacity: 0.7; transform: scale(1); }
-    to { opacity: 1; transform: scale(1.05); }
-}
-
 
 /* ----------------------------------------------------------------
-   3. SIDE MENU STYLES
+   3. SIDE MENU STYLES (Kept the sliding logic from before)
    ---------------------------------------------------------------- */
 #side-menu {
     position: fixed;
@@ -129,15 +115,15 @@ body::before {
     left: 0;
     width: 250px;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    border-right: 3px solid var(--primary-color);
-    transform: translateX(-100%); /* Initially hide off-screen */
+    background: rgba(0, 0, 0, 0.95);
+    border-right: 5px solid var(--grad-color-1); /* Accent border */
+    transform: translateX(-100%); 
     transition: transform 0.4s ease-out;
     padding: 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    z-index: 100; /* Above all other content */
+    z-index: 100;
 }
 
 #side-menu.open {
@@ -145,209 +131,149 @@ body::before {
 }
 
 .menu-title {
-    color: var(--primary-color);
+    color: var(--grad-color-3);
     font-size: 1.5rem;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     text-align: center;
+    text-transform: uppercase;
 }
 
 .menu-item {
-    color: var(--text-light);
+    color: var(--primary-text);
     text-decoration: none;
     padding: 15px 10px;
     margin-bottom: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-left: 5px solid transparent;
-    transition: 
-        background-color 0.2s, 
-        border-left-color 0.2s, 
-        color 0.2s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.2s, color 0.2s;
+    border-radius: 4px;
 }
 
 .menu-item:hover {
-    background-color: rgba(0, 255, 255, 0.1);
-    border-left-color: var(--primary-color);
-    color: var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--grad-color-1);
 }
-
 
 /* ----------------------------------------------------------------
    4. BUTTONS PLAYGROUND GRID & BASE BUTTON STYLES
    ---------------------------------------------------------------- */
-.page-title {
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
-}
-.page-subtitle {
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 2rem;
-}
 
 .button-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* 4 columns */
     grid-template-rows: repeat(3, 1fr); /* 3 rows */
-    gap: 15px;
-    width: 80%; /* Fill the screen */
+    gap: 20px;
+    width: 85%;
     max-width: 1200px;
-    height: 60vh; /* Make buttons large, filling the height */
+    height: 70vh; /* Make buttons large, filling the height */
 }
 
+/* Base style for ALL buttons: Simple, white, smooth corners */
 .effect-button {
-    background-color: #333;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
-    font-family: 'Orbitron', sans-serif;
+    background-color: white;
+    color: var(--bg-dark);
+    border: none;
+    font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
     cursor: pointer;
     text-transform: uppercase;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-    overflow: hidden; /* For effects like 'ripple' */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-radius: 8px; /* Smooth corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-weight: 700;
 }
 
 /* ----------------------------------------------------------------
-   5. UNIQUE ANIMATED BUTTON EFFECTS (4x3 = 12 effects)
+   5. UNIQUE ANIMATED BUTTON EFFECTS (Applying effects to the white base)
    ---------------------------------------------------------------- */
 
-/* 1. Glow Pulse */
+/* 1. Glow */
 .effect-button.glow:hover {
-    background-color: var(--primary-color);
-    color: var(--bg-dark);
-    box-shadow: 0 0 20px var(--primary-color);
-}
-.effect-button.glow {
-    animation: glow-pulse-anim 3s infinite alternate;
-}
-@keyframes glow-pulse-anim {
-    from { box-shadow: 0 0 5px var(--primary-color); }
-    to { box-shadow: 0 0 15px var(--primary-color); }
+    box-shadow: 0 0 20px var(--grad-color-3); /* Yellow glow */
+    transform: translateY(-2px);
 }
 
-/* 2. Vibrate Shift */
+/* 2. Vibrate */
 .effect-button.vibrate:hover {
-    transform: translate(1px, 1px);
     animation: vibrate-anim 0.1s infinite;
 }
 @keyframes vibrate-anim {
-    0% { transform: translate(1px, 1px) rotate(0deg); }
-    25% { transform: translate(-1px, -1px) rotate(-0.5deg); }
-    50% { transform: translate(1px, -1px) rotate(0.5deg); }
-    75% { transform: translate(-1px, 1px) rotate(-0.5deg); }
-    100% { transform: translate(1px, 1px) rotate(0deg); }
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-1px); }
+    75% { transform: translateX(1px); }
 }
 
-/* 3. Expand Pop */
+/* 3. Expand */
 .effect-button.expand:hover {
     transform: scale(1.05);
-    border-color: var(--secondary-color);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* 4. Color Wave */
-.effect-button.color-shift {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--primary-color));
-    background-size: 200% 200%;
-    color: var(--bg-dark);
-}
+/* 4. Color Shift (Uses an inverted color scheme on hover) */
 .effect-button.color-shift:hover {
-    animation: color-shift-anim 2s infinite linear;
-}
-@keyframes color-shift-anim {
-    to { background-position: 200% 0; }
+    background-color: var(--grad-color-2); /* Pink background */
+    color: white;
+    box-shadow: 0 0 15px var(--grad-color-2);
 }
 
-/* 5. Bouncy Click (Requires JavaScript to apply the class on click, but here is the CSS part) */
+/* 5. Bounce (Requires JS class toggle, see previous script.js) */
 .effect-button.bounce:active {
-    transform: scale(0.9);
+    transform: scale(0.95);
 }
 .effect-button.bounce.clicked {
     animation: bounce-anim 0.5s ease-out;
 }
 @keyframes bounce-anim {
     0% { transform: translateY(0); }
-    50% { transform: translateY(-10px) scale(1.1); }
+    50% { transform: translateY(-15px) scale(1.05); }
     100% { transform: translateY(0); }
 }
 
 /* 6. Shadow Lift */
 .effect-button.shadow-lift:hover {
-    box-shadow: 0 15px 30px rgba(0, 255, 255, 0.4);
+    box-shadow: 0 20px 30px rgba(63, 81, 181, 0.4); /* Accent color shadow */
     transform: translateY(-5px);
 }
 
-/* 7. 3D Rotate */
-.effect-button.rotate {
-    transform-style: preserve-3d;
-}
+/* 7. Rotate */
 .effect-button.rotate:hover {
-    transform: rotateY(15deg) scale(1.02);
+    transform: rotateZ(-3deg) scale(1.02);
 }
 
-/* 8. Skew Wobble */
+/* 8. Skew */
 .effect-button.skew:hover {
-    transform: skewX(-5deg) scale(1.01);
+    transform: skewX(-10deg);
 }
 
-/* 9. Border Draw (Uses pseudo-elements to animate the border) */
+/* 9. Border Draw */
 .effect-button.border-anim {
     position: relative;
-    border: none;
+    border: 3px solid transparent;
     box-shadow: none;
 }
-.effect-button.border-anim::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    border: 2px solid var(--primary-color);
-    transform: scale(0.9);
-    transition: transform 0.4s ease;
-}
-.effect-button.border-anim:hover::before {
-    transform: scale(1.05);
+.effect-button.border-anim:hover {
+    border-color: var(--grad-color-1);
+    box-shadow: 0 0 0 3px var(--grad-color-1);
 }
 
 /* 10. Background Slide */
 .effect-button.background-slide {
-    background: linear-gradient(to right, #444 50%, var(--secondary-color) 50%);
+    background: linear-gradient(to right, white 50%, var(--grad-color-3) 50%);
     background-size: 200% 100%;
     background-position: right bottom;
 }
 .effect-button.background-slide:hover {
     background-position: left bottom;
-    color: var(--bg-dark);
+    color: white;
 }
 
-/* 11. Click Ripple (Requires JS, setting the basic CSS here) */
+/* 11. Ripple (Requires JS) */
 .effect-button.ripple {
     position: relative;
     overflow: hidden;
 }
-.effect-button.ripple:active {
-    box-shadow: 0 0 0 100px rgba(0, 255, 255, 0); /* This class helps trigger the effect */
-}
 
-/* 12. Glitch Effect (Complex hover effect) */
+/* 12. Glitch Text */
 .effect-button.glitch:hover {
     color: transparent;
-    text-shadow: 2px 2px var(--primary-color), -2px -2px var(--secondary-color);
-}
-.effect-button.glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0; left: 0;
-    text-shadow: 2px 2px var(--primary-color), -2px -2px var(--secondary-color);
-    opacity: 0;
-    transition: opacity 0.1s ease-in-out;
-}
-.effect-button.glitch:hover::after {
-    content: 'GLITCH';
-    opacity: 1;
-    animation: glitch-anim 0.3s steps(1) infinite;
-}
-@keyframes glitch-anim {
-    0% { clip-path: inset(30% 0 30% 0); }
-    25% { clip-path: inset(10% 0 70% 0); }
-    50% { clip-path: inset(80% 0 0% 0); }
-    75% { clip-path: inset(40% 0 40% 0); }
-    100% { clip-path: inset(30% 0 30% 0); }
+    text-shadow: 1px 1px var(--grad-color-1), -1px -1px var(--grad-color-2);
 }
