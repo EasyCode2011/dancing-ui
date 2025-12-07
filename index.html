@@ -4,18 +4,16 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dancing UI Playground</title>
-<style>
-  /* -----------------------------------------
-     GLOBAL RESET & BACKGROUND
-  ----------------------------------------- */
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html, body { height:100%; width:100%; overflow:hidden; font-family: Arial, sans-serif; }
 
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
   body {
+    height:100vh;
     background: linear-gradient(120deg, #ff6b6b, #ffd93d, #6bdbff);
     background-size: 300% 300%;
     animation: bgShift 15s ease infinite;
-    color: #222;
+    font-family: Arial, sans-serif;
+    overflow:hidden;
   }
   @keyframes bgShift {
     0% { background-position: 0% 50%; }
@@ -23,29 +21,23 @@
     100% { background-position: 0% 50%; }
   }
 
-  /* -----------------------------------------
-     SIDE MENU
-  ----------------------------------------- */
+  /* SIDE MENU */
   #sidePanel {
     position: fixed;
-    top: 0; left: -260px;
+    left: -260px;
+    top: 0;
     width: 240px;
     height: 100vh;
     background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(4px);
     padding: 20px;
     transition: left .3s ease;
-    z-index: 100;
   }
   #sidePanel.open { left: 0; }
-  #sidePanel h2 { font-size: 1.2rem; margin-bottom: 16px; }
-  #sidePanel .menu { list-style: none; padding: 0; }
   #sidePanel .menu li {
     margin: 10px 0;
     padding: 8px 12px;
     cursor: pointer;
     border-radius: 6px;
-    transition: background .2s;
   }
   #sidePanel .menu li:hover {
     background: rgba(0,0,0,0.1);
@@ -53,120 +45,133 @@
 
   #hint {
     position: fixed;
-    top: 14px; right: 14px;
+    top: 14px;
+    right: 14px;
     background: rgba(255,255,255,0.6);
     padding: 6px 10px;
     border-radius: 6px;
-    font-size: 0.95rem;
-    z-index: 110;
   }
 
-  /* -----------------------------------------
-     SCREEN SYSTEM
-  ----------------------------------------- */
+  /* SCREENS */
   .screen {
     position: absolute;
     inset: 0;
     display: none;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     text-align: center;
-    padding: 40px;
   }
   .screen.active { display: flex; }
 
-  .home-content { color: white; }
-  .home-content h1 { font-size: 3rem; margin-bottom: 12px; }
-  .home-content p { font-size: 1.2rem; opacity: 0.9; }
+  .home-content h1 {
+    font-size: 3rem;
+    color: white;
+  }
 
-  /* -----------------------------------------
-     BUTTON GRID
-  ----------------------------------------- */
+  /* BUTTON GRID */
   .button-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 20px;
-    width: 100%;
-    height: 100vh;
-    padding: 20px;
+    width: 90%;
+    height: 80%;
   }
-  .button-grid .btn {
+
+  .btn {
     background: white;
     border: none;
-    border-radius: 8px;
-    font-size: 1.4rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
     cursor: pointer;
-    transition: transform .2s ease, box-shadow .2s ease;
+
+    /* NEW SIZE RULES */
+    width: 100%;
+    height: 70%;       /* smaller vertically */
+    padding: 10px;
+
+    /* Animation */
+    transition: transform .2s, box-shadow .2s, background .2s;
   }
-  .button-grid .btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+
+  /* Hover Effects */
+  .hover-grow:hover { transform: scale(1.15); }
+  .hover-shrink:hover { transform: scale(0.85); }
+  .hover-rotate:hover { transform: rotate(5deg); }
+  .hover-glow:hover {
+    box-shadow: 0 0 20px rgba(255,255,255,0.8);
+  }
+  .hover-press:hover { transform: translateY(4px); }
+  .hover-wiggle:hover { animation: wiggle .3s ease; }
+
+  @keyframes wiggle {
+    0% { transform: rotate(0); }
+    25% { transform: rotate(2deg); }
+    50% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+    100% { transform: rotate(0); }
   }
 
 </style>
 </head>
+
 <body>
 
-  <div id="sidePanel" aria-hidden="true">
-    <h2>Dancing UI</h2>
-    <ul class="menu">
-      <li data-page="home">Home</li>
-      <li data-page="buttons">Buttons</li>
-    </ul>
-  </div>
+<div id="sidePanel">
+  <h2>Dancing UI</h2>
+  <ul class="menu">
+    <li data-page="home">Home</li>
+    <li data-page="buttons">Buttons</li>
+  </ul>
+</div>
 
-  <div id="hint">Press <strong>G</strong> to open menu</div>
+<div id="hint">Press G to open menu</div>
 
-  <div id="home" class="screen active">
-    <div class="home-content">
-      <h1>Welcome to Dancing UI</h1>
-      <p>Play around with UI elements and animations. Click “Buttons” in the menu to start.</p>
-    </div>
+<!-- HOME -->
+<div id="home" class="screen active">
+  <div class="home-content">
+    <h1>Dancing UI</h1>
+    <p style="color:white; font-size:1.2rem; margin-top:12px;">
+      Explore the UI effects in the menu.
+    </p>
   </div>
+</div>
 
-  <div id="buttons" class="screen">
-    <div class="button-grid">
-      <button class="btn">Btn 1</button>
-      <button class="btn">Btn 2</button>
-      <button class="btn">Btn 3</button>
-      <button class="btn">Btn 4</button>
-      <button class="btn">Btn 5</button>
-      <button class="btn">Btn 6</button>
-      <button class="btn">Btn 7</button>
-      <button class="btn">Btn 8</button>
-      <button class="btn">Btn 9</button>
-      <button class="btn">Btn 10</button>
-      <button class="btn">Btn 11</button>
-      <button class="btn">Btn 12</button>
-    </div>
+<!-- BUTTONS -->
+<div id="buttons" class="screen">
+  <div class="button-grid">
+
+    <button class="btn hover-grow">Grow</button>
+    <button class="btn hover-shrink">Shrink</button>
+    <button class="btn hover-rotate">Rotate</button>
+    <button class="btn hover-glow">Glow</button>
+
+    <button class="btn hover-press">Press</button>
+    <button class="btn hover-wiggle">Wiggle</button>
+    <button class="btn hover-grow">Grow 2</button>
+    <button class="btn hover-glow">Glow 2</button>
+
+    <button class="btn hover-rotate">Rotate 2</button>
+    <button class="btn hover-press">Press 2</button>
+    <button class="btn hover-wiggle">Wiggle 2</button>
+    <button class="btn hover-shrink">Shrink 2</button>
+
   </div>
+</div>
 
 <script>
-  // Toggle side menu with G
-  document.addEventListener('keydown', e => {
-    if (e.key.toLowerCase() === 'g') {
-      const panel = document.getElementById('sidePanel');
-      panel.classList.toggle('open');
-      panel.setAttribute('aria-hidden', !panel.classList.contains('open'));
+  document.addEventListener("keydown", e => {
+    if (e.key.toLowerCase() === "g") {
+      document.getElementById("sidePanel").classList.toggle("open");
     }
   });
 
-  // Menu click navigation
-  document.querySelectorAll('#sidePanel .menu li').forEach(li => {
-    li.addEventListener('click', () => {
-      const page = li.dataset.page;
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      const target = document.getElementById(page);
-      if (target) target.classList.add('active');
-      // close menu
-      const panel = document.getElementById('sidePanel');
-      panel.classList.remove('open');
-      panel.setAttribute('aria-hidden', 'true');
+  document.querySelectorAll("#sidePanel .menu li").forEach(li => {
+    li.addEventListener("click", () => {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById(li.dataset.page).classList.add("active");
+      document.getElementById("sidePanel").classList.remove("open");
     });
   });
 </script>
