@@ -178,3 +178,13 @@ html, body {
   animation: tinyShake 0.15s infinite linear;
 }
 
+/* Jump animation with gravity-like acceleration */
+@keyframes jumpUp {
+  0%   { transform: translateY(0); }
+  15%  { transform: translateY(-28px); }
+  30%  { transform: translateY(-45px); }
+  45%  { transform: translateY(-55px); }
+  60%  { transform: translateY(-45px); }
+  75%  { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
