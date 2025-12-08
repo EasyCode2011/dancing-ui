@@ -5,12 +5,11 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Click: switch to rectangle demo
+// Switch to rectangle demo
 document.getElementById("btnRectangles").addEventListener("click", () => {
   const home = document.getElementById("home");
   const rec = document.getElementById("rectPage");
 
-  // fade out home
   home.classList.remove("fade-in");
   home.classList.add("fade-out");
 
@@ -21,6 +20,9 @@ document.getElementById("btnRectangles").addEventListener("click", () => {
   }, 600);
 });
 
+/* ----------------------------------------------------------
+   GLOW BUTTON LOGIC
+---------------------------------------------------------- */
 const glowBtn = document.getElementById("glowBtn");
 
 // Make random color
@@ -35,44 +37,36 @@ let nextColor = randomColor();
 
 glowBtn.addEventListener("mouseenter", () => {
   glowBtn.style.backgroundColor = nextColor;
-
-  // Soft glow (same color)
   glowBtn.style.boxShadow = `0 0 25px ${nextColor}`;
-
-  // Prepare next color
   nextColor = randomColor();
 });
 
 glowBtn.addEventListener("mouseleave", () => {
   glowBtn.style.backgroundColor = "white";
-
-  // Remove glow smoothly
   glowBtn.style.boxShadow = "0 0 0px rgba(0,0,0,0)";
 });
 
-// ----------------------------------------------------------
 // CLICK — rainbow border flash
 glowBtn.addEventListener("click", () => {
   glowBtn.style.animation = "rainbowFlash 0.5s linear";
 
-  // Remove animation so it can replay every click
   setTimeout(() => {
     glowBtn.style.animation = "";
   }, 500);
 });
-// ----------------------------------------------------------
 
+
+/* ----------------------------------------------------------
+   SHAKE BUTTON LOGIC
+---------------------------------------------------------- */
 const shakeBtn = document.getElementById("shakeBtn");
-
 let shakeInterval;
 
-// When hovered → start the cycle
+// Hover → start cycle
 shakeBtn.addEventListener("mouseenter", () => {
-  // Start big shake every 3s
   shakeInterval = setInterval(() => {
     shakeBtn.style.animation = "bigShake 0.4s linear";
 
-    // Reset back to small shake after big shake ends
     setTimeout(() => {
       if (shakeBtn.matches(":hover")) {
         shakeBtn.style.animation = "tinyShake 0.15s infinite linear";
@@ -82,18 +76,16 @@ shakeBtn.addEventListener("mouseenter", () => {
   }, 3000);
 });
 
-// When leaving → stop everything
+// Stop when leaving
 shakeBtn.addEventListener("mouseleave", () => {
   clearInterval(shakeInterval);
   shakeBtn.style.animation = "";
 });
 
-// ----------------------------------------------------------
-// CLICK → jump with acceleration  ⭐ <— PLACED PERFECTLY
+// CLICK → jump with gravity
 shakeBtn.addEventListener("click", () => {
   shakeBtn.style.animation = "jumpUp 0.6s ease-out";
 
-  // After finishing, restore hover-shake if cursor is still on it
   setTimeout(() => {
     if (shakeBtn.matches(":hover")) {
       shakeBtn.style.animation = "tinyShake 0.15s infinite linear";
@@ -102,4 +94,20 @@ shakeBtn.addEventListener("click", () => {
     }
   }, 600);
 });
-// ----------------------------------------------------------
+
+
+/* ----------------------------------------------------------
+   COLOR BUTTON LOGIC  🔥 (NEW)
+---------------------------------------------------------- */
+const colorBtn = document.getElementById("colorBtn");
+
+// Click → radial burst
+colorBtn.addEventListener("click", () => {
+  // Add the burst class
+  colorBtn.classList.add("clicked");
+
+  // Remove after animation so it can play again
+  setTimeout(() => {
+    colorBtn.classList.remove("clicked");
+  }, 500);
+});
