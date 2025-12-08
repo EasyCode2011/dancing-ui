@@ -22,7 +22,7 @@ document.getElementById("btnRectangles").addEventListener("click", () => {
 });
 const glowBtn = document.getElementById("glowBtn");
 
-// Generate random color
+// Make random color
 function randomColor() {
   const r = Math.floor(Math.random() * 255);
   const g = Math.floor(Math.random() * 255);
@@ -35,10 +35,16 @@ let nextColor = randomColor();
 glowBtn.addEventListener("mouseenter", () => {
   glowBtn.style.backgroundColor = nextColor;
 
-  // prepare next random color for next hover
+  // Soft glow (same color)
+  glowBtn.style.boxShadow = `0 0 25px ${nextColor}`;
+
+  // Prepare next color
   nextColor = randomColor();
 });
 
 glowBtn.addEventListener("mouseleave", () => {
   glowBtn.style.backgroundColor = "white";
+
+  // Remove glow smoothly
+  glowBtn.style.boxShadow = "0 0 0px rgba(0,0,0,0)";
 });
