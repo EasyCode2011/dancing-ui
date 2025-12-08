@@ -1,4 +1,4 @@
-/* Reset */
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -13,7 +13,7 @@ html, body {
   overflow: hidden;
 }
 
-/* Background Gradient Animation */
+/* BACKGROUND GRADIENT ANIMATION */
 .bg {
   position: fixed;
   inset: 0;
@@ -34,7 +34,7 @@ html, body {
   100% { background-position: 0% 50%; }
 }
 
-/* Centered Intro Text */
+/* HOME PAGE CENTER TEXT */
 .center {
   position: absolute;
   top: 50%;
@@ -53,46 +53,7 @@ html, body {
   opacity: 0.9;
 }
 
-/* SIDE MENU */
-#sideMenu {
-  position: fixed;
-  top: 0;
-  left: -260px; /* hidden by default */
-  width: 260px;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(7px);
-  padding: 20px;
-  transition: left 0.4s ease;
-}
-
-#sideMenu.open {
-  left: 0; /* slide in */
-}
-
-#sideMenu h2 {
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-}
-
-#sideMenu ul {
-  list-style: none;
-}
-
-#sideMenu li {
-  margin: 15px 0;
-  font-size: 1.2rem;
-  cursor: pointer;
-  opacity: 0.9;
-  transition: 0.2s;
-}
-
-#sideMenu li:hover {
-  opacity: 1;
-  transform: translateX(5px);
-}
-
-/* Fade helpers */
+/* FADE HELPERS */
 .hidden {
   opacity: 0;
   pointer-events: none;
@@ -108,7 +69,42 @@ html, body {
   transition: opacity 0.6s ease;
 }
 
-/* Rectangle page */
+/* MENU */
+#menu {
+  position: fixed;
+  top: 0;
+  left: -240px;
+  width: 240px;
+  height: 100vh;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(8px);
+  padding: 20px;
+  transition: left 0.35s ease;
+  color: white;
+  z-index: 10;
+}
+
+#menu.open {
+  left: 0;
+}
+
+.menu-title {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+}
+
+.menu-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: white;
+  color: black;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* RECTANGLE PAGE */
 .rect-container {
   width: 100%;
   display: flex;
