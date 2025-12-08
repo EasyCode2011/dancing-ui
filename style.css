@@ -134,3 +134,7 @@ html, body {
   font-size: 1rem;
   user-select: none;
 }
+/* Glow transition */
+#glowBtn {
+  transition: background-color 1s ease;
+}
