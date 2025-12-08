@@ -139,3 +139,18 @@ html, body {
   transition: background-color 1s ease, box-shadow 1s ease;
   box-shadow: 0 0 0px rgba(0,0,0,0);
 }
+/* Rainbow flash when clicked */
+@keyframes rainbowFlash {
+  0% { border-color: red; }
+  20% { border-color: orange; }
+  40% { border-color: yellow; }
+  60% { border-color: lime; }
+  80% { border-color: cyan; }
+  100% { border-color: magenta; }
+}
+
+/* Allow border transition */
+#glowBtn {
+  border: 3px solid white;
+  transition: background-color 1s ease, box-shadow 1s ease, border-color 0.2s ease;
+}
