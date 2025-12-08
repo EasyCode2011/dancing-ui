@@ -40,7 +40,6 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   text-align: center;
 }
 
@@ -52,4 +51,43 @@ html, body {
 .center p {
   font-size: 1.2rem;
   opacity: 0.9;
+}
+
+/* SIDE MENU */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  left: -260px; /* hidden by default */
+  width: 260px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(7px);
+  padding: 20px;
+  transition: left 0.4s ease;
+}
+
+#sideMenu.open {
+  left: 0; /* slide in */
+}
+
+#sideMenu h2 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+#sideMenu ul {
+  list-style: none;
+}
+
+#sideMenu li {
+  margin: 15px 0;
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: 0.2s;
+}
+
+#sideMenu li:hover {
+  opacity: 1;
+  transform: translateX(5px);
 }
