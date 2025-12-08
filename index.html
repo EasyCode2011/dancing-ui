@@ -8,35 +8,30 @@
 </head>
 <body>
 
-  <!-- Animated Background -->
   <div class="bg"></div>
 
-  <!-- SIDE MENU -->
-  <nav id="sideMenu">
-    <h2>UI Library</h2>
-    <ul>
-      <li>Home</li>
-      <li>Buttons</li>
-      <li>Sliders</li>
-      <li>Animations</li>
-    </ul>
-  </nav>
+  <!-- MENU -->
+  <aside id="menu">
+    <h2 class="menu-title">UI Effects</h2>
+    <button class="menu-btn" id="btnRectangles">Rectangles Demo</button>
+  </aside>
 
-  <!-- MAIN CONTENT -->
-  <main class="center">
+  <main id="home" class="center fade-in">
     <h1>Welcome to Dancing UI</h1>
     <p>A playground for animations and UI effects.</p>
   </main>
 
-  <script>
-    const menu = document.getElementById("sideMenu");
+  <!-- NEW PAGE CONTENT -->
+  <section id="rectPage" class="hidden">
+    <div class="rect-container">
+      <div class="rect"></div>
+      <div class="rect"></div>
+      <div class="rect"></div>
+      <div class="rect"></div>
+      <div class="rect"></div>
+    </div>
+  </section>
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key.toLowerCase() === "g") {
-        menu.classList.toggle("open");
-      }
-    });
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
