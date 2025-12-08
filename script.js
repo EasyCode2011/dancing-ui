@@ -63,3 +63,28 @@ glowBtn.addEventListener("click", () => {
   }, 500);
 });
 // ----------------------------------------------------------
+const shakeBtn = document.getElementById("shakeBtn");
+
+let shakeInterval;
+
+// When hovered → start the cycle
+shakeBtn.addEventListener("mouseenter", () => {
+  // Start big shake every 3s
+  shakeInterval = setInterval(() => {
+    shakeBtn.style.animation = "bigShake 0.4s linear";
+
+    // Reset back to small shake after big shake ends
+    setTimeout(() => {
+      if (shakeBtn.matches(":hover")) {
+        shakeBtn.style.animation = "tinyShake 0.15s infinite linear";
+      }
+    }, 400);
+
+  }, 3000);
+});
+
+// When leaving → stop everything
+shakeBtn.addEventListener("mouseleave", () => {
+  clearInterval(shakeInterval);
+  shakeBtn.style.animation = "";
+});
