@@ -50,9 +50,7 @@ glowBtn.addEventListener("mouseleave", () => {
   glowBtn.style.boxShadow = "0 0 0px rgba(0,0,0,0)";
 });
 
-
 // ----------------------------------------------------------
-// ⬇️ ⬇️ ADD THIS PART AT THE END ⬇️ ⬇️
 // CLICK — rainbow border flash
 glowBtn.addEventListener("click", () => {
   glowBtn.style.animation = "rainbowFlash 0.5s linear";
@@ -63,6 +61,7 @@ glowBtn.addEventListener("click", () => {
   }, 500);
 });
 // ----------------------------------------------------------
+
 const shakeBtn = document.getElementById("shakeBtn");
 
 let shakeInterval;
@@ -88,3 +87,19 @@ shakeBtn.addEventListener("mouseleave", () => {
   clearInterval(shakeInterval);
   shakeBtn.style.animation = "";
 });
+
+// ----------------------------------------------------------
+// CLICK → jump with acceleration  ⭐ <— PLACED PERFECTLY
+shakeBtn.addEventListener("click", () => {
+  shakeBtn.style.animation = "jumpUp 0.6s ease-out";
+
+  // After finishing, restore hover-shake if cursor is still on it
+  setTimeout(() => {
+    if (shakeBtn.matches(":hover")) {
+      shakeBtn.style.animation = "tinyShake 0.15s infinite linear";
+    } else {
+      shakeBtn.style.animation = "";
+    }
+  }, 600);
+});
+// ----------------------------------------------------------
