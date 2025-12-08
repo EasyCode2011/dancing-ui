@@ -20,6 +20,7 @@ document.getElementById("btnRectangles").addEventListener("click", () => {
     rec.classList.add("fade-in");
   }, 600);
 });
+
 const glowBtn = document.getElementById("glowBtn");
 
 // Make random color
@@ -48,3 +49,17 @@ glowBtn.addEventListener("mouseleave", () => {
   // Remove glow smoothly
   glowBtn.style.boxShadow = "0 0 0px rgba(0,0,0,0)";
 });
+
+
+// ----------------------------------------------------------
+// ⬇️ ⬇️ ADD THIS PART AT THE END ⬇️ ⬇️
+// CLICK — rainbow border flash
+glowBtn.addEventListener("click", () => {
+  glowBtn.style.animation = "rainbowFlash 0.5s linear";
+
+  // Remove animation so it can replay every click
+  setTimeout(() => {
+    glowBtn.style.animation = "";
+  }, 500);
+});
+// ----------------------------------------------------------
