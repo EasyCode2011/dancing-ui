@@ -1,4 +1,59 @@
-/* Fade helpers */
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+/* BACKGROUND GRADIENT ANIMATION */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+
+  background: linear-gradient(120deg,
+    #ff6b6b,
+    #ffd93d,
+    #6bd4ff
+  );
+  background-size: 300% 300%;
+  animation: bgShift 14s linear infinite;
+}
+
+@keyframes bgShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* HOME PAGE CENTER TEXT */
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.center h1 {
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+}
+
+.center p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* FADE HELPERS */
 .hidden {
   opacity: 0;
   pointer-events: none;
@@ -14,7 +69,42 @@
   transition: opacity 0.6s ease;
 }
 
-/* Rectangle page */
+/* MENU */
+#menu {
+  position: fixed;
+  top: 0;
+  left: -240px;
+  width: 240px;
+  height: 100vh;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(8px);
+  padding: 20px;
+  transition: left 0.35s ease;
+  color: white;
+  z-index: 10;
+}
+
+#menu.open {
+  left: 0;
+}
+
+.menu-title {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+}
+
+.menu-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: white;
+  color: black;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* RECTANGLE PAGE */
 .rect-container {
   width: 100%;
   display: flex;
