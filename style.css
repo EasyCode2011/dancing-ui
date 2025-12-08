@@ -154,3 +154,27 @@ html, body {
   border: 3px solid white;
   transition: background-color 1s ease, box-shadow 1s ease, border-color 0.2s ease;
 }
+/* Small constant vibration */
+@keyframes tinyShake {
+  0% { transform: translate(0px, 0px) rotate(0deg); }
+  25% { transform: translate(1px, -1px) rotate(-1deg); }
+  50% { transform: translate(-1px, 1px) rotate(1deg); }
+  75% { transform: translate(1px, 1px) rotate(0deg); }
+  100% { transform: translate(0px, 0px) rotate(0deg); }
+}
+
+/* Bigger shake (once every 3 seconds) */
+@keyframes bigShake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-6px, 2px) rotate(-3deg); }
+  40% { transform: translate(6px, -2px) rotate(3deg); }
+  60% { transform: translate(-6px, -2px) rotate(-3deg); }
+  80% { transform: translate(6px, 2px) rotate(3deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* Hover = tiny shake always */
+#shakeBtn:hover {
+  animation: tinyShake 0.15s infinite linear;
+}
+
