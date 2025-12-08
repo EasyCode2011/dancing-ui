@@ -118,12 +118,6 @@ html, body {
   height: 90px; /* 5:3 ratio */
   background: rgba(255,255,255,0.85);
   border-radius: 10px;
-}
-.rect {
-  width: 150px;
-  height: 90px;
-  background: rgba(255,255,255,0.85);
-  border-radius: 10px;
 
   display: flex;
   align-items: center;
@@ -134,11 +128,13 @@ html, body {
   font-size: 1rem;
   user-select: none;
 }
+
 /* Glow transition */
 #glowBtn {
   transition: background-color 1s ease, box-shadow 1s ease;
   box-shadow: 0 0 0px rgba(0,0,0,0);
 }
+
 /* Rainbow flash when clicked */
 @keyframes rainbowFlash {
   0% { border-color: red; }
@@ -154,6 +150,7 @@ html, body {
   border: 3px solid white;
   transition: background-color 1s ease, box-shadow 1s ease, border-color 0.2s ease;
 }
+
 /* Small constant vibration */
 @keyframes tinyShake {
   0% { transform: translate(0px, 0px) rotate(0deg); }
@@ -163,7 +160,7 @@ html, body {
   100% { transform: translate(0px, 0px) rotate(0deg); }
 }
 
-/* Bigger shake (once every 3 seconds) */
+/* Bigger shake */
 @keyframes bigShake {
   0% { transform: translate(0, 0) rotate(0deg); }
   20% { transform: translate(-6px, 2px) rotate(-3deg); }
@@ -173,12 +170,12 @@ html, body {
   100% { transform: translate(0, 0) rotate(0deg); }
 }
 
-/* Hover = tiny shake always */
+/* Hover = tiny shake */
 #shakeBtn:hover {
   animation: tinyShake 0.15s infinite linear;
 }
 
-/* Jump animation with gravity-like acceleration */
+/* Jump animation */
 @keyframes jumpUp {
   0%   { transform: translateY(0); }
   15%  { transform: translateY(-28px); }
@@ -187,4 +184,42 @@ html, body {
   60%  { transform: translateY(-45px); }
   75%  { transform: translateY(-20px); }
   100% { transform: translateY(0); }
+}
+
+
+/* ---------------------------------------------------------------- */
+/* --------------------- COLOR BUTTON EFFECTS ---------------------- */
+/* ---------------------------------------------------------------- */
+
+#colorBtn {
+  transition: background 0.45s ease, transform 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover: smooth color cycle */
+@keyframes colorHoverPulse {
+  0% { background-color: #ff3e3e; }
+  25% { background-color: #ffa53e; }
+  50% { background-color: #3eff62; }
+  75% { background-color: #3ebdff; }
+  100% { background-color: #c93eff; }
+}
+
+#colorBtn:hover {
+  animation: colorHoverPulse 1.6s infinite linear;
+}
+
+/* Click: radial color explosion */
+@keyframes colorBurst {
+  from {
+    box-shadow: 0 0 0px 0px rgba(255,255,255,0.9);
+  }
+  to {
+    box-shadow: 0 0 40px 20px rgba(255,255,255,0);
+  }
+}
+
+#colorBtn.clicked {
+  animation: colorBurst 0.5s ease-out;
 }
