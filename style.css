@@ -1,93 +1,31 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* Fade helpers */
+.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
-html, body {
-  height: 100%;
-  width: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #ffffff;
-  overflow: hidden;
-}
-
-/* Background Gradient Animation */
-.bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-
-  background: linear-gradient(120deg,
-    #ff6b6b,
-    #ffd93d,
-    #6bd4ff
-  );
-  background-size: 300% 300%;
-  animation: bgShift 14s linear infinite;
-}
-
-@keyframes bgShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Centered Intro Text */
-.center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
-
-.center h1 {
-  font-size: 2.8rem;
-  margin-bottom: 10px;
-}
-
-.center p {
-  font-size: 1.2rem;
-  opacity: 0.9;
-}
-
-/* SIDE MENU */
-#sideMenu {
-  position: fixed;
-  top: 0;
-  left: -260px; /* hidden by default */
-  width: 260px;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(7px);
-  padding: 20px;
-  transition: left 0.4s ease;
-}
-
-#sideMenu.open {
-  left: 0; /* slide in */
-}
-
-#sideMenu h2 {
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-}
-
-#sideMenu ul {
-  list-style: none;
-}
-
-#sideMenu li {
-  margin: 15px 0;
-  font-size: 1.2rem;
-  cursor: pointer;
-  opacity: 0.9;
-  transition: 0.2s;
-}
-
-#sideMenu li:hover {
+.fade-in {
   opacity: 1;
-  transform: translateX(5px);
+  transition: opacity 0.6s ease;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+/* Rectangle page */
+.rect-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 60px;
+}
+
+.rect {
+  width: 150px;
+  height: 90px; /* 5:3 ratio */
+  background: rgba(255,255,255,0.85);
+  border-radius: 10px;
 }
