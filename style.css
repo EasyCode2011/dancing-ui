@@ -186,31 +186,42 @@ html, body {
   100% { transform: translateY(0); }
 }
 
-
 /* ---------------------------------------------------------------- */
 /* --------------------- COLOR BUTTON EFFECTS ---------------------- */
 /* ---------------------------------------------------------------- */
 
+/* Container for multiple random color layers */
 #colorBtn {
-  transition: background 0.45s ease, transform 0.2s ease;
   position: relative;
   overflow: hidden;
+  background: white;
+  transition: transform 0.2s ease;
 }
 
-/* Hover: smooth color cycle */
-@keyframes colorHoverPulse {
-  0% { background-color: #ff3e3e; }
-  25% { background-color: #ffa53e; }
-  50% { background-color: #3eff62; }
-  75% { background-color: #3ebdff; }
-  100% { background-color: #c93eff; }
+/* All randomly-placed animated color blobs */
+.color-blob {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  filter: blur(25px);
+  opacity: 0.65;
+  animation: blobFloat 6s infinite ease-in-out;
 }
 
-#colorBtn:hover {
-  animation: colorHoverPulse 1.6s infinite linear;
+@keyframes blobFloat {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(25px, -15px) scale(1.4); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
-/* Click: radial color explosion */
+/* Hover makes all blobs move slower & fade in */
+#colorBtn:hover .color-blob {
+  opacity: 1;
+  animation-duration: 10s;
+}
+
+/* Click: radial burst */
 @keyframes colorBurst {
   from {
     box-shadow: 0 0 0px 0px rgba(255,255,255,0.9);
