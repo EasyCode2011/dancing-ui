@@ -3,49 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dancing UI – No Anxiety</title>
+  <title>Dancing UI</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-  <header>
-    <h1>Dancing UI</h1>
-    <button id="menuToggle">Menu</button>
-  </header>
+  <div class="bg"></div>
 
-  <!-- HOME PAGE CONTENT -->
-  <section id="home">
-    <h2>No Anxiety. Just vibes.</h2>
-    <p>Pick an effect from the menu and relax.</p>
-  </section>
-
-  <!-- BUTTON GRID PAGE -->
-  <section id="buttonPage" class="hidden">
-    <div class="grid-container">
-
-      <button class="effect-btn">Bounce</button>
-      <button class="effect-btn">Glow</button>
-      <button class="effect-btn">Fade</button>
-      <button class="effect-btn">Pulse</button>
-      <button class="effect-btn">Tilt</button>
-      <button class="effect-btn">Float</button>
-      <button class="effect-btn">Wave</button>
-      <button class="effect-btn">Zoom</button>
-
-    </div>
-  </section>
-
-  <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const home = document.getElementById("home");
-    const buttonPage = document.getElementById("buttonPage");
-
-    menuToggle.addEventListener("click", () => {
-      home.classList.add("hidden");
-      buttonPage.classList.remove("hidden");
-    });
-  </script>
+  <main class="center">
+    <h1>Welcome to Dancing UI</h1>
+    <p>A playground for animations and UI effects.</p>
+  </main>
 
 </body>
 </html>
