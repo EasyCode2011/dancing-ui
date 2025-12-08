@@ -8,12 +8,35 @@
 </head>
 <body>
 
+  <!-- Animated Background -->
   <div class="bg"></div>
 
+  <!-- SIDE MENU -->
+  <nav id="sideMenu">
+    <h2>UI Library</h2>
+    <ul>
+      <li>Home</li>
+      <li>Buttons</li>
+      <li>Sliders</li>
+      <li>Animations</li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
   <main class="center">
     <h1>Welcome to Dancing UI</h1>
     <p>A playground for animations and UI effects.</p>
   </main>
+
+  <script>
+    const menu = document.getElementById("sideMenu");
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key.toLowerCase() === "g") {
+        menu.classList.toggle("open");
+      }
+    });
+  </script>
 
 </body>
 </html>
