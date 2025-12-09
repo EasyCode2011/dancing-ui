@@ -136,6 +136,27 @@ html, body {
   border: 3px solid white;
 }
 
+/* Glow circle burst for each click */
+.color-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: glowPulse 0.6s ease-out forwards;
+  filter: blur(10px);
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 0px 0px var(--glow);
+    opacity: 1;
+  }
+  100% {
+    box-shadow: 0 0 40px 25px transparent;
+    opacity: 0;
+  }
+}
+
 /* Rainbow flash when clicked (glowBtn) */
 @keyframes rainbowFlash {
   0% { border-color: red; }
