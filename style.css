@@ -254,3 +254,28 @@ html, body {
 #sizeBtn, #bounceBtn {
   /* keep default look for now */
 }
+
+/* outline glow ring that fades out smoothly */
+.color-outline-glow {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 12px;
+  pointer-events: none;
+  border: 4px solid var(--glow);
+  opacity: 1;
+  animation: outlineFade 0.8s ease-out forwards;
+}
+
+@keyframes outlineFade {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
