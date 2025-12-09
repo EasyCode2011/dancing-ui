@@ -118,7 +118,8 @@ function createBlob() {
   blob.style.backgroundColor = randomColor();
 
   // Random animation speed offset
-  blob.style.animationDuration = (6 + Math.random() * 4) + "s";
+  blob.style.animationDuration = (3 + Math.random() * 2) + "s";
+
 
   // Vary size a bit
   const sz = 40 + Math.floor(Math.random() * 50);
