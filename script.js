@@ -74,6 +74,9 @@ shakeBtn.addEventListener("mouseenter", () => {
     }, 400);
 
   }, 3000);
+
+  // immediate tiny shake when first hovered
+  shakeBtn.style.animation = "tinyShake 0.15s infinite linear";
 });
 
 // When leaving → stop everything
@@ -108,7 +111,7 @@ function createBlob() {
   blob.classList.add("color-blob");
 
   // Random position inside button area
-  const x = Math.random() * 80; // keep inside bounds a bit
+  const x = Math.random() * 80;
   const y = Math.random() * 80;
 
   blob.style.left = x + "%";
@@ -117,11 +120,10 @@ function createBlob() {
   // Random blob color
   blob.style.backgroundColor = randomColor();
 
-  // Random animation speed offset
-  blob.style.animationDuration = (3 + Math.random() * 2) + "s";
+  // Faster animation for hover
+  blob.style.animationDuration = (2 + Math.random() * 1.5) + "s";
 
-
-  // Vary size a bit
+  // Vary size
   const sz = 40 + Math.floor(Math.random() * 50);
   blob.style.width = sz + "px";
   blob.style.height = sz + "px";
@@ -134,7 +136,6 @@ colorBtn.addEventListener("mouseenter", () => {
   if (blobActive) return;
   blobActive = true;
 
-  // 3–6 blobs
   const count = 3 + Math.floor(Math.random() * 4);
 
   for (let i = 0; i < count; i++) {
@@ -152,23 +153,23 @@ colorBtn.addEventListener("mouseleave", () => {
     b.style.transition = "opacity 0.7s ease";
     b.style.opacity = "0";
 
-    setTimeout(() => {
-      b.remove();
-    }, 700);
+    setTimeout(() => b.remove(), 700);
   });
 });
 
-// CLICK — burst effect
+/* ----------------------------------------------------------
+   COLOR BUTTON CLICK — OUTLINE GLOW RINGS (spam-proof)
+---------------------------------------------------------- */
 colorBtn.addEventListener("click", () => {
-  const glow = document.createElement("div");
-  glow.classList.add("color-glow");
+  const ring = document.createElement("div");
+  ring.classList.add("color-outline-glow");
 
-  // random color each click
+  // random outline color each click
   const c = randomColor();
-  glow.style.setProperty("--glow", c);
+  ring.style.setProperty("--glow", c);
 
-  colorBtn.appendChild(glow);
+  colorBtn.appendChild(ring);
 
-  // remove after animation ends
-  setTimeout(() => glow.remove(), 600);
+  // remove after fade-out
+  setTimeout(() => ring.remove(), 850);
 });
