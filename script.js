@@ -160,9 +160,15 @@ colorBtn.addEventListener("mouseleave", () => {
 
 // CLICK — burst effect
 colorBtn.addEventListener("click", () => {
-  colorBtn.classList.add("clicked");
+  const glow = document.createElement("div");
+  glow.classList.add("color-glow");
 
-  setTimeout(() => {
-    colorBtn.classList.remove("clicked");
-  }, 500);
+  // random color each click
+  const c = randomColor();
+  glow.style.setProperty("--glow", c);
+
+  colorBtn.appendChild(glow);
+
+  // remove after animation ends
+  setTimeout(() => glow.remove(), 600);
 });
