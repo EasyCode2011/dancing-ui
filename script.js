@@ -1,15 +1,11 @@
-// ----------------------------------------------------------
-// TOGGLE MENU WITH G
-// ----------------------------------------------------------
+// Toggle menu with G
 document.addEventListener("keydown", (e) => {
   if (e.key.toLowerCase() === "g") {
     document.getElementById("menu").classList.toggle("open");
   }
 });
 
-// ----------------------------------------------------------
-// RECTANGLE PAGE SWITCH
-// ----------------------------------------------------------
+// Switch to rectangle demo
 document.getElementById("btnRectangles").addEventListener("click", () => {
   const home = document.getElementById("home");
   const rec = document.getElementById("rectPage");
@@ -24,22 +20,19 @@ document.getElementById("btnRectangles").addEventListener("click", () => {
   }, 600);
 });
 
-// ----------------------------------------------------------
-// GLOW BUTTON (Hover steady glow + spam-safe click rings)
-// ----------------------------------------------------------
+/* ----------------------------------------------------------
+   GLOW BUTTON LOGIC
+---------------------------------------------------------- */
 const glowBtn = document.getElementById("glowBtn");
 
-// random color
+// Make random color (uses HSL for nicer distribution)
 function randomColor() {
-  const r = Math.floor(Math.random() * 255);
-  const g = Math.floor(Math.random() * 255);
-  const b = Math.floor(Math.random() * 255);
-  return `rgb(${r}, ${g}, ${b})`;
+  const h = Math.floor(Math.random() * 360);
+  return `hsl(${h} 90% 60%)`;
 }
 
 let nextColor = randomColor();
 
-// Hover = smooth glow that prepares next color
 glowBtn.addEventListener("mouseenter", () => {
   glowBtn.style.backgroundColor = nextColor;
   glowBtn.style.boxShadow = `0 0 25px ${nextColor}`;
@@ -51,41 +44,48 @@ glowBtn.addEventListener("mouseleave", () => {
   glowBtn.style.boxShadow = "0 0 0px rgba(0,0,0,0)";
 });
 
-// CLICK = infinite glow rings (spam-safe)
+// CLICK — rainbow border flash
 glowBtn.addEventListener("click", () => {
-  const ring = document.createElement("div");
-  ring.classList.add("color-outline-glow");
-  ring.style.setProperty("--glow", nextColor);
+  glowBtn.style.animation = "rainbowFlash 0.5s linear";
 
-  glowBtn.appendChild(ring);
-
-  // remove after fade finishes
-  setTimeout(() => ring.remove(), 900);
+  setTimeout(() => {
+    glowBtn.style.animation = "";
+  }, 500);
 });
 
-// ----------------------------------------------------------
-// SHAKE BUTTON
-// ----------------------------------------------------------
+
+/* ----------------------------------------------------------
+   SHAKE BUTTON LOGIC
+---------------------------------------------------------- */
 const shakeBtn = document.getElementById("shakeBtn");
 let shakeInterval;
 
+// When hovered → start the cycle
 shakeBtn.addEventListener("mouseenter", () => {
+  // Start big shake every 3s
   shakeInterval = setInterval(() => {
     shakeBtn.style.animation = "bigShake 0.4s linear";
 
+    // Reset back to small shake after big shake ends
     setTimeout(() => {
       if (shakeBtn.matches(":hover")) {
         shakeBtn.style.animation = "tinyShake 0.15s infinite linear";
       }
     }, 400);
+
   }, 3000);
+
+  // immediate tiny shake when first hovered
+  shakeBtn.style.animation = "tinyShake 0.15s infinite linear";
 });
 
+// When leaving → stop everything
 shakeBtn.addEventListener("mouseleave", () => {
   clearInterval(shakeInterval);
   shakeBtn.style.animation = "";
 });
 
+// CLICK → jump with gravity
 shakeBtn.addEventListener("click", () => {
   shakeBtn.style.animation = "jumpUp 0.6s ease-out";
 
@@ -96,4 +96,80 @@ shakeBtn.addEventListener("click", () => {
       shakeBtn.style.animation = "";
     }
   }, 600);
+});
+
+
+/* ----------------------------------------------------------
+   COLOR BUTTON — RANDOM FLOATING COLOR BLOBS
+---------------------------------------------------------- */
+const colorBtn = document.getElementById("colorBtn");
+let blobActive = false;
+
+// Create a random blob element
+function createBlob() {
+  const blob = document.createElement("div");
+  blob.classList.add("color-blob");
+
+  // Random position inside button area
+  const x = Math.random() * 80;
+  const y = Math.random() * 80;
+
+  blob.style.left = x + "%";
+  blob.style.top = y + "%";
+
+  // Random blob color
+  blob.style.backgroundColor = randomColor();
+
+  // Faster animation for hover
+  blob.style.animationDuration = (2 + Math.random() * 1.5) + "s";
+
+  // Vary size
+  const sz = 40 + Math.floor(Math.random() * 50);
+  blob.style.width = sz + "px";
+  blob.style.height = sz + "px";
+
+  return blob;
+}
+
+// On hover — spawn multiple random blobs
+colorBtn.addEventListener("mouseenter", () => {
+  if (blobActive) return;
+  blobActive = true;
+
+  const count = 3 + Math.floor(Math.random() * 4);
+
+  for (let i = 0; i < count; i++) {
+    const blob = createBlob();
+    colorBtn.appendChild(blob);
+  }
+});
+
+// On leave — fade out + remove blobs
+colorBtn.addEventListener("mouseleave", () => {
+  blobActive = false;
+
+  const blobs = colorBtn.querySelectorAll(".color-blob");
+  blobs.forEach((b) => {
+    b.style.transition = "opacity 0.7s ease";
+    b.style.opacity = "0";
+
+    setTimeout(() => b.remove(), 700);
+  });
+});
+
+/* ----------------------------------------------------------
+   COLOR BUTTON CLICK — OUTLINE GLOW RINGS (spam-proof)
+---------------------------------------------------------- */
+colorBtn.addEventListener("click", () => {
+  const ring = document.createElement("div");
+  ring.classList.add("color-outline-glow");
+
+  // random outline color each click
+  const c = randomColor();
+  ring.style.setProperty("--glow", c);
+
+  colorBtn.appendChild(ring);
+
+  // remove after fade-out
+  setTimeout(() => ring.remove(), 850);
 });
