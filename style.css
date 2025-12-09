@@ -234,3 +234,104 @@ html, body {
 #colorBtn.clicked {
   animation: colorBurst 0.5s ease-out;
 }
+
+/* =========================================================
+   GLOW BUTTON — smooth click pulse
+========================================================= */
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 0px 0px rgba(255,255,255,0.8); }
+  100% { box-shadow: 0 0 40px 20px rgba(255,255,255,0); }
+}
+
+.glow-click {
+  animation: glowPulse 0.6s ease-out;
+}
+
+
+/* =========================================================
+   SHAKE HOVER — smooth small shake
+========================================================= */
+@keyframes shakeHoverAnim {
+  0%,100% { transform: translate(0,0); }
+  50% { transform: translate(-2px, 2px) rotate(1deg); }
+}
+
+.shake-hover {
+  animation: shakeHoverAnim 0.25s infinite;
+}
+
+
+/* =========================================================
+   GRAVITY JUMP
+========================================================= */
+@keyframes gravityJump {
+  0%   { transform: translateY(0); }
+  20%  { transform: translateY(-45px); }
+  40%  { transform: translateY(-60px); }
+  60%  { transform: translateY(-45px); }
+  80%  { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
+
+.gravity-jump {
+  animation: gravityJump 0.6s cubic-bezier(.25,.46,.45,1);
+}
+
+
+/* =========================================================
+   COLOR BUTTON — smooth hover rainbow
+========================================================= */
+@keyframes colorHoverRainbow {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.color-hover {
+  animation: colorHoverRainbow 2s linear infinite;
+}
+
+
+/* Click burst */
+@keyframes colorClickBurst {
+  0% { transform: scale(1); filter: brightness(1.2); }
+  100% { transform: scale(1.15); filter: brightness(1); }
+}
+
+.color-click {
+  animation: colorClickBurst 0.25s ease-out;
+}
+
+
+/* =========================================================
+   SIZE BUTTON hover + click
+========================================================= */
+.size-hover {
+  transform: scale(1.08);
+  transition: transform 0.2s ease;
+}
+
+@keyframes sizeClickAnim {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+.size-click {
+  animation: sizeClickAnim 0.35s ease-out;
+}
+
+
+/* =========================================================
+   BOUNCE BUTTON — physics bounce
+========================================================= */
+@keyframes bounceAnim {
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(-35px); }
+  60%  { transform: translateY(0); }
+  80%  { transform: translateY(-15px); }
+  100% { transform: translateY(0); }
+}
+
+.bounce-click {
+  animation: bounceAnim 0.6s cubic-bezier(.28,.84,.42,1);
+}
