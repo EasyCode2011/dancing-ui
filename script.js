@@ -21,11 +21,10 @@ document.getElementById("btnRectangles").addEventListener("click", () => {
 });
 
 /* ----------------------------------------------------------
-   GLOW BUTTON LOGIC
+   GLOW BUTTON
 ---------------------------------------------------------- */
 const glowBtn = document.getElementById("glowBtn");
 
-// Make random color
 function randomColor() {
   const r = Math.floor(Math.random() * 255);
   const g = Math.floor(Math.random() * 255);
@@ -57,7 +56,7 @@ glowBtn.addEventListener("click", () => {
 
 
 /* ----------------------------------------------------------
-   SHAKE BUTTON LOGIC
+   SHAKE BUTTON
 ---------------------------------------------------------- */
 const shakeBtn = document.getElementById("shakeBtn");
 let shakeInterval;
@@ -97,16 +96,65 @@ shakeBtn.addEventListener("click", () => {
 
 
 /* ----------------------------------------------------------
-   COLOR BUTTON LOGIC  🔥 (NEW)
+   COLOR BUTTON — RANDOM FLOATING COLOR BLOBS
 ---------------------------------------------------------- */
 const colorBtn = document.getElementById("colorBtn");
+let blobActive = false;
 
-// Click → radial burst
+// Create a random blob element
+function createBlob() {
+  const blob = document.createElement("div");
+  blob.classList.add("color-blob");
+
+  // Random position
+  const x = Math.random() * 100;
+  const y = Math.random() * 100;
+
+  blob.style.left = x + "%";
+  blob.style.top = y + "%";
+
+  // Random blob color
+  blob.style.backgroundColor = randomColor();
+
+  // Random animation speed offset
+  blob.style.animationDuration = (6 + Math.random() * 4) + "s";
+
+  return blob;
+}
+
+// On hover — spawn multiple random blobs
+colorBtn.addEventListener("mouseenter", () => {
+  if (blobActive) return;
+  blobActive = true;
+
+  // 3–6 blobs
+  const count = 3 + Math.floor(Math.random() * 4);
+
+  for (let i = 0; i < count; i++) {
+    const blob = createBlob();
+    colorBtn.appendChild(blob);
+  }
+});
+
+// On leave — fade out + remove blobs
+colorBtn.addEventListener("mouseleave", () => {
+  blobActive = false;
+
+  const blobs = colorBtn.querySelectorAll(".color-blob");
+  blobs.forEach((b) => {
+    b.style.transition = "opacity 0.7s ease";
+    b.style.opacity = "0";
+
+    setTimeout(() => {
+      b.remove();
+    }, 700);
+  });
+});
+
+// CLICK — burst effect
 colorBtn.addEventListener("click", () => {
-  // Add the burst class
   colorBtn.classList.add("clicked");
 
-  // Remove after animation so it can play again
   setTimeout(() => {
     colorBtn.classList.remove("clicked");
   }, 500);
