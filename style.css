@@ -306,12 +306,13 @@ html, body {
 
 .squish-layer {
   position: absolute;
-  inset: 0;
+  inset: -4px; /* tiny overflow for drama */
   border-radius: inherit;
   pointer-events: none;
 
-  background: rgba(255, 255, 255, 0.35); /* visible highlight */
-  filter: blur(6px);
+  background: rgba(255, 255, 255, 0.45);
+  filter: blur(12px);
+  opacity: 0.9;
 
   animation: squish 0.35s ease-out forwards;
 }
