@@ -110,9 +110,9 @@ function createBlob() {
   const blob = document.createElement("div");
   blob.classList.add("color-blob");
 
-  // Random position inside button area (adjusted for smaller blobs)
-  const x = Math.random() * 70 + 15; // Adjusted to keep blobs away from edges
-  const y = Math.random() * 70 + 15; // Adjusted to keep blobs away from edges
+  // Random position inside button area
+  const x = Math.random() * 80;
+  const y = Math.random() * 80;
 
   blob.style.left = x + "%";
   blob.style.top = y + "%";
@@ -123,8 +123,8 @@ function createBlob() {
   // Faster animation for hover
   blob.style.animationDuration = (2 + Math.random() * 1.5) + "s";
 
-  // Vary size (reduced range)
-  const sz = 20 + Math.floor(Math.random() * 20); // Reduced from 40-90 to 20-40
+  // Vary size
+  const sz = 40 + Math.floor(Math.random() * 50);
   blob.style.width = sz + "px";
   blob.style.height = sz + "px";
 
