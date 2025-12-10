@@ -253,7 +253,7 @@ html, body {
 
 /* outline glow ring that fades out smoothly */
 .color-outline-glow {
-  position: absolute;
+  position: fixed; /* Changed from absolute to fixed */
   border-radius: 12px;
   pointer-events: none;
   opacity: 1;
