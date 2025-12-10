@@ -167,10 +167,7 @@ colorBtn.addEventListener("click", () => {
   // random outline color each click
   const c = randomColor();
   ring.style.setProperty("--glow", c);
-  ring.style.borderColor = c; // Explicitly set the border color
-  
-  // Apply box-shadow directly as well
-  ring.style.boxShadow = `0 0 20px 5px ${c}, 0 0 40px 10px ${c}, 0 0 60px 15px ${c}`;
+  ring.style.boxShadow = `0 0 0 0 ${c}`;
 
   colorBtn.appendChild(ring);
 
