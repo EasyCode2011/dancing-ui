@@ -111,8 +111,8 @@ function createBlob() {
   blob.classList.add("color-blob");
 
   // Random position inside button area
-  const x = Math.random() * 80;
-  const y = Math.random() * 80;
+  const x = Math.random() * 70 + 15;
+  const y = Math.random() * 70 + 15;
 
   blob.style.left = x + "%";
   blob.style.top = y + "%";
@@ -120,11 +120,11 @@ function createBlob() {
   // Random blob color
   blob.style.backgroundColor = randomColor();
 
-  // Faster animation for hover
-  blob.style.animationDuration = (2 + Math.random() * 1.5) + "s";
+  // Vary animation duration for more natural movement
+  blob.style.animationDuration = (2 + Math.random() * 2) + "s";
 
   // Vary size
-  const sz = 40 + Math.floor(Math.random() * 50);
+  const sz = 20 + Math.floor(Math.random() * 20);
   blob.style.width = sz + "px";
   blob.style.height = sz + "px";
 
@@ -155,6 +155,35 @@ colorBtn.addEventListener("mouseleave", () => {
 
     setTimeout(() => b.remove(), 700);
   });
+});
+
+/* ----------------------------------------------------------
+   COLOR BUTTON CLICK — OUTLINE GLOW RINGS
+---------------------------------------------------------- */
+colorBtn.addEventListener("click", () => {
+  // Create glow ring
+  const ring = document.createElement("div");
+  ring.classList.add("color-outline-glow");
+
+  // Random outline color
+  const c = randomColor();
+  ring.style.setProperty("--glow", c);
+
+  // Append to button's parent to avoid overflow:hidden clipping
+  colorBtn.parentElement.appendChild(ring);
+  
+  // Position ring to match button
+  const btnRect = colorBtn.getBoundingClientRect();
+  const parentRect = colorBtn.parentElement.getBoundingClientRect();
+  
+  ring.style.position = "absolute";
+  ring.style.top = (btnRect.top - parentRect.top - 6) + "px";
+  ring.style.left = (btnRect.left - parentRect.left - 6) + "px";
+  ring.style.width = btnRect.width + "px";
+  ring.style.height = btnRect.height + "px";
+
+  // Remove after animation
+  setTimeout(() => ring.remove(), 850);
 });
 
 /* ----------------------------------------------------------
