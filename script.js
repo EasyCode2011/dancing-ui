@@ -186,20 +186,3 @@ colorBtn.addEventListener("click", () => {
   setTimeout(() => ring.remove(), 850);
 });
 
-/* ----------------------------------------------------------
-   COLOR BUTTON CLICK — OUTLINE GLOW RINGS (spam-proof)
----------------------------------------------------------- */
-colorBtn.addEventListener("click", () => {
-  const ring = document.createElement("div");
-  ring.classList.add("color-outline-glow");
-
-  // random outline color each click
-  const c = randomColor();
-  ring.style.setProperty("--glow", c);
-  ring.style.boxShadow = `0 0 0 0 ${c}`;
-
-  colorBtn.appendChild(ring);
-
-  // remove after fade-out
-  setTimeout(() => ring.remove(), 850);
-});
