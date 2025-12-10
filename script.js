@@ -103,6 +103,7 @@ shakeBtn.addEventListener("click", () => {
    COLOR BUTTON — RANDOM FLOATING COLOR BLOBS
 ---------------------------------------------------------- */
 const colorBtn = document.getElementById("colorBtn");
+const colorBtnWrapper = document.querySelector(".color-btn-wrapper"); // Added this line
 let blobActive = false;
 
 // Create a random blob element
@@ -160,7 +161,7 @@ colorBtn.addEventListener("mouseleave", () => {
 /* ----------------------------------------------------------
    COLOR BUTTON CLICK — OUTLINE GLOW RINGS (spam-proof)
 ---------------------------------------------------------- */
-colorBtn.addEventListener("click", () => {
+colorBtnWrapper.addEventListener("click", () => { // Changed from colorBtn to colorBtnWrapper
   const ring = document.createElement("div");
   ring.classList.add("color-outline-glow");
 
@@ -169,7 +170,7 @@ colorBtn.addEventListener("click", () => {
   ring.style.setProperty("--glow", c);
   ring.style.boxShadow = `0 0 0 0 ${c}`;
 
-  colorBtn.appendChild(ring);
+  colorBtnWrapper.appendChild(ring); // Changed from colorBtn to colorBtnWrapper
 
   // remove after fade-out
   setTimeout(() => ring.remove(), 850);
