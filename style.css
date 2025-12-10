@@ -273,3 +273,42 @@ html, body {
     box-shadow: 0 0 30px 20px var(--glow);
   }
 }
+
+/* ---------------------------------------------------------- */
+/* SIZE BUTTON — BREATHING + ELASTIC SQUISH */
+/* ---------------------------------------------------------- */
+
+#sizeBtn {
+  transition: transform 0.25s ease;
+  position: relative;
+  overflow: visible;
+}
+
+/* Hover: subtle breathing */
+#sizeBtn:hover {
+  animation: breathing 1.8s ease-in-out infinite;
+}
+
+@keyframes breathing {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.07); }
+  100% { transform: scale(1); }
+}
+
+/* Elastic squish effect */
+@keyframes squish {
+  0%   { transform: scale(1,1); }
+  20%  { transform: scale(1.25, 0.75); }
+  45%  { transform: scale(0.85, 1.15); }
+  70%  { transform: scale(1.08, 0.95); }
+  100% { transform: scale(1,1); }
+}
+
+/* Each squish layer (stackable, spam-safe) */
+.squish-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: squish 0.35s ease-out forwards;
+}
