@@ -295,13 +295,19 @@ html, body {
   100% { transform: scale(1); }
 }
 
-/* Elastic squish effect */
-@keyframes squish {
-  0%   { transform: scale(1,1); }
-  20%  { transform: scale(1.25, 0.75); }
-  45%  { transform: scale(0.85, 1.15); }
-  70%  { transform: scale(1.08, 0.95); }
-  100% { transform: scale(1,1); }
+
+/* CLICK: real squish stretch */
+@keyframes sizeSquish {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.22, 0.82); }
+  45%  { transform: scale(0.88, 1.18); }
+  70%  { transform: scale(1.05, 0.95); }
+  100% { transform: scale(1); }
+}
+
+/* Add this so spamming doesn't freeze it */
+#sizeBtn.squishing {
+  animation: sizeSquish 0.35s ease-out;
 }
 
 .squish-layer {
