@@ -185,3 +185,20 @@ colorBtn.addEventListener("click", () => {
   // Remove after animation
   setTimeout(() => ring.remove(), 850);
 });
+
+/* ----------------------------------------------------------
+   SIZE BUTTON — BREATHING + STACKABLE SQUISH
+---------------------------------------------------------- */
+const sizeBtn = document.getElementById("sizeBtn");
+
+sizeBtn.addEventListener("click", () => {
+  const layer = document.createElement("div");
+  layer.classList.add("squish-layer");
+
+  // place inside the button
+  sizeBtn.appendChild(layer);
+
+  // remove it after animation
+  setTimeout(() => layer.remove(), 400);
+});
+
