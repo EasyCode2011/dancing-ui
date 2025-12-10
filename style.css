@@ -205,88 +205,97 @@ html, body {
   100% { transform: translateY(0); }
 }
 
-/* ----------------------------------------------------------
-   COLOR BUTTON — FLOATING COLOR BLOBS + STACKABLE GLOW BURSTS
----------------------------------------------------------- */
+/* ---------------------------------------------------------------- */
+/* --------------------- COLOR BUTTON EFFECTS ---------------------- */
+/* ---------------------------------------------------------------- */
 
-const colorBtn = document.getElementById("colorBtn");
-let blobActive = false;
-
-// Make sure button clips overflow
-colorBtn.style.position = "relative";
-colorBtn.style.overflow = "hidden";
-
-// Create a random blob element
-function createBlob() {
-  const blob = document.createElement("div");
-  blob.classList.add("color-blob");
-
-  // Random position inside button
-  const x = Math.random() * 80;
-  const y = Math.random() * 80;
-
-  blob.style.left = x + "%";
-  blob.style.top = y + "%";
-
-  // Random blob color
-  blob.style.backgroundColor = randomColor();
-
-  // Speed
-  blob.style.animationDuration = (1.5 + Math.random() * 1.5) + "s";
-
-  // Size
-  const sz = 40 + Math.floor(Math.random() * 50);
-  blob.style.width = sz + "px";
-  blob.style.height = sz + "px";
-
-  return blob;
+/* Container for multiple random color layers */
+/* IMPORTANT: overflow:hidden keeps blobs inside button bounds */
+#colorBtn {
+  position: relative;
+  overflow: hidden;        /* <--- keep blobs inside */
+  background: white;
+  transition: transform 0.2s ease;
+  z-index: 2;              /* content above blobs */
 }
 
-// On hover — spawn blobs
-colorBtn.addEventListener("mouseenter", () => {
-  if (blobActive) return;
-  blobActive = true;
+/* All randomly-placed animated color blobs */
+.color-blob {
+  position: absolute;
 
-  const count = 3 + Math.floor(Math.random() * 4);
+  /* modest default size so blobs stay inside button */
+  width: 28px;
+  height: 28px;
 
-  for (let i = 0; i < count; i++) {
-    const blob = createBlob();
-    colorBtn.appendChild(blob);
+  border-radius: 50%;
+  filter: blur(14px);
+  opacity: 0.55;
+
+  /* faster movement */
+  animation: blobFloat 3s infinite ease-in-out;
+
+  /* put blobs behind content but inside button */
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Hover — slightly faster movement + stronger glow */
+#colorBtn:hover .color-blob {
+  opacity: 0.9;
+  animation-duration: 1.8s;
+  filter: blur(16px);
+}
+
+/* Movement pattern for blobs (keeps them close) */
+@keyframes blobFloat {
+  0%   { transform: translate(0, 0) scale(1); }
+  30%  { transform: translate(18px, -12px) scale(1.25); }
+  60%  { transform: translate(-12px, 10px) scale(1.1); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+/* Click: radial burst (unused but kept) */
+@keyframes colorBurst {
+  from {
+    box-shadow: 0 0 0px 0px rgba(255,255,255,0.9);
   }
-});
+  to {
+    box-shadow: 0 0 40px 20px rgba(255,255,255,0);
+  }
+}
 
-// On leave — fade + remove blobs
-colorBtn.addEventListener("mouseleave", () => {
-  blobActive = false;
+#colorBtn.clicked {
+  animation: colorBurst 0.5s ease-out;
+}
 
-  const blobs = colorBtn.querySelectorAll(".color-blob");
-  blobs.forEach((b) => {
-    b.style.transition = "opacity 0.5s ease";
-    b.style.opacity = "0";
+/* Optional simple styles for size & bounce placeholders */
+#sizeBtn, #bounceBtn {
+  /* keep default look for now */
+}
 
-    setTimeout(() => b.remove(), 500);
-  });
-});
+/* outline glow ring that fades out smoothly */
+.color-outline-glow {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 1;
+  animation: outlineFade 0.8s ease-out forwards;
+  z-index: 1; /* keep behind text but above button background */
+}
 
-// CLICK — STACKABLE glow bursts (never resets animation)
-colorBtn.addEventListener("click", () => {
-  const glow = document.createElement("div");
-  glow.classList.add("color-glow");
-
-  // random color
-  const c = randomColor();
-  glow.style.setProperty("--glow", c);
-
-  // each glow created at the exact size of button
-  glow.style.position = "absolute";
-  glow.style.left = "0";
-  glow.style.top = "0";
-  glow.style.width = "100%";
-  glow.style.height = "100%";
-  glow.style.pointerEvents = "none";
-
-  colorBtn.appendChild(glow);
-
-  // Remove after fade-out completes
-  setTimeout(() => glow.remove(), 600);
-});
+@keyframes outlineFade {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--glow);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+    box-shadow: 0 0 30px 20px var(--glow);
+  }
+}
