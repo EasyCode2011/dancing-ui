@@ -169,18 +169,18 @@ colorBtn.addEventListener("click", () => {
   const c = randomColor();
   ring.style.setProperty("--glow", c);
 
-  // Append to button's parent to avoid overflow:hidden clipping
-  colorBtn.parentElement.appendChild(ring);
-  
-  // Position ring to match button
+  // Get button position relative to viewport
   const btnRect = colorBtn.getBoundingClientRect();
-  const parentRect = colorBtn.parentElement.getBoundingClientRect();
   
-  ring.style.position = "absolute";
-  ring.style.top = (btnRect.top - parentRect.top - 6) + "px";
-  ring.style.left = (btnRect.left - parentRect.left - 6) + "px";
-  ring.style.width = btnRect.width + "px";
-  ring.style.height = btnRect.height + "px";
+  // Position ring absolutely relative to viewport
+  ring.style.position = "fixed";
+  ring.style.top = (btnRect.top - 6) + "px";
+  ring.style.left = (btnRect.left - 6) + "px";
+  ring.style.width = (btnRect.width + 12) + "px"; // Add 12px for 6px on each side
+  ring.style.height = (btnRect.height + 12) + "px"; // Add 12px for 6px on each side
+
+  // Append to body to avoid any container positioning issues
+  document.body.appendChild(ring);
 
   // Remove after animation
   setTimeout(() => ring.remove(), 850);
