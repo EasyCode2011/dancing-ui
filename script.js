@@ -185,4 +185,3 @@ colorBtn.addEventListener("click", () => {
   // Remove after animation
   setTimeout(() => ring.remove(), 850);
 });
-
