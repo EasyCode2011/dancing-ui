@@ -286,3 +286,12 @@ html, body {
   z-index: 10;
   animation: sizeSquish 0.35s ease-out forwards;
 }
+
+#bounceBtn {
+  transition: transform 0.18s ease;
+}
+
+#bounceBtn:hover {
+  transform: translateY(-6px);
+}
+
