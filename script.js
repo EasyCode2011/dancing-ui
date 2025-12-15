@@ -1,3 +1,18 @@
+// Click anywhere on home to continue
+const home = document.getElementById("home");
+const rectPage = document.getElementById("rectPage");
+
+home.addEventListener("click", () => {
+  home.classList.remove("fade-in");
+  home.classList.add("fade-out");
+
+  setTimeout(() => {
+    home.classList.add("hidden");
+    rectPage.classList.remove("hidden");
+    rectPage.classList.add("fade-in");
+  }, 600);
+});
+
 // Toggle menu with G
 document.addEventListener("keydown", (e) => {
   if (e.key.toLowerCase() === "g") {
