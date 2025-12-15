@@ -1,3 +1,32 @@
+/* HOME PAGE HINTS */
+.hint {
+  margin-top: 22px;
+  font-size: 0.9rem;
+  opacity: 0.85;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+/* Pulsing "click anywhere" */
+.hint .pulse {
+  animation: hintPulse 1.6s ease-in-out infinite;
+}
+
+/* Keyboard hint */
+.hint .key {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* Soft pulse like game UI */
+@keyframes hintPulse {
+  0%   { opacity: 0.4; transform: translateY(0); }
+  50%  { opacity: 1; transform: translateY(-2px); }
+  100% { opacity: 0.4; transform: translateY(0); }
+}
+
 /* RESET */
 * {
   margin: 0;
