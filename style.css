@@ -13,12 +13,17 @@ html, body {
   overflow: hidden;
 }
 
-/* BACKGROUND */
+/* BACKGROUND GRADIENT ANIMATION */
 .bg {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(120deg, #ff6b6b, #ffd93d, #6bd4ff);
+
+  background: linear-gradient(120deg,
+    #ff6b6b,
+    #ffd93d,
+    #6bd4ff
+  );
   background-size: 300% 300%;
   animation: bgShift 14s linear infinite;
 }
@@ -29,7 +34,7 @@ html, body {
   100% { background-position: 0% 50%; }
 }
 
-/* HOME CENTER */
+/* HOME PAGE CENTER TEXT */
 .center {
   position: absolute;
   top: 50%;
@@ -64,28 +69,6 @@ html, body {
   transition: opacity 0.6s ease;
 }
 
-/* HOME HINTS */
-.hint {
-  margin-top: 12px;
-  font-size: 0.85rem;
-  opacity: 0.75;
-  letter-spacing: 0.5px;
-  animation: hintPulse 1.6s ease-in-out infinite;
-}
-
-@keyframes hintPulse {
-  0%   { opacity: 0.4; transform: translateY(0); }
-  50%  { opacity: 1; transform: translateY(-2px); }
-  100% { opacity: 0.4; transform: translateY(0); }
-}
-
-.intro-text {
-  max-width: 520px;
-  font-size: 1rem;
-  line-height: 1.6;
-  opacity: 0.95;
-}
-
 /* MENU */
 #menu {
   position: fixed;
@@ -97,6 +80,7 @@ html, body {
   backdrop-filter: blur(8px);
   padding: 20px;
   transition: left 0.35s ease;
+  color: white;
   z-index: 10;
 }
 
@@ -120,7 +104,7 @@ html, body {
   cursor: pointer;
 }
 
-/* RECT PAGE */
+/* RECTANGLE PAGE */
 .rect-container {
   width: 100%;
   display: flex;
@@ -131,24 +115,33 @@ html, body {
 
 .rect {
   width: 150px;
-  height: 90px;
+  height: 90px; /* 5:3 ratio */
   background: rgba(255,255,255,0.85);
   border-radius: 10px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   color: black;
   font-weight: bold;
+  font-size: 1rem;
   user-select: none;
   position: relative;
+  z-index: 2;
 }
 
-/* GLOW BUTTON */
+/* ---------------------------------------------------------------- */
+/* --------------------- GLOW BUTTON EFFECTS ---------------------- */
+/* ---------------------------------------------------------------- */
+
 #glowBtn {
-  border: 3px solid white;
   transition: background-color 1s ease, box-shadow 1s ease;
+  box-shadow: 0 0 0px rgba(0,0,0,0);
+  border: 3px solid white;
 }
 
+/* Rainbow flash when clicked (glowBtn) */
 @keyframes rainbowFlash {
   0% { border-color: red; }
   20% { border-color: orange; }
@@ -158,100 +151,138 @@ html, body {
   100% { border-color: magenta; }
 }
 
-/* SHAKE BUTTON */
+/* ---------------------------------------------------------------- */
+/* --------------------- SHAKE BUTTON EFFECTS --------------------- */
+/* ---------------------------------------------------------------- */
+
+/* Shake animations */
 @keyframes tinyShake {
-  0% { transform: translate(0,0); }
-  25% { transform: translate(1px,-1px); }
-  50% { transform: translate(-1px,1px); }
-  75% { transform: translate(1px,1px); }
-  100% { transform: translate(0,0); }
+  0% { transform: translate(0px, 0px) rotate(0deg); }
+  25% { transform: translate(1px, -1px) rotate(-1deg); }
+  50% { transform: translate(-1px, 1px) rotate(1deg); }
+  75% { transform: translate(1px, 1px) rotate(0deg); }
+  100% { transform: translate(0px, 0px) rotate(0deg); }
 }
 
 @keyframes bigShake {
-  0% { transform: translate(0,0); }
-  20% { transform: translate(-6px,2px); }
-  40% { transform: translate(6px,-2px); }
-  60% { transform: translate(-6px,-2px); }
-  80% { transform: translate(6px,2px); }
-  100% { transform: translate(0,0); }
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-6px, 2px) rotate(-3deg); }
+  40% { transform: translate(6px, -2px) rotate(3deg); }
+  60% { transform: translate(-6px, -2px) rotate(-3deg); }
+  80% { transform: translate(6px, 2px) rotate(3deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
 }
 
+#shakeBtn:hover {
+  animation: tinyShake 0.15s infinite linear;
+}
+
+/* Jump animation */
 @keyframes jumpUp {
-  0% { transform: translateY(0); }
-  40% { transform: translateY(-55px); }
+  0%   { transform: translateY(0); }
+  15%  { transform: translateY(-28px); }
+  30%  { transform: translateY(-45px); }
+  45%  { transform: translateY(-55px); }
+  60%  { transform: translateY(-45px); }
+  75%  { transform: translateY(-20px); }
   100% { transform: translateY(0); }
 }
 
-/* COLOR BUTTON */
+/* ---------------------------------------------------------------- */
+/* --------------------- COLOR BUTTON EFFECTS --------------------- */
+/* ---------------------------------------------------------------- */
+
 #colorBtn {
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* Keep blobs inside */
+  background: white;
+  transition: transform 0.2s ease;
+  z-index: 2; /* Content above blobs */
 }
 
 .color-blob {
   position: absolute;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   filter: blur(14px);
   opacity: 0.55;
   animation: blobFloat 3s infinite ease-in-out;
+  z-index: 0; /* Behind content */
   pointer-events: none;
+}
+
+#colorBtn:hover .color-blob {
+  opacity: 0.9;
+  animation-duration: 1.8s;
+  filter: blur(16px);
 }
 
 @keyframes blobFloat {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(18px,-12px); }
-  100% { transform: translate(0,0); }
+  0%   { transform: translate(0, 0) scale(1); }
+  30%  { transform: translate(18px, -12px) scale(1.25); }
+  60%  { transform: translate(-12px, 10px) scale(1.1); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
 .color-outline-glow {
-  position: fixed;
+  position: fixed; /* Use fixed for accurate positioning */
   border-radius: 12px;
   pointer-events: none;
+  opacity: 1;
   animation: outlineFade 0.8s ease-out forwards;
+  z-index: 1;
 }
 
 @keyframes outlineFade {
-  0% { opacity: 1; box-shadow: 0 0 0 0 var(--glow); }
-  100% { opacity: 0; box-shadow: 0 0 30px 20px var(--glow); }
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--glow);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+    box-shadow: 0 0 30px 20px var(--glow);
+  }
 }
 
-/* SIZE BUTTON — ELASTIC */
+/* ---------------------------------------------------------------- */
+/* --------------------- SIZE BUTTON EFFECTS ---------------------- */
+/* ---------------------------------------------------------------- */
+
 #sizeBtn {
+  transition: transform 0.25s ease;
   position: relative;
+  overflow: visible;
 }
 
 #sizeBtn:hover {
   animation: breathing 1.8s ease-in-out infinite;
 }
 
-#sizeBtn.squishing {
-  animation: sizeSquish 0.35s ease-out;
-}
-
 @keyframes breathing {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.07); }
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.07); }
   100% { transform: scale(1); }
 }
 
 @keyframes sizeSquish {
-  0% { transform: scale(1); }
-  30% { transform: scale(1.22,0.82); }
-  60% { transform: scale(0.9,1.15); }
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.22, 0.82); }
+  45%  { transform: scale(0.88, 1.18); }
+  70%  { transform: scale(1.05, 0.95); }
   100% { transform: scale(1); }
 }
 
-/* BOUNCE BUTTON */
-#bounceBtn:hover {
-  transform: translateY(-6px);
-}
-
-@keyframes buttonBounce {
-  0% { transform: translateY(0); }
-  40% { transform: translateY(-28px); }
-  100% { transform: translateY(0); }
-}
-
-#bounceBtn.bouncing {
-  animation: buttonBounce 0.55s cubic-bezier(.34,1.56,.64,1);
+.squish-layer {
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.85);
+  filter: blur(12px);
+  opacity: 0.9;
+  z-index: 10;
+  animation: sizeSquish 0.35s ease-out forwards;
 }
