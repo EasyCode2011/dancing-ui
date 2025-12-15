@@ -127,34 +127,18 @@ html, body {
   font-weight: bold;
   font-size: 1rem;
   user-select: none;
+  position: relative;
+  z-index: 2;
 }
 
-/* Glow transition (for glowBtn) */
+/* ---------------------------------------------------------------- */
+/* --------------------- GLOW BUTTON EFFECTS ---------------------- */
+/* ---------------------------------------------------------------- */
+
 #glowBtn {
   transition: background-color 1s ease, box-shadow 1s ease;
   box-shadow: 0 0 0px rgba(0,0,0,0);
   border: 3px solid white;
-}
-
-/* Glow circle burst for each click */
-.color-glow {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  animation: glowPulse 0.6s ease-out forwards;
-  filter: blur(10px);
-}
-
-@keyframes glowPulse {
-  0% {
-    box-shadow: 0 0 0px 0px var(--glow);
-    opacity: 1;
-  }
-  100% {
-    box-shadow: 0 0 40px 25px transparent;
-    opacity: 0;
-  }
 }
 
 /* Rainbow flash when clicked (glowBtn) */
@@ -166,6 +150,10 @@ html, body {
   80% { border-color: cyan; }
   100% { border-color: magenta; }
 }
+
+/* ---------------------------------------------------------------- */
+/* --------------------- SHAKE BUTTON EFFECTS --------------------- */
+/* ---------------------------------------------------------------- */
 
 /* Shake animations */
 @keyframes tinyShake {
@@ -201,10 +189,9 @@ html, body {
 }
 
 /* ---------------------------------------------------------------- */
-/* --------------------- COLOR BUTTON EFFECTS ---------------------- */
+/* --------------------- COLOR BUTTON EFFECTS --------------------- */
 /* ---------------------------------------------------------------- */
 
-/* Container for multiple random color layers */
 #colorBtn {
   position: relative;
   overflow: hidden; /* Keep blobs inside */
@@ -213,7 +200,6 @@ html, body {
   z-index: 2; /* Content above blobs */
 }
 
-/* All randomly-placed animated color blobs */
 .color-blob {
   position: absolute;
   width: 28px;
@@ -226,14 +212,12 @@ html, body {
   pointer-events: none;
 }
 
-/* Hover - faster movement + stronger glow */
 #colorBtn:hover .color-blob {
   opacity: 0.9;
   animation-duration: 1.8s;
   filter: blur(16px);
 }
 
-/* Movement pattern for blobs (keeps them close) */
 @keyframes blobFloat {
   0%   { transform: translate(0, 0) scale(1); }
   30%  { transform: translate(18px, -12px) scale(1.25); }
@@ -241,24 +225,13 @@ html, body {
   100% { transform: translate(0, 0) scale(1); }
 }
 
-/* Click: radial burst */
-@keyframes colorBurst {
-  from {
-    box-shadow: 0 0 0px 0px rgba(255,255,255,0.9);
-  }
-  to {
-    box-shadow: 0 0 40px 20px rgba(255,255,255,0);
-  }
-}
-
-/* outline glow ring that fades out smoothly */
 .color-outline-glow {
-  position: fixed; /* Changed from absolute to fixed */
+  position: fixed; /* Use fixed for accurate positioning */
   border-radius: 12px;
   pointer-events: none;
   opacity: 1;
   animation: outlineFade 0.8s ease-out forwards;
-  z-index: 1; /* keep behind text but above button background */
+  z-index: 1;
 }
 
 @keyframes outlineFade {
@@ -272,4 +245,44 @@ html, body {
     transform: scale(1.35);
     box-shadow: 0 0 30px 20px var(--glow);
   }
+}
+
+/* ---------------------------------------------------------------- */
+/* --------------------- SIZE BUTTON EFFECTS ---------------------- */
+/* ---------------------------------------------------------------- */
+
+#sizeBtn {
+  transition: transform 0.25s ease;
+  position: relative;
+  overflow: visible;
+}
+
+#sizeBtn:hover {
+  animation: breathing 1.8s ease-in-out infinite;
+}
+
+@keyframes breathing {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.07); }
+  100% { transform: scale(1); }
+}
+
+@keyframes sizeSquish {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.22, 0.82); }
+  45%  { transform: scale(0.88, 1.18); }
+  70%  { transform: scale(1.05, 0.95); }
+  100% { transform: scale(1); }
+}
+
+.squish-layer {
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.85);
+  filter: blur(12px);
+  opacity: 0.9;
+  z-index: 10;
+  animation: sizeSquish 0.35s ease-out forwards;
 }
