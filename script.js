@@ -238,3 +238,37 @@ bounceBtn.addEventListener("click", () => {
   bounceBtn.classList.add("bouncing");
 });
 
+/* ----------------------------------------------------------
+   HOME PAGE — CLICK ANYWHERE INTRO FLOW
+---------------------------------------------------------- */
+
+const home = document.getElementById("home");
+const step1 = document.getElementById("home-step-1");
+const step2 = document.getElementById("home-step-2");
+const rectPage = document.getElementById("rectPage");
+
+let homeStep = 1;
+
+home.addEventListener("click", () => {
+  if (homeStep === 1) {
+    // Step 1 → Step 2
+    step1.classList.add("fade-out");
+
+    setTimeout(() => {
+      step1.classList.add("hidden");
+      step2.classList.remove("hidden");
+      step2.classList.add("fade-in");
+      homeStep = 2;
+    }, 500);
+
+  } else if (homeStep === 2) {
+    // Step 2 → Buttons page
+    home.classList.add("fade-out");
+
+    setTimeout(() => {
+      home.classList.add("hidden");
+      rectPage.classList.remove("hidden");
+      rectPage.classList.add("fade-in");
+    }, 600);
+  }
+});
