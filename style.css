@@ -5,36 +5,43 @@ box-shadow: 0 0 30px 20px var(--glow);
 /* ---------------------------------------------------------- */
 /* SIZE BUTTON — BREATHING + ELASTIC SQUISH */
 /* ---------------------------------------------------------- */
-@@ -295,7 +294,6 @@ html, body {
-100% { transform: scale(1); }
+
+#sizeBtn {
+  transition: transform 0.25s ease;
+  position: relative;
+  overflow: visible;
 }
 
+/* Hover: subtle breathing */
+#sizeBtn:hover {
+  animation: breathing 1.8s ease-in-out infinite;
+}
+
+@keyframes breathing {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.07); }
+  100% { transform: scale(1); }
+}
 
 /* CLICK: real squish stretch */
 @keyframes sizeSquish {
-0%   { transform: scale(1); }
-@@ -305,20 +303,22 @@ html, body {
-100% { transform: scale(1); }
-}
-
-/* Add this so spamming doesn't freeze it */
-#sizeBtn.squishing {
-  animation: sizeSquish 0.35s ease-out;
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.22, 0.82); }
+  45%  { transform: scale(0.88, 1.18); }
+  70%  { transform: scale(1.05, 0.95); }
+  100% { transform: scale(1); }
 }
 
 .squish-layer {
-position: absolute;
-inset: -4px; /* tiny overflow for drama */
-border-radius: inherit;
-pointer-events: none;
-
-  background: rgba(255, 255, 255, 0.45);
+  position: absolute;
+  inset: -4px; /* tiny overflow for drama */
+  border-radius: inherit;
+  pointer-events: none;
   background: rgba(255, 255, 255, 0.85); /* Match button background */
-filter: blur(12px);
-opacity: 0.9;
-
+  filter: blur(12px);
+  opacity: 0.9;
   z-index: 10; /* Ensure it's visible above the button */
-animation: squish 0.35s ease-out forwards;
+  animation: squish 0.35s ease-out forwards;
 }
 
 @keyframes squish {
