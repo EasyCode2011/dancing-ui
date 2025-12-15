@@ -1,305 +1,46 @@
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+box-shadow: 0 0 30px 20px var(--glow);
+}
 }
 
-html, body {
-  height: 100%;
-  width: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #ffffff;
-  overflow: hidden;
+/* ---------------------------------------------------------- */
+/* SIZE BUTTON — BREATHING + ELASTIC SQUISH */
+/* ---------------------------------------------------------- */
+@@ -295,7 +294,6 @@ html, body {
+100% { transform: scale(1); }
 }
 
-/* BACKGROUND GRADIENT ANIMATION */
-.bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
 
-  background: linear-gradient(120deg,
-    #ff6b6b,
-    #ffd93d,
-    #6bd4ff
-  );
-  background-size: 300% 300%;
-  animation: bgShift 14s linear infinite;
+/* CLICK: real squish stretch */
+@keyframes sizeSquish {
+0%   { transform: scale(1); }
+@@ -305,20 +303,22 @@ html, body {
+100% { transform: scale(1); }
 }
 
-@keyframes bgShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Add this so spamming doesn't freeze it */
+#sizeBtn.squishing {
+  animation: sizeSquish 0.35s ease-out;
 }
 
-/* HOME PAGE CENTER TEXT */
-.center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+.squish-layer {
+position: absolute;
+inset: -4px; /* tiny overflow for drama */
+border-radius: inherit;
+pointer-events: none;
+
+  background: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.85); /* Match button background */
+filter: blur(12px);
+opacity: 0.9;
+
+  z-index: 10; /* Ensure it's visible above the button */
+animation: squish 0.35s ease-out forwards;
 }
 
-.center h1 {
-  font-size: 2.8rem;
-  margin-bottom: 10px;
+@keyframes squish {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.22, 0.82); }
+  45%  { transform: scale(0.88, 1.18); }
+  70%  { transform: scale(1.05, 0.95); }
+  100% { transform: scale(1); }
 }
-
-.center p {
-  font-size: 1.2rem;
-  opacity: 0.9;
-}
-
-/* FADE HELPERS */
-.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.fade-in {
-  opacity: 1;
-  transition: opacity 0.6s ease;
-}
-
-.fade-out {
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
-
-/* MENU */
-#menu {
-  position: fixed;
-  top: 0;
-  left: -240px;
-  width: 240px;
-  height: 100vh;
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(8px);
-  padding: 20px;
-  transition: left 0.35s ease;
-  color: white;
-  z-index: 10;
-}
-
-#menu.open {
-  left: 0;
-}
-
-.menu-title {
-  font-size: 1.4rem;
-  margin-bottom: 15px;
-}
-
-.menu-btn {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  background: white;
-  color: black;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-/* RECTANGLE PAGE */
-.rect-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding-top: 60px;
-}
-
-.rect {
-  width: 150px;
-  height: 90px; /* 5:3 ratio */
-  background: rgba(255,255,255,0.85);
-  border-radius: 10px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: black;
-  font-weight: bold;
-  font-size: 1rem;
-  user-select: none;
-}
-
-/* Glow transition (for glowBtn) */
-#glowBtn {
-  transition: background-color 1s ease, box-shadow 1s ease;
-  box-shadow: 0 0 0px rgba(0,0,0,0);
-  border: 3px solid white;
-}
-
-/* Glow circle burst for each click */
-.color-glow {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  animation: glowPulse 0.6s ease-out forwards;
-  filter: blur(10px);
-}
-
-@keyframes glowPulse {
-  0% {
-    box-shadow: 0 0 0px 0px var(--glow);
-    opacity: 1;
-  }
-  100% {
-    box-shadow: 0 0 40px 25px transparent;
-    opacity: 0;
-  }
-}
-
-/* Rainbow flash when clicked (glowBtn) */
-@keyframes rainbowFlash {
-  0% { border-color: red; }
-  20% { border-color: orange; }
-  40% { border-color: yellow; }
-  60% { border-color: lime; }
-  80% { border-color: cyan; }
-  100% { border-color: magenta; }
-}
-
-/* Shake animations */
-@keyframes tinyShake {
-  0% { transform: translate(0px, 0px) rotate(0deg); }
-  25% { transform: translate(1px, -1px) rotate(-1deg); }
-  50% { transform: translate(-1px, 1px) rotate(1deg); }
-  75% { transform: translate(1px, 1px) rotate(0deg); }
-  100% { transform: translate(0px, 0px) rotate(0deg); }
-}
-
-@keyframes bigShake {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  20% { transform: translate(-6px, 2px) rotate(-3deg); }
-  40% { transform: translate(6px, -2px) rotate(3deg); }
-  60% { transform: translate(-6px, -2px) rotate(-3deg); }
-  80% { transform: translate(6px, 2px) rotate(3deg); }
-  100% { transform: translate(0, 0) rotate(0deg); }
-}
-
-#shakeBtn:hover {
-  animation: tinyShake 0.15s infinite linear;
-}
-
-/* Jump animation */
-@keyframes jumpUp {
-  0%   { transform: translateY(0); }
-  15%  { transform: translateY(-28px); }
-  30%  { transform: translateY(-45px); }
-  45%  { transform: translateY(-55px); }
-  60%  { transform: translateY(-45px); }
-  75%  { transform: translateY(-20px); }
-  100% { transform: translateY(0); }
-}
-
-/* ---------------------------------------------------------------- */
-/* --------------------- COLOR BUTTON EFFECTS ---------------------- */
-/* ---------------------------------------------------------------- */
-
-/* Container for multiple random color layers */
-#colorBtn {
-  position: relative;
-  overflow: hidden; /* Keep blobs inside */
-  background: white;
-  transition: transform 0.2s ease;
-  z-index: 2; /* Content above blobs */
-}
-
-/* All randomly-placed animated color blobs */
-.color-blob {
-  position: absolute;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  filter: blur(14px);
-  opacity: 0.55;
-  animation: blobFloat 3s infinite ease-in-out;
-  z-index: 0; /* Behind content */
-  pointer-events: none;
-}
-
-/* Hover - faster movement + stronger glow */
-#colorBtn:hover .color-blob {
-  opacity: 0.9;
-  animation-duration: 1.8s;
-  filter: blur(16px);
-}
-
-/* Movement pattern for blobs (keeps them close) */
-@keyframes blobFloat {
-  0%   { transform: translate(0, 0) scale(1); }
-  30%  { transform: translate(18px, -12px) scale(1.25); }
-  60%  { transform: translate(-12px, 10px) scale(1.1); }
-  100% { transform: translate(0, 0) scale(1); }
-}
-
-/* Click: radial burst */
-@keyframes colorBurst {
-  from {
-    box-shadow: 0 0 0px 0px rgba(255,255,255,0.9);
-  }
-  to {
-    box-shadow: 0 0 40px 20px rgba(255,255,255,0);
-  }
-}
-
-/* outline glow ring that fades out smoothly */
-.color-outline-glow {
-  position: fixed; /* Changed from absolute to fixed */
-  border-radius: 12px;
-  pointer-events: none;
-  opacity: 1;
-  animation: outlineFade 0.8s ease-out forwards;
-  z-index: 1; /* keep behind text but above button background */
-}
-
-@keyframes outlineFade {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-    box-shadow: 0 0 0 0 var(--glow);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.35);
-    box-shadow: 0 0 30px 20px var(--glow);
-  }
-}
-/* ----------------------------------------------------------
-   SIZE BUTTON — BREATHING + ELASTIC SQUISH
----------------------------------------------------------- */
-const sizeBtn = document.getElementById("sizeBtn");
-
-sizeBtn.addEventListener("click", () => {
-  // Create a visible squish layer
-  const layer = document.createElement("div");
-  layer.classList.add("squish-layer");
-
-  // Add the layer to the button
-  sizeBtn.appendChild(layer);
-
-  // Apply squish animation to the button itself
-  sizeBtn.style.animation = "sizeSquish 0.35s ease-out";
-
-  // After animation completes, remove the layer and check the hover state again
-  setTimeout(() => {
-    layer.remove();
-
-    // FIX: Check if the button is *currently* being hovered
-    if (sizeBtn.matches(":hover")) {
-      // If it is, restart the breathing animation
-      sizeBtn.style.animation = "breathing 1.8s ease-in-out infinite";
-    } else {
-      // If it's not, clear the animation
-      sizeBtn.style.animation = "";
-    }
-  }, 350); // Match the duration of the squish animation
-});
