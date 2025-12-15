@@ -187,32 +187,34 @@ colorBtn.addEventListener("click", () => {
 });
 
 /* ----------------------------------------------------------
-   SIZE BUTTON — BREATHING + ELASTIC SQUISH
+   SIZE BUTTON — BREATHING + STACKABLE SQUISH
 ---------------------------------------------------------- */
 const sizeBtn = document.getElementById("sizeBtn");
 
 sizeBtn.addEventListener("click", () => {
+  // Store the current animation state
+  const isHovered = sizeBtn.matches(":hover");
+  
   // Create a visible squish layer
   const layer = document.createElement("div");
   layer.classList.add("squish-layer");
-
+  
+  // Copy the button's background to the layer
+  layer.style.backgroundColor = window.getComputedStyle(sizeBtn).backgroundColor;
+  
   // Add the layer to the button
   sizeBtn.appendChild(layer);
-
-  // Apply squish animation to the button itself
+  
+  // Apply squish animation to the button
   sizeBtn.style.animation = "sizeSquish 0.35s ease-out";
-
-  // After animation completes, remove the layer and check the hover state again
+  
+  // After animation completes, remove the layer and restore the breathing animation if still hovered
   setTimeout(() => {
     layer.remove();
-
-    // FIX: Check if the button is *currently* being hovered
-    if (sizeBtn.matches(":hover")) {
-      // If it is, restart the breathing animation
+    if (isHovered) {
       sizeBtn.style.animation = "breathing 1.8s ease-in-out infinite";
     } else {
-      // If it's not, clear the animation
       sizeBtn.style.animation = "";
     }
-  }, 350); // Match the duration of the squish animation
+  }, 350);
 });
