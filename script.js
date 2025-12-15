@@ -209,3 +209,17 @@ sizeBtn.addEventListener("click", () => {
     // 'breathing' animation on its own.
   }, 350); // Match the duration of the squish animation
 });
+
+
+/* ----------------------------------------------------------
+   BOUNCE BUTTON
+---------------------------------------------------------- */
+
+const bounceBtn = document.getElementById("bounceBtn");
+
+bounceBtn.addEventListener("click", () => {
+  bounceBtn.classList.remove("bouncing");
+  void bounceBtn.offsetWidth; // force reflow
+  bounceBtn.classList.add("bouncing");
+});
+
