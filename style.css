@@ -273,52 +273,33 @@ html, body {
     box-shadow: 0 0 30px 20px var(--glow);
   }
 }
-/* ---------------------------------------------------------- */
-/* SIZE BUTTON — BREATHING + ELASTIC SQUISH */
-/* ---------------------------------------------------------- */
+/* ----------------------------------------------------------
+   SIZE BUTTON — BREATHING + ELASTIC SQUISH
+---------------------------------------------------------- */
+const sizeBtn = document.getElementById("sizeBtn");
 
-#sizeBtn {
-  transition: transform 0.25s ease;
-  position: relative;
-  overflow: visible;
-}
+sizeBtn.addEventListener("click", () => {
+  // Create a visible squish layer
+  const layer = document.createElement("div");
+  layer.classList.add("squish-layer");
 
-/* Hover: subtle breathing */
-#sizeBtn:hover {
-  animation: breathing 1.8s ease-in-out infinite;
-}
+  // Add the layer to the button
+  sizeBtn.appendChild(layer);
 
-@keyframes breathing {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.07); }
-  100% { transform: scale(1); }
-}
+  // Apply squish animation to the button itself
+  sizeBtn.style.animation = "sizeSquish 0.35s ease-out";
 
-/* CLICK: real squish stretch */
-@keyframes sizeSquish {
-  0%   { transform: scale(1); }
-  25%  { transform: scale(1.22, 0.82); }
-  45%  { transform: scale(0.88, 1.18); }
-  70%  { transform: scale(1.05, 0.95); }
-  100% { transform: scale(1); }
-}
+  // After animation completes, remove the layer and check the hover state again
+  setTimeout(() => {
+    layer.remove();
 
-.squish-layer {
-  position: absolute;
-  inset: -4px; /* tiny overflow for drama */
-  border-radius: inherit;
-  pointer-events: none;
-  background: rgba(255, 255, 255, 0.85); /* Match button background */
-  filter: blur(12px);
-  opacity: 0.9;
-  z-index: 10; /* Ensure it's visible above the button */
-  animation: squish 0.35s ease-out forwards;
-}
-
-@keyframes squish {
-  0%   { transform: scale(1); }
-  25%  { transform: scale(1.22, 0.82); }
-  45%  { transform: scale(0.88, 1.18); }
-  70%  { transform: scale(1.05, 0.95); }
-  100% { transform: scale(1); }
-}
+    // FIX: Check if the button is *currently* being hovered
+    if (sizeBtn.matches(":hover")) {
+      // If it is, restart the breathing animation
+      sizeBtn.style.animation = "breathing 1.8s ease-in-out infinite";
+    } else {
+      // If it's not, clear the animation
+      sizeBtn.style.animation = "";
+    }
+  }, 350); // Match the duration of the squish animation
+});
