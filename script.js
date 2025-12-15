@@ -1,18 +1,3 @@
-/* ==========================================================
-   GLOBAL HELPERS
-========================================================== */
-
-// Make random color (uses HSL for nicer distribution)
-function randomColor() {
-  const h = Math.floor(Math.random() * 360);
-  return `hsl(${h} 90% 60%)`;
-}
-
-
-/* ==========================================================
-   MENU CONTROLS
-========================================================== */
-
 // Toggle menu with G
 document.addEventListener("keydown", (e) => {
   if (e.key.toLowerCase() === "g") {
@@ -20,63 +5,32 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Switch to rectangle demo via menu button
+// Switch to rectangle demo
 document.getElementById("btnRectangles").addEventListener("click", () => {
   const home = document.getElementById("home");
-  const rectPage = document.getElementById("rectPage");
+  const rec = document.getElementById("rectPage");
 
   home.classList.remove("fade-in");
   home.classList.add("fade-out");
 
   setTimeout(() => {
     home.classList.add("hidden");
-    rectPage.classList.remove("hidden");
-    rectPage.classList.add("fade-in");
+    rec.classList.remove("hidden");
+    rec.classList.add("fade-in");
   }, 600);
 });
 
-
-/* ==========================================================
-   HOME PAGE — CLICK ANYWHERE INTRO FLOW
-========================================================== */
-
-const home = document.getElementById("home");
-const step1 = document.getElementById("home-step-1");
-const step2 = document.getElementById("home-step-2");
-const rectPage = document.getElementById("rectPage");
-
-let homeStep = 1;
-
-home.addEventListener("click", () => {
-  if (homeStep === 1) {
-    // Step 1 → Step 2
-    step1.classList.add("fade-out");
-
-    setTimeout(() => {
-      step1.classList.add("hidden");
-      step2.classList.remove("hidden");
-      step2.classList.add("fade-in");
-      homeStep = 2;
-    }, 500);
-
-  } else if (homeStep === 2) {
-    // Step 2 → Buttons page
-    home.classList.add("fade-out");
-
-    setTimeout(() => {
-      home.classList.add("hidden");
-      rectPage.classList.remove("hidden");
-      rectPage.classList.add("fade-in");
-    }, 600);
-  }
-});
-
-
-/* ==========================================================
-   GLOW BUTTON
-========================================================== */
-
+/* ----------------------------------------------------------
+   GLOW BUTTON LOGIC
+---------------------------------------------------------- */
 const glowBtn = document.getElementById("glowBtn");
+
+// Make random color (uses HSL for nicer distribution)
+function randomColor() {
+  const h = Math.floor(Math.random() * 360);
+  return `hsl(${h} 90% 60%)`;
+}
+
 let nextColor = randomColor();
 
 glowBtn.addEventListener("mouseenter", () => {
@@ -87,42 +41,51 @@ glowBtn.addEventListener("mouseenter", () => {
 
 glowBtn.addEventListener("mouseleave", () => {
   glowBtn.style.backgroundColor = "white";
-  glowBtn.style.boxShadow = "0 0 0 rgba(0,0,0,0)";
+  glowBtn.style.boxShadow = "0 0 0px rgba(0,0,0,0)";
 });
 
 // CLICK — rainbow border flash
 glowBtn.addEventListener("click", () => {
   glowBtn.style.animation = "rainbowFlash 0.5s linear";
-  setTimeout(() => glowBtn.style.animation = "", 500);
+
+  setTimeout(() => {
+    glowBtn.style.animation = "";
+  }, 500);
 });
 
 
-/* ==========================================================
-   SHAKE BUTTON
-========================================================== */
-
+/* ----------------------------------------------------------
+   SHAKE BUTTON LOGIC
+---------------------------------------------------------- */
 const shakeBtn = document.getElementById("shakeBtn");
 let shakeInterval;
 
+// When hovered → start the cycle
 shakeBtn.addEventListener("mouseenter", () => {
-  shakeBtn.style.animation = "tinyShake 0.15s infinite linear";
-
+  // Start big shake every 3s
   shakeInterval = setInterval(() => {
     shakeBtn.style.animation = "bigShake 0.4s linear";
 
+    // Reset back to small shake after big shake ends
     setTimeout(() => {
       if (shakeBtn.matches(":hover")) {
         shakeBtn.style.animation = "tinyShake 0.15s infinite linear";
       }
     }, 400);
+
   }, 3000);
+
+  // immediate tiny shake when first hovered
+  shakeBtn.style.animation = "tinyShake 0.15s infinite linear";
 });
 
+// When leaving → stop everything
 shakeBtn.addEventListener("mouseleave", () => {
   clearInterval(shakeInterval);
   shakeBtn.style.animation = "";
 });
 
+// CLICK → jump with gravity
 shakeBtn.addEventListener("click", () => {
   shakeBtn.style.animation = "jumpUp 0.6s ease-out";
 
@@ -136,86 +99,120 @@ shakeBtn.addEventListener("click", () => {
 });
 
 
-/* ==========================================================
-   COLOR BUTTON — BLOBS + OUTLINE GLOW
-========================================================== */
-
+/* ----------------------------------------------------------
+   COLOR BUTTON — RANDOM FLOATING COLOR BLOBS
+---------------------------------------------------------- */
 const colorBtn = document.getElementById("colorBtn");
 let blobActive = false;
 
+// Create a random blob element
 function createBlob() {
   const blob = document.createElement("div");
   blob.classList.add("color-blob");
 
-  blob.style.left = (Math.random() * 70 + 15) + "%";
-  blob.style.top = (Math.random() * 70 + 15) + "%";
+  // Random position inside button area
+  const x = Math.random() * 70 + 15;
+  const y = Math.random() * 70 + 15;
+
+  blob.style.left = x + "%";
+  blob.style.top = y + "%";
+
+  // Random blob color
   blob.style.backgroundColor = randomColor();
+
+  // Vary animation duration for more natural movement
   blob.style.animationDuration = (2 + Math.random() * 2) + "s";
 
-  const size = 20 + Math.random() * 20;
-  blob.style.width = size + "px";
-  blob.style.height = size + "px";
+  // Vary size
+  const sz = 20 + Math.floor(Math.random() * 20);
+  blob.style.width = sz + "px";
+  blob.style.height = sz + "px";
 
   return blob;
 }
 
+// On hover — spawn multiple random blobs
 colorBtn.addEventListener("mouseenter", () => {
   if (blobActive) return;
   blobActive = true;
 
   const count = 3 + Math.floor(Math.random() * 4);
+
   for (let i = 0; i < count; i++) {
-    colorBtn.appendChild(createBlob());
+    const blob = createBlob();
+    colorBtn.appendChild(blob);
   }
 });
 
+// On leave — fade out + remove blobs
 colorBtn.addEventListener("mouseleave", () => {
   blobActive = false;
-  colorBtn.querySelectorAll(".color-blob").forEach(blob => {
-    blob.style.transition = "opacity 0.7s ease";
-    blob.style.opacity = "0";
-    setTimeout(() => blob.remove(), 700);
+
+  const blobs = colorBtn.querySelectorAll(".color-blob");
+  blobs.forEach((b) => {
+    b.style.transition = "opacity 0.7s ease";
+    b.style.opacity = "0";
+
+    setTimeout(() => b.remove(), 700);
   });
 });
 
-// CLICK — outline glow (spam-safe)
+/* ----------------------------------------------------------
+   COLOR BUTTON CLICK — OUTLINE GLOW RINGS
+---------------------------------------------------------- */
 colorBtn.addEventListener("click", () => {
+  // Create glow ring
   const ring = document.createElement("div");
   ring.classList.add("color-outline-glow");
-  ring.style.setProperty("--glow", randomColor());
 
-  const r = colorBtn.getBoundingClientRect();
-  ring.style.top = (r.top - 6) + "px";
-  ring.style.left = (r.left - 6) + "px";
-  ring.style.width = (r.width + 12) + "px";
-  ring.style.height = (r.height + 12) + "px";
+  // Random outline color
+  const c = randomColor();
+  ring.style.setProperty("--glow", c);
 
+  // Get button position relative to viewport
+  const btnRect = colorBtn.getBoundingClientRect();
+
+  // Position ring absolutely relative to viewport
+  ring.style.position = "fixed";
+  ring.style.top = (btnRect.top - 6) + "px";
+  ring.style.left = (btnRect.left - 6) + "px";
+  ring.style.width = (btnRect.width + 12) + "px";
+  ring.style.height = (btnRect.height + 12) + "px";
+
+  // Append to body to avoid any container positioning issues
   document.body.appendChild(ring);
+
+  // Remove after animation
   setTimeout(() => ring.remove(), 850);
 });
 
-
-/* ==========================================================
-   SIZE BUTTON — ELASTIC SQUISH
-========================================================== */
-
+/* ----------------------------------------------------------
+   SIZE BUTTON — BREATHING + SQUISH
+---------------------------------------------------------- */
 const sizeBtn = document.getElementById("sizeBtn");
 
 sizeBtn.addEventListener("click", () => {
-  sizeBtn.classList.remove("squishing");
-  void sizeBtn.offsetWidth; // force restart animation
-  sizeBtn.classList.add("squishing");
-});
+  // Create a visible squish layer
+  const layer = document.createElement("div");
+  layer.classList.add("squish-layer");
 
+  // Add the layer to the button
+  sizeBtn.appendChild(layer);
 
-/* ==========================================================
-   BOUNCE BUTTON
-========================================================== */
+  // Apply squish animation to the button itself
+  sizeBtn.style.animation = "sizeSquish 0.35s ease-out";
 
-const bounceBtn = document.getElementById("bounceBtn");
+  // After animation completes, remove the layer and check the hover state again
+  setTimeout(() => {
+    layer.remove();
 
-bounceBtn.addEventListener("click", () => {
-  bounceBtn.classList.remove("bouncing");
-  void bounceBtn.offsetWidth; // force reflow
-  bounceBtn.classList.add("bouncing");
+    // FIX: Check if the button is *currently* being hovered
+    if (sizeBtn.matches(":hover")) {
+      // If it is, restart the breathing animation
+      sizeBtn.style.animation = "breathing 1.8s ease-in-out infinite";
+    } else {
+      // If it's not, clear the animation
+      sizeBtn.style.animation = "";
+    }
+  }, 350); // Match the duration of the squish animation
 });
