@@ -171,13 +171,13 @@ colorBtn.addEventListener("click", () => {
 
   // Get button position relative to viewport
   const btnRect = colorBtn.getBoundingClientRect();
-  
+
   // Position ring absolutely relative to viewport
   ring.style.position = "fixed";
   ring.style.top = (btnRect.top - 6) + "px";
   ring.style.left = (btnRect.left - 6) + "px";
-  ring.style.width = (btnRect.width + 12) + "px"; // Add 12px for 6px on each side
-  ring.style.height = (btnRect.height + 12) + "px"; // Add 12px for 6px on each side
+  ring.style.width = (btnRect.width + 12) + "px";
+  ring.style.height = (btnRect.height + 12) + "px";
 
   // Append to body to avoid any container positioning issues
   document.body.appendChild(ring);
@@ -187,34 +187,32 @@ colorBtn.addEventListener("click", () => {
 });
 
 /* ----------------------------------------------------------
-   SIZE BUTTON — BREATHING + STACKABLE SQUISH
+   SIZE BUTTON — BREATHING + SQUISH
 ---------------------------------------------------------- */
 const sizeBtn = document.getElementById("sizeBtn");
 
 sizeBtn.addEventListener("click", () => {
-  // Store the current animation state
-  const isHovered = sizeBtn.matches(":hover");
-  
   // Create a visible squish layer
   const layer = document.createElement("div");
   layer.classList.add("squish-layer");
-  
-  // Copy the button's background to the layer
-  layer.style.backgroundColor = window.getComputedStyle(sizeBtn).backgroundColor;
-  
+
   // Add the layer to the button
   sizeBtn.appendChild(layer);
-  
-  // Apply squish animation to the button
+
+  // Apply squish animation to the button itself
   sizeBtn.style.animation = "sizeSquish 0.35s ease-out";
-  
-  // After animation completes, remove the layer and restore the breathing animation if still hovered
+
+  // After animation completes, remove the layer and check the hover state again
   setTimeout(() => {
     layer.remove();
-    if (isHovered) {
+
+    // FIX: Check if the button is *currently* being hovered
+    if (sizeBtn.matches(":hover")) {
+      // If it is, restart the breathing animation
       sizeBtn.style.animation = "breathing 1.8s ease-in-out infinite";
     } else {
+      // If it's not, clear the animation
       sizeBtn.style.animation = "";
     }
-  }, 350);
+  }, 350); // Match the duration of the squish animation
 });
