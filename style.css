@@ -294,22 +294,15 @@ html, body {
   animation: sizeSquish 0.35s ease-out forwards;
 }
 
-/* ---------------------------------------------------------------- */
-/* --------------------- BOUNCE BUTTON EFFECTS -------------------- */
-/* ---------------------------------------------------------------- */
 
-/* Continuous gentle bounce for hover */
-@keyframes gentleBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+/* ---------------------------------------------------------- */
+/* BOUNCE BUTTON
+/* ---------------------------------------------------------- */
+
+#bounceBtn {
+  transition: transform 0.18s ease;
 }
 
-/* More dramatic bounce for click */
-@keyframes bigBounce {
-  0%   { transform: translateY(0); }
-  20%  { transform: translateY(-10px); }
-  40%  { transform: translateY(-25px); }
-  60%  { transform: translateY(-40px); }
-  80%  { transform: translateY(-20px); }
-  100% { transform: translateY(0); }
+#bounceBtn:hover {
+  transform: translateY(-6px);
 }
