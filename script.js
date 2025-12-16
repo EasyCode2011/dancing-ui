@@ -222,14 +222,32 @@ bounceBtn.addEventListener("click", () => {
 });
 
 const home = document.getElementById("home");
-const introImage = document.getElementById("introImage");
+const introScene = document.getElementById("introScene");
+const rectPage = document.getElementById("rectPage");
 
-home.addEventListener("click", () => {
-  home.classList.add("fade-out");
+let scene = 1;
 
-  setTimeout(() => {
-    home.classList.add("hidden");
-    introImage.classList.remove("hidden");
-    introImage.classList.add("fade-in");
-  }, 600);
+document.addEventListener("click", () => {
+  if (scene === 1) {
+    // HOME → INTRO IMAGE
+    home.classList.add("fade-out");
+
+    setTimeout(() => {
+      home.classList.add("hidden");
+      introScene.classList.remove("hidden");
+      introScene.classList.add("fade-in");
+      scene = 2;
+    }, 600);
+
+  } else if (scene === 2) {
+    // INTRO IMAGE → BUTTONS
+    introScene.classList.add("fade-out");
+
+    setTimeout(() => {
+      introScene.classList.add("hidden");
+      rectPage.classList.remove("hidden");
+      rectPage.classList.add("fade-in");
+      scene = 3;
+    }, 600);
+  }
 });
