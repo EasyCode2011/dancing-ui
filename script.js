@@ -195,32 +195,17 @@ sizeBtn.addEventListener("click", () => {
   // Create a visible squish layer
   const layer = document.createElement("div");
   layer.classList.add("squish-layer");
-
-  // Add the layer to the button
   sizeBtn.appendChild(layer);
 
-  // Apply squish animation to the button itself
-  sizeBtn.style.animation = "sizeSquish 0.35s ease-out";
+  // Add the 'squishing' class to trigger the click animation
+  sizeBtn.classList.add('squishing');
 
-  // After animation completes, remove the layer and check the hover state again
+  // After animation completes, remove the layer and the class
   setTimeout(() => {
     layer.remove();
-
-    // FIX: Check if the button is *currently* being hovered
-    if (sizeBtn.matches(":hover")) {
-      // If it is, restart the breathing animation
-      sizeBtn.style.animation = "breathing 1.8s ease-in-out infinite";
-    } else {
-      // If it's not, clear the animation
-      sizeBtn.style.animation = "";
-    }
+    sizeBtn.classList.remove('squishing');
+    // That's it! The browser will now correctly check
+    // if the mouse is hovering and apply/remove the
+    // 'breathing' animation on its own.
   }, 350); // Match the duration of the squish animation
-});
-
-const bounceBtn = document.getElementById("bounceBtn");
-
-bounceBtn.addEventListener("click", () => {
-  bounceBtn.classList.remove("bouncing");
-  void bounceBtn.offsetWidth; // force reflow
-  bounceBtn.classList.add("bouncing");
 });
