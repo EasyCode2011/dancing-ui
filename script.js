@@ -220,3 +220,16 @@ bounceBtn.addEventListener("click", () => {
   void bounceBtn.offsetWidth; // force reflow
   bounceBtn.classList.add("bouncing");
 });
+
+const home = document.getElementById("home");
+const introImage = document.getElementById("introImage");
+
+home.addEventListener("click", () => {
+  home.classList.add("fade-out");
+
+  setTimeout(() => {
+    home.classList.add("hidden");
+    introImage.classList.remove("hidden");
+    introImage.classList.add("fade-in");
+  }, 600);
+});
