@@ -247,9 +247,9 @@ html, body {
   }
 }
 
-/* ---------------------------------------------------------------- */
-/* --------------------- SIZE BUTTON EFFECTS ---------------------- */
-/* ---------------------------------------------------------------- */
+/* ---------------------------------------------------------- */
+/* SIZE BUTTON — BREATHING + ELASTIC SQUISH */
+/* ---------------------------------------------------------- */
 
 #sizeBtn {
   transition: transform 0.25s ease;
@@ -257,8 +257,15 @@ html, body {
   overflow: visible;
 }
 
+/* Hover: subtle breathing */
 #sizeBtn:hover {
   animation: breathing 1.8s ease-in-out infinite;
+}
+
+/* CLICK: This class will be added by JavaScript */
+#sizeBtn.squishing {
+  /* This animation will override the hover animation */
+  animation: sizeSquish 0.35s ease-out;
 }
 
 @keyframes breathing {
@@ -286,25 +293,3 @@ html, body {
   z-index: 10;
   animation: sizeSquish 0.35s ease-out forwards;
 }
-
-#bounceBtn {
-  transition: transform 0.18s ease;
-}
-
-#bounceBtn:hover {
-  transform: translateY(-6px);
-}
-
-@keyframes buttonBounce {
-  0%   { transform: translateY(0) scale(1); }
-  15%  { transform: translateY(2px) scale(1.05, 0.92); }
-  35%  { transform: translateY(-28px) scale(0.96, 1.05); }
-  55%  { transform: translateY(0) scale(1.03, 0.97); }
-  70%  { transform: translateY(-12px) scale(0.98, 1.02); }
-  100% { transform: translateY(0) scale(1); }
-}
-
-#bounceBtn.bouncing {
-  animation: buttonBounce 0.55s cubic-bezier(.34,1.56,.64,1);
-}
-
