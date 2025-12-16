@@ -209,3 +209,60 @@ sizeBtn.addEventListener("click", () => {
     // 'breathing' animation on its own.
   }, 350); // Match the duration of the squish animation
 });
+
+/* ----------------------------------------------------------
+   BOUNCE BUTTON LOGIC
+---------------------------------------------------------- */
+const bounceBtn = document.getElementById("bounceBtn");
+let bounceInterval;
+
+// When hovered → start the cycle
+bounceBtn.addEventListener("mouseenter", () => {
+  // Start big bounce every 3s
+  bounceInterval = setInterval(() => {
+    bounceBtn.style.animation = "bigBounce 0.6s ease-out";
+
+    // Reset back to gentle bounce after big bounce ends
+    setTimeout(() => {
+      if (bounceBtn.matches(":hover")) {
+        bounceBtn.style.animation = "gentleBounce 0.8s ease-in-out infinite";
+      }
+    }, 600);
+
+  }, 3000);
+
+  // immediate gentle bounce when first hovered
+  bounceBtn.style.animation = "gentleBounce 0.8s ease-in-out infinite";
+});
+
+// When leaving → stop everything
+bounceBtn.addEventListener("mouseleave", () => {
+  clearInterval(bounceInterval);
+  bounceBtn.style.animation = "";
+});
+
+// CLICK → trigger a single big bounce
+bounceBtn.addEventListener("click", () => {
+  // Clear any existing interval to prevent conflicts
+  clearInterval(bounceInterval);
+
+  bounceBtn.style.animation = "bigBounce 0.6s ease-out";
+
+  // After animation, check if still hovered and restart the cycle if needed
+  setTimeout(() => {
+    if (bounceBtn.matches(":hover")) {
+      // Restart the hover cycle
+      bounceBtn.style.animation = "gentleBounce 0.8s ease-in-out infinite";
+      bounceInterval = setInterval(() => {
+        bounceBtn.style.animation = "bigBounce 0.6s ease-out";
+        setTimeout(() => {
+          if (bounceBtn.matches(":hover")) {
+            bounceBtn.style.animation = "gentleBounce 0.8s ease-in-out infinite";
+          }
+        }, 600);
+      }, 3000);
+    } else {
+      bounceBtn.style.animation = "";
+    }
+  }, 600);
+});
