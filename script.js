@@ -230,6 +230,31 @@ let scene = 1;
 /* ---------------------------------------
    HOME CLICK HANDLER (ONLY HOME)
 --------------------------------------- */
+const btnHome = document.getElementById("btnHome");
+
+btnHome.addEventListener("click", () => {
+  // Close menu
+  document.getElementById("menu").classList.remove("open");
+
+  // Fade out everything
+  home.classList.add("fade-out");
+  introScene.classList.add("fade-out");
+  rectPage.classList.add("fade-out");
+
+  setTimeout(() => {
+    // Hide all pages
+    home.classList.remove("hidden", "fade-out");
+    introScene.classList.add("hidden");
+    rectPage.classList.add("hidden");
+
+    // Show home again
+    home.classList.add("fade-in");
+
+    // Reset scene flow
+    scene = 1;
+  }, 600);
+});
+
 home.addEventListener("click", () => {
   if (scene !== 1) return;
 
