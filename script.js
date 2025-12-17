@@ -227,27 +227,42 @@ const rectPage = document.getElementById("rectPage");
 
 let scene = 1;
 
-document.addEventListener("click", () => {
-  if (scene === 1) {
-    // HOME → INTRO IMAGE
-    home.classList.add("fade-out");
+/* ---------------------------------------
+   HOME CLICK HANDLER (ONLY HOME)
+--------------------------------------- */
+home.addEventListener("click", () => {
+  if (scene !== 1) return;
 
-    setTimeout(() => {
-      home.classList.add("hidden");
-      introScene.classList.remove("hidden");
-      introScene.classList.add("fade-in");
-      scene = 2;
-    }, 600);
+  home.classList.add("fade-out");
 
-  } else if (scene === 2) {
-    // INTRO IMAGE → BUTTONS
-    introScene.classList.add("fade-out");
+  setTimeout(() => {
+    home.classList.add("hidden");
+    introScene.classList.remove("hidden");
+    introScene.classList.add("fade-in");
+    scene = 2;
+  }, 600);
+});
 
-    setTimeout(() => {
-      introScene.classList.add("hidden");
-      rectPage.classList.remove("hidden");
-      rectPage.classList.add("fade-in");
-      scene = 3;
-    }, 600);
-  }
+/* ---------------------------------------
+   INTRO CLICK HANDLER (ONLY INTRO IMAGE)
+--------------------------------------- */
+introScene.addEventListener("click", () => {
+  if (scene !== 2) return;
+
+  introScene.classList.add("fade-out");
+
+  setTimeout(() => {
+    introScene.classList.add("hidden");
+    rectPage.classList.remove("hidden");
+    rectPage.classList.add("fade-in");
+    scene = 3;
+  }, 600);
+});
+
+/* ---------------------------------------
+   PREVENT BUTTON CLICKS FROM
+   TRIGGERING PAGE CHANGES
+--------------------------------------- */
+rectPage.addEventListener("click", (e) => {
+  e.stopPropagation();
 });
