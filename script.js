@@ -333,3 +333,64 @@ home.addEventListener("mouseleave", () => {
     inner.style.transition = "";
   }, 250);
 });
+
+/* ====================== Home box cursor-velocity reaction ====================== */
+// Requires: an element #home that contains .home-inner
+(function(){
+  const home = document.getElementById('home');
+  if (!home) return;
+  const inner = home.querySelector('.home-inner');
+  if (!inner) return;
+
+  let lastX = 0, lastY = 0;
+  let lastTime = performance.now();
+  let smoothing = 0.12; // smooth the displayed movement
+  let displayedX = 0, displayedY = 0;
+
+  // Initialize on enter so we have starting coords
+  home.addEventListener('mouseenter', (e) => {
+    lastX = e.clientX;
+    lastY = e.clientY;
+    lastTime = performance.now();
+  });
+
+  home.addEventListener('mousemove', (e) => {
+    const now = performance.now();
+    const dt = Math.max(1, now - lastTime); // ms
+    const dx = e.clientX - lastX;
+    const dy = e.clientY - lastY;
+
+    // pixels per ms -> px/ms, scale to px per frame-like value
+    const speed = Math.sqrt(dx*dx + dy*dy) / dt; // px per ms
+
+    // intensity multiplier — tune this to taste
+    const intensity = Math.min(speed * 200, 70); // clamp max offset
+
+    // direction vector normalized (if dx,dy are zero, avoid division by zero)
+    const len = Math.max(0.0001, Math.sqrt(dx*dx + dy*dy));
+    const dirX = dx / len;
+    const dirY = dy / len;
+
+    // target offsets (opposite direction gives a 'push' feel; we'll use same direction)
+    const targetX = dirX * intensity;
+    const targetY = dirY * intensity * 0.6; // less vertical for nicer look
+
+    // smooth displayed values
+    displayedX += (targetX - displayedX) * smoothing;
+    displayedY += (targetY - displayedY) * smoothing;
+
+    inner.style.transform = `translate(${displayedX}px, ${displayedY}px)`;
+
+    lastX = e.clientX;
+    lastY = e.clientY;
+    lastTime = now;
+  });
+
+  home.addEventListener('mouseleave', () => {
+    // gently return to center
+    inner.style.transition = 'transform 220ms cubic-bezier(.22,.9,.3,1)';
+    inner.style.transform = 'translate(0,0)';
+    // remove transition after it's done so future JS moves are instant
+    setTimeout(() => inner.style.transition = '', 250);
+  });
+})();
