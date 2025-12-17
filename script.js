@@ -292,49 +292,68 @@ document.addEventListener("click", (e) => {
 });
 
 /* ------------------------------------------
-   HOME TITLE — CURSOR SPEED SHAKE
+   HOME TITLE — CURSOR VELOCITY SHAKE (FIXED)
 ------------------------------------------ */
 
 const homeCard = document.getElementById("home");
 
-let lastX = 0;
-let lastY = 0;
-let lastTime = performance.now();
-let shakeStrength = 0;
+let lastX = null;
+let lastY = null;
+let velocity = 0;
+let shake = 0;
 
 homeCard.addEventListener("mousemove", (e) => {
-  const now = performance.now();
+  if (lastX === null) {
+    lastX = e.clientX;
+    lastY = e.clientY;
+    return;
+  }
 
   const dx = e.clientX - lastX;
   const dy = e.clientY - lastY;
-  const dt = now - lastTime || 16;
 
-  const speed = Math.sqrt(dx * dx + dy * dy) / dt;
+  // Distance moved this frame
+  const distance = Math.sqrt(dx * dx + dy * dy);
 
-  // Convert speed → shake (tuned values)
-  shakeStrength = Math.min(speed * 45, 14);
+  // Velocity accumulation
+  velocity = distance * 0.6;
+
+  // Add energy instead of replacing it
+  shake += velocity;
+
+  // Clamp max insanity
+  shake = Math.min(shake, 30);
 
   lastX = e.clientX;
   lastY = e.clientY;
-  lastTime = now;
 });
 
-// Smooth decay + animation loop
-function animateShake() {
-  if (shakeStrength > 0.1) {
-    const x = (Math.random() - 0.5) * shakeStrength;
-    const y = (Math.random() - 0.5) * shakeStrength;
+// Reset when leaving the area
+homeCard.addEventListener("mouseleave", () => {
+  lastX = null;
+  lastY = null;
+});
+
+// Animation loop
+function animateHomeShake() {
+  if (shake > 0.5) {
+    const x = (Math.random() - 0.5) * shake;
+    const y = (Math.random() - 0.5) * shake;
 
     homeCard.style.transform =
       `translate(-50%, -50%) translate(${x}px, ${y}px)`;
 
-    shakeStrength *= 0.85; // decay
+    // Natural damping
+    shake *= 0.82;
   } else {
     homeCard.style.transform =
-      "translate(-50%, -50%)";
+      `translate(-50%, -50%)`;
+    shake = 0;
   }
 
-  requestAnimationFrame(animateShake);
+  requestAnimationFrame(animateHomeShake);
 }
 
-animateShake();
+animateHomeShake();
+
+shake = Math.min(shake, 80);
