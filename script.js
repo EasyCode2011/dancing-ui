@@ -292,51 +292,44 @@ document.addEventListener("click", (e) => {
 });
 
 /* ------------------------------------------
-   HOME TITLE — PURE CURSOR VELOCITY SHAKE
+   HOME TITLE — TRUE CURSOR VELOCITY REACTION
 ------------------------------------------ */
 
-const homeBox = document.getElementById("home");
+const home = document.getElementById("home");
+const inner = home.querySelector(".home-inner");
 
 let lastX = 0;
 let lastY = 0;
-let active = false;
 
-homeBox.addEventListener("mouseenter", (e) => {
+home.addEventListener("mouseenter", (e) => {
   lastX = e.clientX;
   lastY = e.clientY;
-  active = true;
 });
 
-homeBox.addEventListener("mousemove", (e) => {
-  if (!active) return;
-
+home.addEventListener("mousemove", (e) => {
   const dx = e.clientX - lastX;
   const dy = e.clientY - lastY;
 
-  // Mouse speed
+  // Cursor speed
   const speed = Math.sqrt(dx * dx + dy * dy);
 
-  // Amplify force
-  const intensity = Math.min(speed * 0.8, 40);
+  // Scale intensity (THIS is what you feel)
+  const force = Math.min(speed * 0.9, 50);
 
-  const offsetX = dx * 0.4;
-  const offsetY = dy * 0.4;
+  const offsetX = (dx / (speed || 1)) * force;
+  const offsetY = (dy / (speed || 1)) * force;
 
-  homeBox.style.transform =
-    `translate(-50%, -50%) translate(${offsetX}px, ${offsetY}px)`;
+  inner.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
 
   lastX = e.clientX;
   lastY = e.clientY;
 });
 
-homeBox.addEventListener("mouseleave", () => {
-  active = false;
-
-  // Snap back smoothly
-  homeBox.style.transition = "transform 0.25s ease-out";
-  homeBox.style.transform = "translate(-50%, -50%)";
+home.addEventListener("mouseleave", () => {
+  inner.style.transition = "transform 0.25s ease-out";
+  inner.style.transform = "translate(0, 0)";
 
   setTimeout(() => {
-    homeBox.style.transition = "";
+    inner.style.transition = "";
   }, 250);
 });
