@@ -292,105 +292,51 @@ document.addEventListener("click", (e) => {
 });
 
 /* ------------------------------------------
-   HOME TITLE — TRUE CURSOR VELOCITY REACTION
+   HOME TITLE — PURE CURSOR VELOCITY SHAKE
 ------------------------------------------ */
 
-const home = document.getElementById("home");
-const inner = home.querySelector(".home-inner");
+const homeBox = document.getElementById("home");
 
 let lastX = 0;
 let lastY = 0;
+let active = false;
 
-home.addEventListener("mouseenter", (e) => {
+homeBox.addEventListener("mouseenter", (e) => {
   lastX = e.clientX;
   lastY = e.clientY;
+  active = true;
 });
 
-home.addEventListener("mousemove", (e) => {
+homeBox.addEventListener("mousemove", (e) => {
+  if (!active) return;
+
   const dx = e.clientX - lastX;
   const dy = e.clientY - lastY;
 
-  // Cursor speed
+  // Mouse speed
   const speed = Math.sqrt(dx * dx + dy * dy);
 
-  // Scale intensity (THIS is what you feel)
-  const force = Math.min(speed * 0.9, 50);
+  // Amplify force
+  const intensity = Math.min(speed * 0.8, 40);
 
-  const offsetX = (dx / (speed || 1)) * force;
-  const offsetY = (dy / (speed || 1)) * force;
+  const offsetX = dx * 0.4;
+  const offsetY = dy * 0.4;
 
-  inner.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+  homeBox.style.transform =
+    `translate(-50%, -50%) translate(${offsetX}px, ${offsetY}px)`;
 
   lastX = e.clientX;
   lastY = e.clientY;
 });
 
-home.addEventListener("mouseleave", () => {
-  inner.style.transition = "transform 0.25s ease-out";
-  inner.style.transform = "translate(0, 0)";
+homeBox.addEventListener("mouseleave", () => {
+  active = false;
+
+  // Snap back smoothly
+  homeBox.style.transition = "transform 0.25s ease-out";
+  homeBox.style.transform = "translate(-50%, -50%)";
 
   setTimeout(() => {
-    inner.style.transition = "";
+    homeBox.style.transition = "";
   }, 250);
 });
-
-/* ====================== Home box cursor-velocity reaction ====================== */
-// Requires: an element #home that contains .home-inner
-(function(){
-  const home = document.getElementById('home');
-  if (!home) return;
-  const inner = home.querySelector('.home-inner');
-  if (!inner) return;
-
-  let lastX = 0, lastY = 0;
-  let lastTime = performance.now();
-  let smoothing = 0.12; // smooth the displayed movement
-  let displayedX = 0, displayedY = 0;
-
-  // Initialize on enter so we have starting coords
-  home.addEventListener('mouseenter', (e) => {
-    lastX = e.clientX;
-    lastY = e.clientY;
-    lastTime = performance.now();
-  });
-
-  home.addEventListener('mousemove', (e) => {
-    const now = performance.now();
-    const dt = Math.max(1, now - lastTime); // ms
-    const dx = e.clientX - lastX;
-    const dy = e.clientY - lastY;
-
-    // pixels per ms -> px/ms, scale to px per frame-like value
-    const speed = Math.sqrt(dx*dx + dy*dy) / dt; // px per ms
-
-    // intensity multiplier — tune this to taste
-    const intensity = Math.min(speed * 200, 70); // clamp max offset
-
-    // direction vector normalized (if dx,dy are zero, avoid division by zero)
-    const len = Math.max(0.0001, Math.sqrt(dx*dx + dy*dy));
-    const dirX = dx / len;
-    const dirY = dy / len;
-
-    // target offsets (opposite direction gives a 'push' feel; we'll use same direction)
-    const targetX = dirX * intensity;
-    const targetY = dirY * intensity * 0.6; // less vertical for nicer look
-
-    // smooth displayed values
-    displayedX += (targetX - displayedX) * smoothing;
-    displayedY += (targetY - displayedY) * smoothing;
-
-    inner.style.transform = `translate(${displayedX}px, ${displayedY}px)`;
-
-    lastX = e.clientX;
-    lastY = e.clientY;
-    lastTime = now;
-  });
-
-  home.addEventListener('mouseleave', () => {
-    // gently return to center
-    inner.style.transition = 'transform 220ms cubic-bezier(.22,.9,.3,1)';
-    inner.style.transform = 'translate(0,0)';
-    // remove transition after it's done so future JS moves are instant
-    setTimeout(() => inner.style.transition = '', 250);
-  });
-})();
