@@ -290,3 +290,51 @@ document.addEventListener("click", (e) => {
     scene = 3;
   }
 });
+
+/* ------------------------------------------
+   HOME TITLE — CURSOR SPEED SHAKE
+------------------------------------------ */
+
+const homeCard = document.getElementById("home");
+
+let lastX = 0;
+let lastY = 0;
+let lastTime = performance.now();
+let shakeStrength = 0;
+
+homeCard.addEventListener("mousemove", (e) => {
+  const now = performance.now();
+
+  const dx = e.clientX - lastX;
+  const dy = e.clientY - lastY;
+  const dt = now - lastTime || 16;
+
+  const speed = Math.sqrt(dx * dx + dy * dy) / dt;
+
+  // Convert speed → shake (tuned values)
+  shakeStrength = Math.min(speed * 45, 14);
+
+  lastX = e.clientX;
+  lastY = e.clientY;
+  lastTime = now;
+});
+
+// Smooth decay + animation loop
+function animateShake() {
+  if (shakeStrength > 0.1) {
+    const x = (Math.random() - 0.5) * shakeStrength;
+    const y = (Math.random() - 0.5) * shakeStrength;
+
+    homeCard.style.transform =
+      `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+
+    shakeStrength *= 0.85; // decay
+  } else {
+    homeCard.style.transform =
+      "translate(-50%, -50%)";
+  }
+
+  requestAnimationFrame(animateShake);
+}
+
+animateShake();
