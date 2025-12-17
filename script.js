@@ -225,69 +225,68 @@ const home = document.getElementById("home");
 const introScene = document.getElementById("introScene");
 const rectPage = document.getElementById("rectPage");
 
-let scene = 1;
-
-/* ---------------------------------------
-   HOME CLICK HANDLER (ONLY HOME)
---------------------------------------- */
 const btnHome = document.getElementById("btnHome");
+const btnRectangles = document.getElementById("btnRectangles");
 
+let scene = 1;
+let transitioning = false;
+
+/* ---------------------------
+   PAGE SWITCHER (THE BOSS)
+--------------------------- */
+function showPage(page) {
+  if (transitioning) return;
+  transitioning = true;
+
+  // Fade out all
+  [home, introScene, rectPage].forEach(el => {
+    el.classList.remove("fade-in");
+    el.classList.add("fade-out");
+  });
+
+  setTimeout(() => {
+    // Hide all
+    [home, introScene, rectPage].forEach(el => {
+      el.classList.add("hidden");
+      el.classList.remove("fade-out");
+    });
+
+    // Show target
+    page.classList.remove("hidden");
+    page.classList.add("fade-in");
+
+    transitioning = false;
+  }, 600);
+}
+
+/* ---------------------------
+   MENU BUTTONS
+--------------------------- */
 btnHome.addEventListener("click", () => {
-  // Close menu
+  scene = 1;
+  showPage(home);
   document.getElementById("menu").classList.remove("open");
-
-  // Fade out everything
-  home.classList.add("fade-out");
-  introScene.classList.add("fade-out");
-  rectPage.classList.add("fade-out");
-
-  setTimeout(() => {
-    // Hide all pages
-    home.classList.remove("hidden", "fade-out");
-    introScene.classList.add("hidden");
-    rectPage.classList.add("hidden");
-
-    // Show home again
-    home.classList.add("fade-in");
-
-    // Reset scene flow
-    scene = 1;
-  }, 600);
 });
 
-home.addEventListener("click", () => {
-  if (scene !== 1) return;
+btnRectangles.addEventListener("click", () => {
+  scene = 3;
+  showPage(rectPage);
+  document.getElementById("menu").classList.remove("open");
+});
 
-  home.classList.add("fade-out");
+/* ---------------------------
+   CLICK ANYWHERE FLOW
+--------------------------- */
+document.addEventListener("click", (e) => {
+  // Ignore menu clicks
+  if (e.target.closest("#menu")) return;
 
-  setTimeout(() => {
-    home.classList.add("hidden");
-    introScene.classList.remove("hidden");
-    introScene.classList.add("fade-in");
+  if (scene === 1) {
+    showPage(introScene);
     scene = 2;
-  }, 600);
-});
-
-/* ---------------------------------------
-   INTRO CLICK HANDLER (ONLY INTRO IMAGE)
---------------------------------------- */
-introScene.addEventListener("click", () => {
-  if (scene !== 2) return;
-
-  introScene.classList.add("fade-out");
-
-  setTimeout(() => {
-    introScene.classList.add("hidden");
-    rectPage.classList.remove("hidden");
-    rectPage.classList.add("fade-in");
+  }
+  else if (scene === 2) {
+    showPage(rectPage);
     scene = 3;
-  }, 600);
-});
-
-/* ---------------------------------------
-   PREVENT BUTTON CLICKS FROM
-   TRIGGERING PAGE CHANGES
---------------------------------------- */
-rectPage.addEventListener("click", (e) => {
-  e.stopPropagation();
+  }
 });
