@@ -292,68 +292,51 @@ document.addEventListener("click", (e) => {
 });
 
 /* ------------------------------------------
-   HOME TITLE — CURSOR VELOCITY SHAKE (FIXED)
+   HOME TITLE — PURE CURSOR VELOCITY SHAKE
 ------------------------------------------ */
 
-const homeCard = document.getElementById("home");
+const homeBox = document.getElementById("home");
 
-let lastX = null;
-let lastY = null;
-let velocity = 0;
-let shake = 0;
+let lastX = 0;
+let lastY = 0;
+let active = false;
 
-homeCard.addEventListener("mousemove", (e) => {
-  if (lastX === null) {
-    lastX = e.clientX;
-    lastY = e.clientY;
-    return;
-  }
+homeBox.addEventListener("mouseenter", (e) => {
+  lastX = e.clientX;
+  lastY = e.clientY;
+  active = true;
+});
+
+homeBox.addEventListener("mousemove", (e) => {
+  if (!active) return;
 
   const dx = e.clientX - lastX;
   const dy = e.clientY - lastY;
 
-  // Distance moved this frame
-  const distance = Math.sqrt(dx * dx + dy * dy);
+  // Mouse speed
+  const speed = Math.sqrt(dx * dx + dy * dy);
 
-  // Velocity accumulation
-  velocity = distance * 0.6;
+  // Amplify force
+  const intensity = Math.min(speed * 0.8, 40);
 
-  // Add energy instead of replacing it
-  shake += velocity;
+  const offsetX = dx * 0.4;
+  const offsetY = dy * 0.4;
 
-  // Clamp max insanity
-  shake = Math.min(shake, 30);
+  homeBox.style.transform =
+    `translate(-50%, -50%) translate(${offsetX}px, ${offsetY}px)`;
 
   lastX = e.clientX;
   lastY = e.clientY;
 });
 
-// Reset when leaving the area
-homeCard.addEventListener("mouseleave", () => {
-  lastX = null;
-  lastY = null;
+homeBox.addEventListener("mouseleave", () => {
+  active = false;
+
+  // Snap back smoothly
+  homeBox.style.transition = "transform 0.25s ease-out";
+  homeBox.style.transform = "translate(-50%, -50%)";
+
+  setTimeout(() => {
+    homeBox.style.transition = "";
+  }, 250);
 });
-
-// Animation loop
-function animateHomeShake() {
-  if (shake > 0.5) {
-    const x = (Math.random() - 0.5) * shake;
-    const y = (Math.random() - 0.5) * shake;
-
-    homeCard.style.transform =
-      `translate(-50%, -50%) translate(${x}px, ${y}px)`;
-
-    // Natural damping
-    shake *= 0.82;
-  } else {
-    homeCard.style.transform =
-      `translate(-50%, -50%)`;
-    shake = 0;
-  }
-
-  requestAnimationFrame(animateHomeShake);
-}
-
-animateHomeShake();
-
-shake = Math.min(shake, 80);
