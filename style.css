@@ -71,9 +71,32 @@ html, body {
 
 /* MENU */
 #menu {
+  position: fixed;
+  top: 0;
+  left: -240px;
+  width: 240px;
+  height: 100vh;
+
   display: flex;
   flex-direction: column;
-  gap: 14px; /* ← THIS is the spacing */
+  gap: 14px;
+
+  padding: 20px;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+
+  transition: left 0.35s ease;
+  z-index: 20;
+}
+
+#menu.open {
+  left: 0;
+}
+
+.menu-title {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
 }
 
 .menu-btn {
@@ -89,8 +112,9 @@ html, body {
 
 .menu-btn:hover {
   background: rgba(255,255,255,0.18);
-  transform: translateX(3px);
+  transform: translateX(4px);
 }
+
 
 /* RECTANGLE PAGE */
 .rect-container {
