@@ -406,3 +406,75 @@ html, body {
   opacity: 0.55;
 }
 
+/* ------------------------------------ */
+/* HOME PAGE — PROFESSIONAL TYPOGRAPHY */
+/* ------------------------------------ */
+
+#home {
+  text-align: center;
+  max-width: 760px;
+  padding: 48px 56px;
+
+  /* glassy subtle background */
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(6px);
+  border-radius: 18px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.25);
+
+  animation: homeFloat 6s ease-in-out infinite;
+}
+
+/* Subtle idle motion so it feels alive */
+@keyframes homeFloat {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  50%      { transform: translate(-50%, -50%) translateY(-6px); }
+}
+
+/* MAIN TITLE */
+#home h1 {
+  font-size: clamp(2.8rem, 6vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  margin-bottom: 16px;
+
+  background: linear-gradient(
+    120deg,
+    #ffffff,
+    #e8e8e8,
+    #cfcfcf
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* SUBTITLE */
+#home p:nth-of-type(1) {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  opacity: 0.85;
+  margin-bottom: 26px;
+}
+
+/* HINTS — GAME UI STYLE */
+#home .hint {
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-top: 10px;
+}
+
+/* Make first hint pulse gently */
+#home .hint:first-of-type {
+  animation: hintPulse 1.6s ease-in-out infinite;
+}
+
+/* Soft pulse */
+@keyframes hintPulse {
+  0%   { opacity: 0.35; transform: translateY(0); }
+  50%  { opacity: 0.85; transform: translateY(-2px); }
+  100% { opacity: 0.35; transform: translateY(0); }
+}
