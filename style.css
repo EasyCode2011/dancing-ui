@@ -488,3 +488,32 @@ html, body {
   will-change: transform;
 }
 
+/* =============== Home inner movement (for cursor-velocity shake) =============== */
+
+/* Make sure #home stays centered via existing CSS; only move the inner box */
+.home-inner {
+  will-change: transform;
+  /* no transform declared here (so JS can set it) */
+  /* visual polish */
+  background: rgba(255,255,255,0.06);
+  padding: 28px;
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* Optional: style for the H1 inside the inner box */
+.home-inner h1 {
+  font-size: 2.8rem;
+  line-height: 1.02;
+  margin-bottom: 10px;
+  color: white;
+  text-shadow: 0 6px 24px rgba(0,0,0,0.35);
+}
+
+/* Keep transitions minimal so JS control remains smooth */
+.home-inner, .home-inner * {
+  transition: none !important;
+}
