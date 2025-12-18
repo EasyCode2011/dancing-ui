@@ -514,3 +514,30 @@ input[type="range"] {
   cursor: pointer;
 }
 
+.h-slider {
+  width: 260px;
+}
+
+/* TRACK */
+.h-slider::-webkit-slider-runnable-track {
+  height: 6px;
+  background: linear-gradient(90deg, #00ffd5, #ff00ff);
+  border-radius: 10px;
+}
+
+/* THUMB */
+.h-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  margin-top: -6px;
+  box-shadow: 0 0 15px rgba(255,255,255,0.7);
+  transition: transform 0.2s ease;
+}
+
+/* Hover pop */
+.h-slider:hover::-webkit-slider-thumb {
+  transform: scale(1.3);
+}
