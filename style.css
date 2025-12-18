@@ -506,3 +506,11 @@ html, body {
   gap: 40px;
   justify-content: center;
 }
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
