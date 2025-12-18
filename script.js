@@ -293,18 +293,31 @@ btnSliders.addEventListener("click", () => {
    CLICK ANYWHERE FLOW
 --------------------------- */
 document.addEventListener("click", (e) => {
-  // Ignore menu clicks
+  // IGNORE clicks inside menu
   if (e.target.closest("#menu")) return;
 
   if (scene === 1) {
-    showPage(introScene);
-    scene = 2;
-  }
-  else if (scene === 2) {
-    showPage(rectPage);
-    scene = 3;
+    home.classList.add("fade-out");
+
+    setTimeout(() => {
+      home.classList.add("hidden");
+      introScene.classList.remove("hidden");
+      introScene.classList.add("fade-in");
+      scene = 2;
+    }, 600);
+
+  } else if (scene === 2) {
+    introScene.classList.add("fade-out");
+
+    setTimeout(() => {
+      introScene.classList.add("hidden");
+      rectPage.classList.remove("hidden");
+      rectPage.classList.add("fade-in");
+      scene = 3;
+    }, 600);
   }
 });
+
 
 /* ------------------------------------------
    HOME TITLE — PURE CURSOR VELOCITY SHAKE
