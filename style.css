@@ -483,3 +483,26 @@ html, body {
 #home {
   will-change: transform;
 }
+
+#sliderPage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 60px;
+}
+
+/* TOP — vertical sliders */
+.slider-vertical-row {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+/* BOTTOM — horizontal sliders */
+.slider-horizontal-row {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
