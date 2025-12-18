@@ -274,6 +274,21 @@ btnRectangles.addEventListener("click", () => {
   document.getElementById("menu").classList.remove("open");
 });
 
+const btnSliders = document.getElementById("btnSliders");
+const sliderPage = document.getElementById("sliderPage");
+
+btnSliders.addEventListener("click", () => {
+  // hide everything else
+  home.classList.add("hidden");
+  rectPage.classList.add("hidden");
+  introScene.classList.add("hidden");
+
+  // show slider page
+  sliderPage.classList.remove("hidden");
+  sliderPage.classList.add("fade-in");
+});
+
+
 /* ---------------------------
    CLICK ANYWHERE FLOW
 --------------------------- */
