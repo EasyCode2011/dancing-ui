@@ -541,3 +541,26 @@ input[type="range"] {
 .h-slider:hover::-webkit-slider-thumb {
   transform: scale(1.3);
 }
+
+.v-slider {
+  writing-mode: bt-lr;
+  -webkit-appearance: slider-vertical;
+  height: 180px;
+  width: 6px;
+}
+
+/* TRACK */
+.v-slider::-webkit-slider-runnable-track {
+  background: linear-gradient(180deg, #00ff88, #0066ff);
+  border-radius: 10px;
+}
+
+/* THUMB */
+.v-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(0,255,200,0.8);
+}
