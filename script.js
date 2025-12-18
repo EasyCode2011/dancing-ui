@@ -365,3 +365,9 @@ homeBox.addEventListener("mouseleave", () => {
     homeBox.style.transition = "";
   }, 250);
 });
+
+document.querySelectorAll("input[type='range']").forEach(slider => {
+  slider.addEventListener("input", () => {
+    slider.style.filter = `drop-shadow(0 0 ${slider.value / 5}px cyan)`;
+  });
+});
