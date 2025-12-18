@@ -239,14 +239,16 @@ function showPage(page) {
   transitioning = true;
 
   // Fade out all
-  [home, introScene, rectPage].forEach(el => {
+    [home, introScene, rectPage, sliderPage].forEach(el => {
+
     el.classList.remove("fade-in");
     el.classList.add("fade-out");
   });
 
   setTimeout(() => {
     // Hide all
-    [home, introScene, rectPage].forEach(el => {
+      [home, introScene, rectPage, sliderPage].forEach(el => {
+
       el.classList.add("hidden");
       el.classList.remove("fade-out");
     });
