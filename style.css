@@ -564,3 +564,69 @@ input[type="range"] {
   border-radius: 50%;
   box-shadow: 0 0 12px rgba(0,255,200,0.8);
 }
+
+/* SLIDER PAGE */
+.slider-page {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 60px;
+}
+
+/* TOP VERTICAL ROW */
+.slider-top {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+/* BOTTOM HORIZONTAL ROW */
+.slider-bottom {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+/* TRACKS */
+.v-slider {
+  width: 18px;
+  height: 220px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px;
+  position: relative;
+}
+
+.h-slider {
+  width: 240px;
+  height: 18px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px;
+  position: relative;
+}
+
+/* THUMBS */
+.v-thumb {
+  width: 28px;
+  height: 28px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  cursor: grab;
+}
+
+.h-thumb {
+  width: 28px;
+  height: 28px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  cursor: grab;
+}
