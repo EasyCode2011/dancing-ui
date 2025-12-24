@@ -1,47 +1,59 @@
-slider.style.filter = `drop-shadow(0 0 ${slider.value / 5}px cyan)`;
-});
+/* MENU TOGGLE */
+document.addEventListener("keydown", (e) => {
+  if (e.key.toLowerCase() === "g") {
+    document.getElementById("menu").classList.toggle("open");
+  }
 });
 
-/* -------------------------
-   GENERIC SLIDER LOGIC
-------------------------- */
+/* PAGE SWITCHER */
+const pages = {
+  home: document.getElementById("home"),
+  rect: document.getElementById("rectPage"),
+  sliders: document.getElementById("sliderPage")
+};
 
-function makeVerticalSlider(slider) {
+function show(page) {
+  Object.values(pages).forEach(p => p.classList.remove("active"));
+  page.classList.add("active");
+  document.getElementById("menu").classList.remove("open");
+}
+
+document.getElementById("btnHome").onclick = () => show(pages.home);
+document.getElementById("btnRectangles").onclick = () => show(pages.rect);
+document.getElementById("btnSliders").onclick = () => show(pages.sliders);
+
+/* SLIDER LOGIC */
+function verticalSlider(slider) {
   const thumb = slider.querySelector(".v-thumb");
-  let dragging = false;
+  let drag = false;
 
-  thumb.addEventListener("mousedown", () => dragging = true);
-  document.addEventListener("mouseup", () => dragging = false);
+  thumb.onmousedown = () => drag = true;
+  document.onmouseup = () => drag = false;
 
-  document.addEventListener("mousemove", (e) => {
-    if (!dragging) return;
-
-    const rect = slider.getBoundingClientRect();
-    let y = e.clientY - rect.top;
-
-    y = Math.max(0, Math.min(rect.height, y));
-    thumb.style.top = `${y - thumb.offsetHeight / 2}px`;
-  });
+  document.onmousemove = (e) => {
+    if (!drag) return;
+    const r = slider.getBoundingClientRect();
+    let y = e.clientY - r.top;
+    y = Math.max(0, Math.min(r.height, y));
+    thumb.style.top = (y - thumb.offsetHeight / 2) + "px";
+  };
 }
 
-function makeHorizontalSlider(slider) {
+function horizontalSlider(slider) {
   const thumb = slider.querySelector(".h-thumb");
-  let dragging = false;
+  let drag = false;
 
-  thumb.addEventListener("mousedown", () => dragging = true);
-  document.addEventListener("mouseup", () => dragging = false);
+  thumb.onmousedown = () => drag = true;
+  document.onmouseup = () => drag = false;
 
-  document.addEventListener("mousemove", (e) => {
-    if (!dragging) return;
-
-    const rect = slider.getBoundingClientRect();
-    let x = e.clientX - rect.left;
-
-    x = Math.max(0, Math.min(rect.width, x));
-    thumb.style.left = `${x - thumb.offsetWidth / 2}px`;
-  });
+  document.onmousemove = (e) => {
+    if (!drag) return;
+    const r = slider.getBoundingClientRect();
+    let x = e.clientX - r.left;
+    x = Math.max(0, Math.min(r.width, x));
+    thumb.style.left = (x - thumb.offsetWidth / 2) + "px";
+  };
 }
 
-/* INIT ALL SLIDERS */
-document.querySelectorAll(".v-slider").forEach(makeVerticalSlider);
-document.querySelectorAll(".h-slider").forEach(makeHorizontalSlider);
+document.querySelectorAll(".v-slider").forEach(verticalSlider);
+document.querySelectorAll(".h-slider").forEach(horizontalSlider);
