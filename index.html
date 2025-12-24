@@ -7,51 +7,115 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+/* -------------------------
+   GENERIC SLIDER LOGIC
+------------------------- */
 
   <div class="bg"></div>
+function makeVerticalSlider(slider) {
+  const thumb = slider.querySelector(".v-thumb");
+  let dragging = false;
 
   <!-- MENU -->
   <aside id="menu">
     <h2 class="menu-title">UI Effects</h2>
+  
+    <!-- NEW HOME BUTTON -->
     <button class="menu-btn" id="btnHome">Home</button>
-    <button class="menu-btn" id="btnRectangles">Rectangles</button>
-    <button class="menu-btn" id="btnSliders">Sliders</button>
+  
+    <button class="menu-btn" id="btnRectangles">Rectangles Demo</button>
+  thumb.addEventListener("mousedown", () => dragging = true);
+  document.addEventListener("mouseup", () => dragging = false);
+
+    <button class="menu-btn" id="btnSliders">Sliders Demo</button>
+  document.addEventListener("mousemove", (e) => {
+    if (!dragging) return;
+
   </aside>
+    const rect = slider.getBoundingClientRect();
+    let y = e.clientY - rect.top;
+
+    y = Math.max(0, Math.min(rect.height, y));
+    thumb.style.top = `${y - thumb.offsetHeight / 2}px`;
+  });
+}
 
   <!-- HOME -->
-  <main id="home" class="page active">
-    <div class="home-inner">
-      <h1>Dancing UI</h1>
-      <p>A playground for animations and UI effects</p>
-      <p class="hint">Press G to open menu</p>
-    </div>
-  </main>
+  <main id="home" class="center fade-in">
+  <div class="home-inner">
+    <h1>Welcome to Dancing UI</h1>
+    <p>A playground for animations and UI effects.</p>
+    <p class="hint">Click anywhere to learn more</p>
+    <p class="hint">Press G to open menu</p>
+  </div>
+</main>
+function makeHorizontalSlider(slider) {
+  const thumb = slider.querySelector(".h-thumb");
+  let dragging = false;
 
-  <!-- RECTANGLES -->
-  <section id="rectPage" class="page">
+  <!-- INTRO IMAGE SCENE -->
+  <section id="introScene" class="intro-scene hidden">
+    <img src="intro.png" alt="Introduction" />
+    <p class="hint">Click anywhere to continue</p>
+  </section>
+  thumb.addEventListener("mousedown", () => dragging = true);
+  document.addEventListener("mouseup", () => dragging = false);
+
+  <!-- RECTANGLE PAGE -->
+  <section id="rectPage" class="hidden">
     <div class="rect-container">
-      <div class="rect">Glow</div>
-      <div class="rect">Color</div>
-      <div class="rect">Size</div>
-      <div class="rect">Bounce</div>
-      <div class="rect">Shake</div>
+  document.addEventListener("mousemove", (e) => {
+    if (!dragging) return;
+
+      <div class="rect" id="glowBtn">Glow</div>
+      <div class="rect" id="colorBtn">Color</div>
+      <div class="rect" id="sizeBtn">Size</div>
+      <div class="rect" id="bounceBtn">Bounce</div>
+      <div class="rect" id="shakeBtn">Shake</div>
+    const rect = slider.getBoundingClientRect();
+    let x = e.clientX - rect.left;
+
     </div>
   </section>
+    x = Math.max(0, Math.min(rect.width, x));
+    thumb.style.left = `${x - thumb.offsetWidth / 2}px`;
+  });
+}
 
-  <!-- SLIDERS -->
-  <section id="sliderPage" class="page">
-    <div class="slider-top">
-      <div class="v-slider"><div class="v-thumb"></div></div>
-      <div class="v-slider"><div class="v-thumb"></div></div>
-      <div class="v-slider"><div class="v-thumb"></div></div>
+<section id="sliderPage" class="hidden slider-page">
+
+  <!-- TOP: VERTICAL SLIDERS -->
+  <div class="slider-top">
+    <div class="v-slider">
+      <div class="v-thumb"></div>
     </div>
-
-    <div class="slider-bottom">
-      <div class="h-slider"><div class="h-thumb"></div></div>
-      <div class="h-slider"><div class="h-thumb"></div></div>
+    <div class="v-slider">
+      <div class="v-thumb"></div>
     </div>
-  </section>
+    <div class="v-slider">
+      <div class="v-thumb"></div>
+    </div>
+  </div>
 
-  <script src="script.js"></script>
+  <!-- BOTTOM: HORIZONTAL SLIDERS -->
+  <div class="slider-bottom">
+    <div class="h-slider">
+      <div class="h-thumb"></div>
+    </div>
+    <div class="h-slider">
+      <div class="h-thumb"></div>
+    </div>
+  </div>
+
+</section>
+
+
+<script src="script.js"></script>
+
+
 </body>
+
 </html>
+/* INIT ALL SLIDERS */
+document.querySelectorAll(".v-slider").forEach(makeVerticalSlider);
+document.querySelectorAll(".h-slider").forEach(makeHorizontalSlider);
