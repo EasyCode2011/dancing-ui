@@ -1,3 +1,7 @@
+slider.style.filter = `drop-shadow(0 0 ${slider.value / 5}px cyan)`;
+});
+});
+
 /* -------------------------
    GENERIC SLIDER LOGIC
 ------------------------- */
