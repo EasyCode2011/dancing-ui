@@ -1,57 +1,44 @@
-html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dancing UI</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+</div>
+</section>
 
-  <div class="bg"></div>
+  <!-- SLIDER PAGE -->
+<section id="sliderPage" class="hidden">
+  <div class="slider-vertical-row">
+    <input type="range" class="v-slider">
+    <input type="range" class="v-slider">
+    <input type="range" class="v-slider">
+<section id="sliderPage" class="hidden slider-page">
 
-  <!-- MENU -->
-  <aside id="menu">
-    <h2 class="menu-title">UI Effects</h2>
-  
-    <!-- NEW HOME BUTTON -->
-    <button class="menu-btn" id="btnHome">Home</button>
-  
-    <button class="menu-btn" id="btnRectangles">Rectangles Demo</button>
-  </aside>
-
-
-  <!-- HOME -->
-  <main id="home" class="center fade-in">
-  <div class="home-inner">
-    <h1>Welcome to Dancing UI</h1>
-    <p>A playground for animations and UI effects.</p>
-    <p class="hint">Click anywhere to learn more</p>
-    <p class="hint">Press G to open menu</p>
-  </div>
-</main>
-
-  <!-- INTRO IMAGE SCENE -->
-  <section id="introScene" class="intro-scene hidden">
-    <img src="intro.png" alt="Introduction" />
-    <p class="hint">Click anywhere to continue</p>
-  </section>
-
-  <!-- RECTANGLE PAGE -->
-  <section id="rectPage" class="hidden">
-    <div class="rect-container">
-
-      <div class="rect" id="glowBtn">Glow</div>
-      <div class="rect" id="colorBtn">Color</div>
-      <div class="rect" id="sizeBtn">Size</div>
-      <div class="rect" id="bounceBtn">Bounce</div>
-      <div class="rect" id="shakeBtn">Shake</div>
-
+  <!-- TOP: VERTICAL SLIDERS -->
+  <div class="slider-top">
+    <div class="v-slider">
+      <div class="v-thumb"></div>
     </div>
-  </section>
+    <div class="v-slider">
+      <div class="v-thumb"></div>
+    </div>
+    <div class="v-slider">
+      <div class="v-thumb"></div>
+    </div>
+</div>
 
-  <script src="script.js"></script>
-</body>
+  <div class="slider-horizontal-row">
+    <input type="range" class="h-slider">
+    <input type="range" class="h-slider">
+  <!-- BOTTOM: HORIZONTAL SLIDERS -->
+  <div class="slider-bottom">
+    <div class="h-slider">
+      <div class="h-thumb"></div>
+    </div>
+    <div class="h-slider">
+      <div class="h-thumb"></div>
+    </div>
+</div>
 
-</html>
+</section>
+
+
+<script src="script.js"></script>
+
+
+  
